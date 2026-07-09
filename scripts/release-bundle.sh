@@ -37,7 +37,8 @@ git push origin "$VERSION"
 
 echo "GitHub Release 재생성"
 gh release create "$VERSION" "$ZIP_NAME" \
-  --title "$RELEASE_NAME" \
+  # --title "$RELEASE_NAME" \
+  --title "$VERSION" \
   --notes "PopPang RN bundle release $VERSION"
 
 echo "완료: $ZIP_NAME"

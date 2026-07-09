@@ -11,7 +11,11 @@
 
     "android-connect": "react-native run-android --port 8082",
     "ios-connect": "react-native run-ios --port 8082",
-    "start-connect": "react-native start --port 8082"
+    "start-connect": "react-native start --port 8082",
+
+    "bundle:ios": "scripts/bundle-ios.sh",
+    "bundle:android": "scripts/bundle-android.sh",
+    "bundle:all": "npm run bundle:ios && npm run bundle:android"
   },
   "dependencies": {
     "react": "19.2.3",

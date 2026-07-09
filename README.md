@@ -1,97 +1,89 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# PopPang RN
 
-# Getting Started
+PopPang RN은 iOS / Android 공용 화면을 React Native로 개발하고, 네이티브 앱에 삽입하기 위한 실험 및 산출물 생성 레포입니다.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+이 레포에서는 두 가지 흐름을 제공합니다.
 
-## Step 1: Start Metro
+1. 팀원이 바로 확인할 수 있는 React Native 데모앱 실행
+2. iOS / Android 네이티브 앱에 전달할 bundle 산출물 생성
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 구조
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+```txt
+App.tsx
+= RN 데모앱 실행용 루트
 
-```sh
-# Using npm
-npm start
+src/PopPangRNRoot.tsx
+= iOS / Android 네이티브가 실제로 붙일 RN 루트
 
-# OR using Yarn
-yarn start
+PopPang-RN/
+├─ App.tsx                  # 데모앱 실행용
+├─ index.js                 # 개발 실행 진입점
+├─ native-entry.js          # iOS/AOS 산출물용 진입점
+├─ src/
+│  └─ PopPangRNRoot.tsx     # 네이티브 앱에 붙일 실제 RN 루트
+└─ scripts/
+   ├─ bundle-ios.sh
+   └─ bundle-android.sh
 ```
 
-## Step 2: Build and run your app
+## 빠른 실행
+```bash
+# 1. 의존성 설치
+npm install
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+# 2. Metro 실행
+npm run start
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+# 3. iOS 데모앱 실행
 npm run ios
 
-# OR using Yarn
-yarn ios
+# 4. Android 데모앱 실행
+npm run android
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## Bundle 산출물 생성
+```bash
+# iOS bundle 생성
+npm run bundle:ios
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+# 산출물
+# dist/ios/main.jsbundle
+# dist/ios/assets
 
-## Step 3: Modify your app
+# Android bundle 생성
+npm run bundle:android
 
-Now that you have successfully run the app, let's make changes!
+# 산출물
+# dist/android/index.android.bundle
+# dist/android/res
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+# iOS / Android bundle 모두 생성
+npm run bundle:all
+```
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## 흐름
+```bash
+# 데모앱 실행 순서
+npm run ios / npm run android
+        ↓
+index.js
+        ↓
+App.tsx
+        ↓
+PopPangRNRoot.tsx
+        ↓
+화면 표시
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
 
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+# 실제 iOS/AOS 앱에 삽입될 때
+iOS / Android 네이티브 앱 실행
+        ↓
+main.jsbundle 또는 index.android.bundle 로드
+        ↓
+native-entry.js
+        ↓
+PopPangRNRoot.tsx
+        ↓
+화면 표시
+```

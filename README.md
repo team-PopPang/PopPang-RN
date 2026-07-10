@@ -39,10 +39,17 @@ PopPang-RN/
 
 ## 세팅 방법
 ```bash
-# 처음 프로젝트를 받았거나 `node_modules`를 깨끗하게 다시 설치할 때는 `npm ci`를 사용하세요.
+# 1. 저장소 복제
+git clone https://github.com/team-PopPang/PopPang-RN.git
+
+# 2. 프로젝트 폴더로 이동
 cd PopPang-RN
+
+# 3. 의존성 설치
 npm ci
 ```
+> 라이브러리를 추가하거나 삭제할 때만 `npm install`을 사용해요.  
+> 그 외 개발 환경 설치와 릴리즈 빌드에는 `npm ci`를 사용해요.
 
 ## Demo 앱 실행 방법
 ```bash

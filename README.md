@@ -534,7 +534,7 @@ npm uninstall react-native-safe-area-context
 
 ## Troubleshooting
 
-### React Native Core
+### React Native Core가 예전 레퍼런스와 다른 점
 
 CocoaPods 없이 React Native를 구성하는 방법을 찾다가 좋은 레퍼런스를 발견했어요. 예를 들어 [CocoaPods 없이 React Native 개발하기](https://toss.tech/article/react-native-without-cocoapods)는 RN `0.76` 기준으로 `react_native_prebuild` 안에 별도 의존성을 두고 `yarn`, `pod install`로 XCFramework를 만드는 방식을 다뤄요.
 

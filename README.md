@@ -150,6 +150,9 @@ chmod +x scripts/download-rn-release.sh
 
 ## 의존성 추가
 
+<details>
+<summary>의존성 추가 방법</summary>
+
 새 라이브러리는 프로젝트 루트의 `package.json`에만 추가해요.  
 `npm install`을 실행하면 `package.json`과 `package-lock.json`이 함께 갱신돼요.
 
@@ -171,6 +174,8 @@ npm install --save-dev eslint-plugin-import
 
 `react_native_prebuild/`에는 의존성을 추가하지 않아요.  
 이 폴더는 프로젝트 루트의 `node_modules`를 사용해 iOS용 XCFramework를 만들어요.
+
+</details>
 
 ## 참고
 ```bash

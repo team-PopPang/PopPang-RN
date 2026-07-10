@@ -23,15 +23,14 @@ ANDROID_ZIP_NAME="$ANDROID_BUNDLE_NAME.zip"
 
 cd "$ROOT_DIR"
 
-if gh release view "$VERSION" >/dev/null 2>&1; then
-  echo "error: GitHub Release $VERSION already exists"
-  exit 1
-fi
+echo "기존 GitHub Release 삭제"
+gh release delete "$VERSION" --yes || true
 
-if git rev-parse "$VERSION" >/dev/null 2>&1; then
-  echo "error: git tag $VERSION already exists"
-  exit 1
-fi
+echo "기존 local tag 삭제"
+git tag -d "$VERSION" || true
+
+echo "기존 remote tag 삭제"
+git push origin ":refs/tags/$VERSION" || true
 
 echo "이전 release 산출물 정리"
 rm -rf "$RELEASE_DIR"

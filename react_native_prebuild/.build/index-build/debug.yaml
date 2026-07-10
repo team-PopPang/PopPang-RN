@@ -9,7 +9,58 @@ targets:
   "test": ["<PrebuiltReactNativeFrameworks-arm64-apple-macosx-debug.module>"]
 default: "main"
 nodes:
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/CoreModules.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/DoubleConversion.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/JSITooling.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
   "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTAnimation.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTBlob.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTDeprecation.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTFabric.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTImage.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTLinking.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTNetwork.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTRuntime.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSettings.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUI.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUIWrapper.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTText.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTTypeSafety.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTVibration.xcframework/":
     is-directory-structure: true
     content-exclusion-patterns: [".git",".build"]
   "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React.xcframework/":
@@ -21,7 +72,154 @@ nodes:
   "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework/":
     is-directory-structure: true
     content-exclusion-patterns: [".git",".build"]
-  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/hermesvm.xcframework/":
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCommon.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Fabric.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricComponents.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricImage.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_ImageManager.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Mapbuffer.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_NativeModulesApple.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTAppDelegate.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTFBReactNativeSpec.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeApple.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeCore.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeHermes.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_debug.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_defaultsnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_domnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflags.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflagsnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_graphics.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_jserrorhandler.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_microtasksnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_networking.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancecdpmetrics.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancetimeline.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererconsistency.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_renderercss.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererdebug.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimeexecutor.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimescheduler.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_utils.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_viewtransitionnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/SocketRocket.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/cxxreact.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/fmt.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/folly.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/glog.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/idlecallbacksnativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/intersectionobservernativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsi.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modern.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderncdp.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modernnetwork.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderntracing.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsireact.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/logger.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/mutationobservernativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/oscompat.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reacthermes.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reactperflogger.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/webperformancenativemodule.xcframework/":
+    is-directory-structure: true
+    content-exclusion-patterns: [".git",".build"]
+  "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/yoga.xcframework/":
     is-directory-structure: true
     content-exclusion-patterns: [".git",".build"]
   "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Sources/":
@@ -55,7 +253,7 @@ commands:
 
   "PackageStructure":
     tool: package-structure-tool
-    inputs: ["/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactAppDependencyProvider.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/hermesvm.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Sources/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Package.swift","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Package.resolved"]
+    inputs: ["/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/CoreModules.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/DoubleConversion.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/JSITooling.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTAnimation.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTBlob.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTDeprecation.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTFabric.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTImage.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTLinking.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTNetwork.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTRuntime.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSettings.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUI.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUIWrapper.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTText.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTTypeSafety.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTVibration.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactAppDependencyProvider.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCommon.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Fabric.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricComponents.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricImage.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_ImageManager.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Mapbuffer.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_NativeModulesApple.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTAppDelegate.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTFBReactNativeSpec.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeApple.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeCore.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeHermes.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_debug.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_defaultsnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_domnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflags.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflagsnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_graphics.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_jserrorhandler.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_microtasksnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_networking.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancecdpmetrics.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancetimeline.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererconsistency.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_renderercss.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererdebug.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimeexecutor.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimescheduler.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_utils.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_viewtransitionnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/SocketRocket.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/cxxreact.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/fmt.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/folly.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/glog.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/idlecallbacksnativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/intersectionobservernativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsi.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modern.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderncdp.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modernnetwork.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderntracing.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsireact.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/logger.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/mutationobservernativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/oscompat.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reacthermes.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reactperflogger.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/webperformancenativemodule.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/yoga.xcframework/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Sources/","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Package.swift","/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Package.resolved"]
     outputs: ["<PackageStructure>"]
     description: "Planning build"
     allow-missing-inputs: true

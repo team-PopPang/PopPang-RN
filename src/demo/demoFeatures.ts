@@ -1,6 +1,8 @@
 import type {ComponentType} from 'react';
-import PopPangRNRoot from '../Features/PopPangRNRootFeature';
-import PopPangAdminFeature from '../Features/PopPangAdminFeature';
+import {
+  poppangFeatureDefinitions,
+  type PopPangFeatureId,
+} from '../Features/poppangFeatures';
 
 export type DemoFeature = {
   id: string;
@@ -9,17 +11,14 @@ export type DemoFeature = {
   component: ComponentType;
 };
 
-export const demoFeatures: DemoFeature[] = [
-  {
-    id: 'poppang-root',
-    title: 'PopPang RN Root',
-    description: '팝팡 테스트 페이지',
-    component: PopPangRNRoot,
-  },
-  {
-    id: 'poppang-admin',
-    title: 'PopPang Admin',
-    description: '팝팡 관리자 페이지',
-    component: PopPangAdminFeature,
-  },
-];
+export const demoFeatures: DemoFeature[] = (
+  Object.entries(poppangFeatureDefinitions) as [
+    PopPangFeatureId,
+    (typeof poppangFeatureDefinitions)[PopPangFeatureId],
+  ][]
+).map(([id, definition]) => ({
+  component: definition.component,
+  description: definition.description,
+  id,
+  title: definition.title,
+}));

@@ -206,8 +206,19 @@ dependencies {
 React Native 화면은 SDK가 제공하는 Intent로 열어요.
 
 ```kotlin
+// 전달값이 없으면 기본값으로 root feature가 열려요.
 startActivity(PopPangRnSdk.createIntent(this))
+
+// feature 값을 넘기면 RN 루트가 해당 화면을 선택해요.
+startActivity(
+    PopPangRnSdk.createIntent(this, PopPangRnSdk.Feature.ADMIN)
+)
 ```
+
+지원하는 feature 값은 다음과 같아요.
+
+- `PopPangRnSdk.Feature.ROOT`
+- `PopPangRnSdk.Feature.ADMIN`
 
 ## 클라이언트 프로젝트(iOS)
 - iOS 클라이언트 프로젝트에 아래 스크립트를 `scripts/download-rn-release.sh`로 추가하세요.
@@ -307,6 +318,7 @@ chmod +x scripts/download-rn-release.sh
 ```text
 native-entry.js
   → PopPangRNRoot 등록
+  → 내부에서 initialProperties.feature로 root/admin 선택
 
 Swift
   → moduleName: "PopPangRNRoot"
@@ -428,7 +440,8 @@ struct ContentView: View {
         ReactNativeScreen(
             moduleName: "PopPangRNRoot",
             initialProperties: [
-                "name": "PopPangBrownField"
+                // 값을 생략하면 기본 root feature가 열려요.
+                "feature": "admin"
             ]
         )
         .ignoresSafeArea()

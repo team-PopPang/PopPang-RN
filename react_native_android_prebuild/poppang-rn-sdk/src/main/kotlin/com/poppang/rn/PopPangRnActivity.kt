@@ -22,6 +22,13 @@ class PopPangRnActivity : ReactActivity() {
                     this@PopPangRnActivity.applicationContext
                 )
             }
+
+            override fun getLaunchOptions(): Bundle? {
+                val feature = intent?.getStringExtra(PopPangRnSdk.EXTRA_FEATURE) ?: return null
+                return Bundle().apply {
+                    putString("feature", feature)
+                }
+            }
         }
     }
 

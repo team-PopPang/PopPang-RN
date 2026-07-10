@@ -1,4 +1,4 @@
 import {AppRegistry} from 'react-native';
-import PopPangRNRoot from './src/PopPangRNRoot';
+import PopPangNativeEntry from './src/PopPangNativeEntry';
 
-AppRegistry.registerComponent('PopPangRNRoot', () => PopPangRNRoot);
+AppRegistry.registerComponent('PopPangRNRoot', () => PopPangNativeEntry);

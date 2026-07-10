@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
-export default function PopPangRNRoot() {
+export default function PopPangAdminFeature() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>

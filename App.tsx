@@ -7,8 +7,13 @@
 
 // https://reactnative.dev/docs/0.81/safeareaview?
 import React from 'react';
-import PopPangRNRoot from './src/PopPangRNRoot';
+import DemoFeatureCatalog from './src/demo/DemoFeatureCatalog';
+import PopPangRNRoot from './src/Features/PopPangRNRootFeature';
 
 export default function App() {
+  if (__DEV__) {
+    return <DemoFeatureCatalog />;
+  }
+
   return <PopPangRNRoot />;
 }

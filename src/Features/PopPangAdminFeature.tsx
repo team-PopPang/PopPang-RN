@@ -7,10 +7,10 @@ export default function PopPangRNRoot() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.title}>PopPang RN</Text>
-          <Text style={styles.subtitle}>Native Embedded Screen</Text>
+          <Text style={styles.title}>PopPang Admin</Text>
+          <Text style={styles.subtitle}>개발중...</Text>
           <Text style={styles.description}>
-            iOS / Android 앱 안에 삽입될 RN 화면입니다.
+            팝팡 RN의 관리자 화면입니다. 
           </Text>
         </View>
       </SafeAreaView>

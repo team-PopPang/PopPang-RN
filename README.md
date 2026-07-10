@@ -66,7 +66,6 @@ npm run android
 - iOS 클라이언트 프로젝트에 아래 스크립트를 `scripts/download-rn-release.sh`로 추가하세요.
 - 스크립트는 지정한 릴리즈 버전의 iOS bundle과 SPM 패키지를 다운로드해 프로젝트에 적용해요.
 
-### 스크립트
 <details>
 <summary>다운로드 스크립트 전체 보기</summary>
 
@@ -150,31 +149,28 @@ chmod +x scripts/download-rn-release.sh
 </details>
 
 ## 의존성 추가
-```bash
-# 명령을 실행하면 `package.json`의 `dependencies`와 `package-lock.json`이 함께 갱신돼요.
-npm install react-native-safe-area-context
-```
-```json
-{
-  "dependencies": {
-    "react-native-safe-area-context": "^5.8.0"
-  }
-}
-```
-- 새 라이브러리는 프로젝트 루트의 `package.json`에만 추가해요.  
-- 앱 실행에 필요한 라이브러리는 `dependencies`에 추가해요.
+
+새 라이브러리는 프로젝트 루트의 `package.json`에만 추가해요.  
+`npm install`을 실행하면 `package.json`과 `package-lock.json`이 함께 갱신돼요.
+
+### 앱 실행에 필요한 라이브러리
+
+React Native 화면에서 사용하는 라이브러리는 `dependencies`에 추가해요.
 
 ```bash
-# 테스트, 린트, 빌드 도구처럼 앱 실행에 포함되지 않는 라이브러리는 `devDependencies`에 추가해요.
+npm install react-native-safe-area-context
+```
+
+### 개발 도구
+
+테스트, 린트, 빌드 도구는 `devDependencies`에 추가해요.
+
+```bash
 npm install --save-dev eslint-plugin-import
 ```
-```json
-{
-  "devDependencies": {
-    "eslint-plugin-import": "^2.0.0"
-  }
-}
-```
+
+`react_native_prebuild/`에는 의존성을 추가하지 않아요.  
+이 폴더는 프로젝트 루트의 `node_modules`를 사용해 iOS용 XCFramework를 만들어요.
 
 ## 참고
 ```bash

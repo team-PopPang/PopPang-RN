@@ -532,6 +532,14 @@ npm uninstall react-native-safe-area-context
 > 라이브러리를 추가하거나 삭제할 때만 `npm install`을 사용해요.  
 > 그 외 개발 환경 설치와 릴리즈 빌드에는 `npm ci`를 사용해요.
 
+## Troubleshooting: React Native Core가 예전 레퍼런스와 다른 점
+
+CocoaPods 없이 React Native를 구성하는 방법을 찾다가 좋은 레퍼런스를 발견했어요. 예를 들어 [CocoaPods 없이 React Native 개발하기](https://toss.tech/article/react-native-without-cocoapods)는 RN `0.76` 기준으로 `react_native_prebuild` 안에 별도 의존성을 두고 `yarn`, `pod install`로 XCFramework를 만드는 방식을 다뤄요.
+
+하지만 최신 버전에서는 구조가 달랐어요. React Native `0.84.0`부터 iOS에서는 React Native Core precompiled binary가 기본값이 됐고, 이 저장소가 사용하는 `react-native@0.86.0`도 그 구조를 따라요. 그래서 예전 레퍼런스만으로는 현재의 `React-Core-prebuilt`, `RCT_USE_PREBUILT_RNCORE`, `RCT_USE_RN_DEP` 흐름을 바로 가져오기 어려웠어요.
+
+그래서 이 저장소는 배포용 `react_native_prebuild/`에서 루트 `node_modules`를 의존성 원본으로 유지하고, `RCT_USE_PREBUILT_RNCORE=0`과 `RCT_USE_RN_DEP=0`으로 `React Core`와 `ReactNativeDependencies`를 source-build하는 방식으로 맞췄어요. 대신 Hermes는 Pods가 설치한 `hermesvm.xcframework`를 최종 패키지에 포함해요.
+
 <!-- - `npm install`은 `package.json`과 `package-lock.json`을 함께 갱신해요. 변경한 `package.json`과 `package-lock.json`은 함께 커밋해요.
 - `npm ci`는 `package-lock.json`에 기록된 정확한 버전을 설치해요. 처음 설치, CI, 릴리즈 스크립트에서는 항상 `npm ci`를 사용해요. -->
 

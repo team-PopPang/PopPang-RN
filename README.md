@@ -148,8 +148,6 @@ chmod +x scripts/download-rn-release.sh
 ```
 </details>
 
-## 클라이언트 프로젝트(iOS)
-
 <details>
 <summary>SwiftUI에서 React Native 화면 열기</summary>
 

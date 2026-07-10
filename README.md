@@ -532,7 +532,9 @@ npm uninstall react-native-safe-area-context
 > 라이브러리를 추가하거나 삭제할 때만 `npm install`을 사용해요.  
 > 그 외 개발 환경 설치와 릴리즈 빌드에는 `npm ci`를 사용해요.
 
-## Troubleshooting: React Native Core가 예전 레퍼런스와 다른 점
+## Troubleshooting
+
+### React Native Core
 
 CocoaPods 없이 React Native를 구성하는 방법을 찾다가 좋은 레퍼런스를 발견했어요. 예를 들어 [CocoaPods 없이 React Native 개발하기](https://toss.tech/article/react-native-without-cocoapods)는 RN `0.76` 기준으로 `react_native_prebuild` 안에 별도 의존성을 두고 `yarn`, `pod install`로 XCFramework를 만드는 방식을 다뤄요.
 

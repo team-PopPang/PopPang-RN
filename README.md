@@ -228,9 +228,13 @@ React Native 화면은 SDK가 제공하는 Intent로 열어요.
 // 전달값이 없으면 기본값으로 root feature가 열려요.
 startActivity(PopPangRnSdk.createIntent(this))
 
-// feature 값을 넘기면 RN 루트가 해당 화면을 선택해요.
+// feature와 userUuid를 함께 넘기면 RN 화면에서 바로 사용할 수 있어요.
 startActivity(
-    PopPangRnSdk.createIntent(this, PopPangRnSdk.Feature.ADMIN)
+    PopPangRnSdk.createIntent(
+        this,
+        PopPangRnSdk.Feature.ADMIN,
+        "test-user-uuid-1234"
+    )
 )
 ```
 
@@ -342,6 +346,7 @@ chmod +x scripts/download-rn-release.sh
 native-entry.js
   → PopPangRNRoot 등록
   → 내부에서 initialProperties.feature로 root/admin 선택
+  → initialProperties.userUuid를 각 feature로 전달
 
 Swift
   → moduleName: "PopPangRNRoot"
@@ -464,7 +469,8 @@ struct ContentView: View {
             moduleName: "PopPangRNRoot",
             initialProperties: [
                 // 값을 생략하면 기본 root feature가 열려요.
-                "feature": "admin"
+                "feature": "admin",
+                "userUuid": "test-user-uuid-1234"
             ]
         )
         .ignoresSafeArea()
@@ -484,7 +490,7 @@ Metro의 index.js 로드
 Release
 앱에 포함된 main.jsbundle 로드
   → native-entry.js
-  → initialProperties.feature 확인
+  → initialProperties.feature, initialProperties.userUuid 확인
   → 값이 없으면 root, 값이 있으면 해당 feature 표시
 ```
 

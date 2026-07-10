@@ -10,6 +10,7 @@ object PopPangRnSdk {
     }
 
     internal const val EXTRA_FEATURE = "com.poppang.rn.extra.FEATURE"
+    internal const val EXTRA_USER_UUID = "com.poppang.rn.extra.USER_UUID"
 
     @JvmStatic
     val version: String
@@ -22,9 +23,18 @@ object PopPangRnSdk {
 
     @JvmStatic
     fun createIntent(context: Context, feature: String?): Intent {
+        return createIntent(context, feature, null)
+    }
+
+    @JvmStatic
+    fun createIntent(context: Context, feature: String?, userUuid: String?): Intent {
         return Intent(context, PopPangRnActivity::class.java).apply {
             if (feature != null) {
                 putExtra(EXTRA_FEATURE, feature)
+            }
+
+            if (userUuid != null) {
+                putExtra(EXTRA_USER_UUID, userUuid)
             }
         }
     }

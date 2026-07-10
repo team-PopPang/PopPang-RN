@@ -1,6 +1,7 @@
 import type {ComponentType} from 'react';
 import PopPangAdminFeature from './PopPangAdminFeature';
 import PopPangRNRootFeature from './PopPangRNRootFeature';
+import type {PopPangFeatureProps} from './poppangFeatureProps';
 
 export const POPPANG_FEATURE = {
   ADMIN: 'admin',
@@ -11,7 +12,7 @@ export type PopPangFeatureId =
   (typeof POPPANG_FEATURE)[keyof typeof POPPANG_FEATURE];
 
 type PopPangFeatureDefinition = {
-  component: ComponentType;
+  component: ComponentType<PopPangFeatureProps>;
   description: string;
   title: string;
 };

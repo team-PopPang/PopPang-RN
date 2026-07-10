@@ -24,9 +24,21 @@ class PopPangRnActivity : ReactActivity() {
             }
 
             override fun getLaunchOptions(): Bundle? {
-                val feature = intent?.getStringExtra(PopPangRnSdk.EXTRA_FEATURE) ?: return null
+                val feature = intent?.getStringExtra(PopPangRnSdk.EXTRA_FEATURE)
+                val userUuid = intent?.getStringExtra(PopPangRnSdk.EXTRA_USER_UUID)
+
+                if (feature == null && userUuid == null) {
+                    return null
+                }
+
                 return Bundle().apply {
-                    putString("feature", feature)
+                    if (feature != null) {
+                        putString("feature", feature)
+                    }
+
+                    if (userUuid != null) {
+                        putString("userUuid", userUuid)
+                    }
                 }
             }
         }

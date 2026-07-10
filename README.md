@@ -148,6 +148,165 @@ chmod +x scripts/download-rn-release.sh
 ```
 </details>
 
+## 클라이언트 프로젝트(iOS)
+
+<details>
+<summary>SwiftUI에서 React Native 화면 열기</summary>
+
+### 준비
+
+- 다운로드한 `PrebuiltReactNativeFrameworks` SPM 패키지를 앱 타겟에 연결하세요.
+- `main.jsbundle`을 앱의 `Copy Bundle Resources`에 포함하세요.
+- `native-entry.js`에서 등록한 모듈 이름과 Swift의 `moduleName`을 같게 설정하세요.
+
+```text
+native-entry.js
+  → PopPangRNRoot 등록
+
+Swift
+  → moduleName: "PopPangRNRoot"
+```
+
+### 구현
+
+```swift
+import SwiftUI
+import UIKit
+import React
+import React_RCTAppDelegate
+import ReactAppDependencyProvider
+
+// Debug에서는 Metro를, Release에서는 앱에 포함한 main.jsbundle을 사용한다.
+final class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
+    override func sourceURL(for bridge: RCTBridge) -> URL? {
+        bundleURL()
+    }
+
+    override func bundleURL() -> URL? {
+#if DEBUG
+        return RCTBundleURLProvider.sharedSettings()
+            .jsBundleURL(forBundleRoot: "index")
+#else
+        if let url = Bundle.main.url(
+            forResource: "main",
+            withExtension: "jsbundle",
+            subdirectory: "ReactNative"
+        ) {
+            return url
+        }
+
+        if let url = Bundle.main.url(
+            forResource: "main",
+            withExtension: "jsbundle"
+        ) {
+            return url
+        }
+
+        fatalError(
+            """
+            main.jsbundle을 찾을 수 없습니다.
+            Build Phases > Copy Bundle Resources를 확인하세요.
+            """
+        )
+#endif
+    }
+}
+
+// React Native Factory와 Delegate를 화면이 살아 있는 동안 유지한다.
+final class ReactViewController: UIViewController {
+    private let moduleName: String
+    private let initialProperties: [String: Any]?
+
+    private var reactNativeFactory: RCTReactNativeFactory?
+    private var reactNativeFactoryDelegate: RCTReactNativeFactoryDelegate?
+
+    init(
+        moduleName: String,
+        initialProperties: [String: Any]? = nil
+    ) {
+        self.moduleName = moduleName
+        self.initialProperties = initialProperties
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        let delegate = ReactNativeDelegate()
+        delegate.dependencyProvider = RCTAppDependencyProvider()
+
+        let factory = RCTReactNativeFactory(delegate: delegate)
+
+        reactNativeFactoryDelegate = delegate
+        reactNativeFactory = factory
+
+        view = factory.rootViewFactory.view(
+            withModuleName: moduleName,
+            initialProperties: initialProperties
+        )
+    }
+}
+
+// UIKit 기반 React Native 화면을 SwiftUI에서 사용할 수 있게 감싼다.
+struct ReactNativeScreen: UIViewControllerRepresentable {
+    let moduleName: String
+    let initialProperties: [String: Any]?
+
+    init(
+        moduleName: String,
+        initialProperties: [String: Any]? = nil
+    ) {
+        self.moduleName = moduleName
+        self.initialProperties = initialProperties
+    }
+
+    func makeUIViewController(context: Context) -> ReactViewController {
+        ReactViewController(
+            moduleName: moduleName,
+            initialProperties: initialProperties
+        )
+    }
+
+    func updateUIViewController(
+        _ uiViewController: ReactViewController,
+        context: Context
+    ) {}
+}
+
+struct ContentView: View {
+    var body: some View {
+        ReactNativeScreen(
+            moduleName: "PopPangRNRoot",
+            initialProperties: [
+                "name": "PopPangBrownField"
+            ]
+        )
+        .ignoresSafeArea()
+    }
+}
+```
+
+### 동작 방식
+
+```text
+Debug
+Metro의 index.js 로드
+  → App.tsx
+  → PopPangRNRoot 화면 표시
+
+Release
+앱에 포함된 main.jsbundle 로드
+  → native-entry.js
+  → PopPangRNRoot 화면 표시
+```
+
+</details>
+
 ## 의존성 추가
 
 <details>

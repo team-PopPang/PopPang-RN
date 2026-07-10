@@ -24,6 +24,9 @@ readonly DEVICE_ARCHIVE="$SRCROOT/$PROJECT-iphoneos.xcarchive"
 readonly SIM_FRAMEWORKS_DIR="$SIM_ARCHIVE/Products/Library/Frameworks"
 readonly DEVICE_FRAMEWORKS_DIR="$DEVICE_ARCHIVE/Products/Library/Frameworks"
 
+# RN 0.86 iOS에서 Hermes JavaScript VM 구현체로 사용하는 prebuilt XCFramework.
+readonly HERMES_PREBUILT="$SRCROOT/Pods/hermes-engine/destroot/Library/Frameworks/universal/hermesvm.xcframework"
+
 archive() {
   # Simulator용 archive를 생성한다.
   xcodebuild archive \
@@ -105,6 +108,20 @@ create_xcframework() {
   fi
 }
 
+copy_hermes_xcframework() {
+  local output="$FRAMEWORKS_DIR/hermesvm.xcframework"
+
+  if [[ ! -d "$HERMES_PREBUILT" ]]; then
+    echo "error: Hermes XCFramework not found" >&2
+    echo "path: $HERMES_PREBUILT" >&2
+    return 1
+  fi
+
+  # 이전 결과를 제거한 뒤 Pods가 제공하는 Hermes VM을 그대로 포함한다.
+  rm -rf "$output"
+  ditto "$HERMES_PREBUILT" "$output"
+}
+
 run_pod_install() {
   # Gemfile이 있으면 Bundler를 통해 pod install을 실행한다.
   if [[ -f "$SRCROOT/Gemfile" ]]; then
@@ -155,6 +172,9 @@ build_and_create_frameworks() {
 
   # archive 안의 framework들을 xcframework로 만든다.
   create_xcframework
+
+  # Hermes VM은 archive 결과에 없으므로 Pods의 prebuilt XCFramework를 포함한다.
+  copy_hermes_xcframework
 }
 
 initDirectory() {

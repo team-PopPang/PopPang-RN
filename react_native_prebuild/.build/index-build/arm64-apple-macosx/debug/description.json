@@ -199,6 +199,7 @@
       "jsi",
       "intersectionobservernativemodule",
       "idlecallbacksnativemodule",
+      "hermesvm",
       "glog",
       "folly",
       "fmt",

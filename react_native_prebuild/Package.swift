@@ -72,6 +72,7 @@ let package = Package(
                   "fmt",
                   "folly",
                   "glog",
+                  "hermesvm",
                   "idlecallbacksnativemodule",
                   "intersectionobservernativemodule",
                   "jsi",
@@ -91,10 +92,22 @@ let package = Package(
     path: "Sources",
     sources: ["dummy.swift"],
     linkerSettings: [
+        // CocoaPods의 OTHER_LDFLAGS 중 시스템 의존성만 옮긴다.
+        .unsafeFlags(["-ObjC"]),
         .linkedLibrary("objc"),
         .linkedLibrary("c++"),
         .linkedLibrary("c++abi"),
+        .linkedLibrary("icucore"),
+        .linkedFramework("Accelerate", .when(platforms: [.iOS])),
+        .linkedFramework("AudioToolbox", .when(platforms: [.iOS])),
+        .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
+        .linkedFramework("CoreGraphics", .when(platforms: [.iOS])),
+        .linkedFramework("ImageIO", .when(platforms: [.iOS])),
         .linkedFramework("JavaScriptCore", .when(platforms: [.iOS])),
+        .linkedFramework("MobileCoreServices", .when(platforms: [.iOS])),
+        .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
+        .linkedFramework("Security", .when(platforms: [.iOS])),
+        .linkedFramework("UIKit", .when(platforms: [.iOS])),
     ]
 ),
 .binaryTarget(
@@ -320,6 +333,10 @@ let package = Package(
 .binaryTarget(
     name: "glog",
     path: "Frameworks/glog.xcframework"
+),
+.binaryTarget(
+    name: "hermesvm",
+    path: "Frameworks/hermesvm.xcframework"
 ),
 .binaryTarget(
     name: "idlecallbacksnativemodule",

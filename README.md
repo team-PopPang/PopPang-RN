@@ -1,15 +1,15 @@
 # PopPang RN
 
-PopPang RN은 iOS / Android 공용 화면을 React Native로 개발하고, 네이티브 앱에 삽입하기 위한 실험 및 산출물 생성 레포입니다.
+PopPang RN은 iOS와 Android에서 공통으로 사용할 화면을 React Native로 개발하는 프로젝트예요.
 
-이 레포에서는 두 가지 흐름을 제공합니다.
+이 프로젝트에서는 두 가지 작업을 할 수 있어요.
 
-1. 팀원이 바로 확인할 수 있는 React Native 데모앱 실행
-2. iOS / Android 네이티브 앱에 전달할 bundle 산출물 생성
+- React Native 데모 앱을 실행해 화면을 개발하고 확인해요.
+- iOS와 Android 네이티브 앱에 전달할 bundle과 프레임워크를 만들어요.
 
 ## 구조
 
-```txt
+```text
 App.tsx
 = RN 데모앱 실행용 루트
 
@@ -22,27 +22,143 @@ PopPang-RN/
 ├─ native-entry.js          # iOS/AOS 산출물용 진입점
 ├─ src/
 │  └─ PopPangRNRoot.tsx     # 네이티브 앱에 붙일 실제 RN 루트
+├─ react_native_prebuild/
+│  └─ iOS용 React Native XCFramework 생성 도구
 └─ scripts/
    ├─ bundle-ios.sh
-   └─ bundle-android.sh
+   ├─ bundle-android.sh
+   └─ release-rn.sh
 ```
 
-## 빠른 실행
-```bash
-# 1. 의존성 설치
-npm install
+## 프로젝트는 목적에 따라 진입점을 나눠 사용해요.
 
-# 2. Metro 실행
+| 목적 | 진입점 | 루트 화면 |
+| --- | --- | --- |
+| 데모 앱 개발 | `index.js` | `App.tsx` |
+| 네이티브 앱 삽입 | `native-entry.js` | `src/PopPangRNRoot.tsx` |
+
+## 세팅 방법
+```bash
+# 처음 프로젝트를 받았거나 `node_modules`를 깨끗하게 다시 설치할 때는 `npm ci`를 사용하세요.
+cd PopPang-RN
+npm ci
+```
+
+## Demo 앱 실행 방법
+```bash
+# 1. Metro 개발 서버를 실행하세요.(Metro는 데모 앱 실행과 JavaScript bundle 생성에 사용해요.)
 npm run start
 
-# 3. iOS 데모앱 실행
+# 2. Metro를 실행한 터미널은 그대로 둔 뒤, 새 터미널에서 실행하세요.
 npm run ios
 
-# 4. Android 데모앱 실행
+# 3. 마찬가지로 새 터미널에서 실행하세요.
 npm run android
 ```
 
-## Bundle 산출물 생성
+## 모듈 배포 방법
+```bash
+# ./scripts/release-rn.sh 버전명
+./scripts/release-rn.sh v0.1.0
+```
+
+## 클라이언트 프로젝트(iOS)
+- 아래 코드를 iOS 프로젝트에 복사 및 주석처럼 실행해요.
+```bash
+# chmod +x scripts/download-rn-release.sh
+# ex) ./scripts/download-rn-release.sh v0.1.0
+#!/bin/bash
+set -euo pipefail
+
+VERSION="${1:-v0.1.0}"
+
+REPO="team-PopPang/PopPang-RN"
+
+BUNDLE_ASSET_NAME="poppang-rn-ios-bundle-$VERSION.zip"
+FRAMEWORK_ASSET_NAME="poppang-rn-spm-$VERSION.zip"
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+BUNDLE_OUTPUT_DIR="$ROOT_DIR/PopPangBrownField/Resources/ReactNative"
+FRAMEWORK_OUTPUT_DIR="$ROOT_DIR/PopPangBrownField/Vendor/PrebuiltReactNativeFrameworks"
+
+TMP_DIR="$ROOT_DIR/.rn-release-temp"
+
+echo "RN 릴리즈 다운로드 시작: $VERSION"
+
+rm -rf "$TMP_DIR"
+mkdir -p "$TMP_DIR"
+
+echo "iOS 번들 다운로드"
+gh release download "$VERSION" \
+  --repo "$REPO" \
+  --pattern "$BUNDLE_ASSET_NAME" \
+  --dir "$TMP_DIR" \
+  --clobber
+
+echo "SPM 패키지 다운로드"
+gh release download "$VERSION" \
+  --repo "$REPO" \
+  --pattern "$FRAMEWORK_ASSET_NAME" \
+  --dir "$TMP_DIR" \
+  --clobber
+
+echo "iOS 번들 압축 해제"
+mkdir -p "$TMP_DIR/bundle"
+unzip -o "$TMP_DIR/$BUNDLE_ASSET_NAME" -d "$TMP_DIR/bundle"
+
+echo "SPM 패키지 압축 해제"
+mkdir -p "$TMP_DIR/frameworks"
+unzip -o "$TMP_DIR/$FRAMEWORK_ASSET_NAME" -d "$TMP_DIR/frameworks"
+
+echo "iOS 번들 복사"
+rm -rf "$BUNDLE_OUTPUT_DIR"
+mkdir -p "$BUNDLE_OUTPUT_DIR"
+
+cp "$TMP_DIR/bundle/ios/main.jsbundle" "$BUNDLE_OUTPUT_DIR/main.jsbundle"
+
+if [ -d "$TMP_DIR/bundle/ios/assets" ]; then
+  cp -R "$TMP_DIR/bundle/ios/assets" "$BUNDLE_OUTPUT_DIR/assets"
+fi
+
+echo "프레임워크 패키지 복사"
+rm -rf "$FRAMEWORK_OUTPUT_DIR"
+mkdir -p "$(dirname "$FRAMEWORK_OUTPUT_DIR")"
+
+ditto \
+  "$TMP_DIR/frameworks/PrebuiltReactNativeFrameworks" \
+  "$FRAMEWORK_OUTPUT_DIR"
+
+rm -rf "$TMP_DIR"
+
+echo "다운로드 및 적용 완료"
+echo "번들 위치: $BUNDLE_OUTPUT_DIR"
+echo "프레임워크 위치: $FRAMEWORK_OUTPUT_DIR"
+```
+
+## 참고
+```bash
+# 새 라이브러리를 추가하거나 삭제할 때는 `npm install`을 사용하세요.
+# 라이브러리 추가
+npm install react-native-safe-area-context
+
+# 라이브러리 삭제
+npm uninstall react-native-safe-area-context
+```
+> 라이브러리를 추가하거나 삭제할 때만 `npm install`을 사용해요.  
+> 그 외 개발 환경 설치와 릴리즈 빌드에는 `npm ci`를 사용해요.
+
+
+
+
+
+
+
+
+<!-- - `npm install`은 `package.json`과 `package-lock.json`을 함께 갱신해요. 변경한 `package.json`과 `package-lock.json`은 함께 커밋하세요.
+- `npm ci`는 `package-lock.json`에 기록된 정확한 버전을 설치해요. 처음 설치, CI, 릴리즈 스크립트에서는 항상 `npm ci`를 사용해요. -->
+
+<!-- ## Bundle 산출물 생성
 ```bash
 # iOS bundle 생성
 npm run bundle:ios
@@ -60,9 +176,9 @@ npm run bundle:android
 
 # iOS / Android bundle 모두 생성
 npm run bundle:all
-```
+``` -->
 
-## 흐름
+<!-- ## 흐름
 ```bash
 # 데모앱 실행 순서
 npm run ios / npm run android
@@ -86,4 +202,4 @@ native-entry.js
 PopPangRNRoot.tsx
         ↓
 화면 표시
-```
+``` -->

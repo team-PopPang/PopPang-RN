@@ -7,6 +7,12 @@ PopPang RN은 iOS와 Android에서 공통으로 사용할 화면을 React Native
 - React Native 데모 앱을 실행해 화면을 개발하고 확인해요.
 - iOS와 Android 네이티브 앱에 전달할 bundle과 프레임워크를 만들어요.
 
+## 왜 Prebuilt 방식인가요?
+
+이 저장소에서는 React Native 런타임과 네이티브 의존성을 먼저 빌드한 뒤, 클라이언트 앱에 산출물 형태로 전달하는 방식을 `prebuild`라고 불러요. iOS는 `XCFramework`, Android는 `AAR`과 로컬 Maven 저장소로 패키징해서 배포해요.
+
+이 방식을 택한 이유는 기존 네이티브 앱의 의존성 관리 체계를 흔들지 않기 위해서예요. React Native 공식 문서처럼 앱 프로젝트 안에 React Native를 직접 통합하면 클라이언트 앱도 `CocoaPods`나 React Native 빌드 설정을 함께 가져가야 할 수 있어요. 이미 `Swift Package Manager`, 사내 빌드 시스템, 기존 Gradle 구조를 쓰는 앱에 다른 의존성 관리 방식을 섞으면 중복 의존성, 충돌, 커스텀 히스토리 같은 운영 비용이 커져요. prebuild 방식이면 클라이언트 앱은 React Native 프로젝트 자체를 품지 않아도 되고, 필요한 산출물만 받아 한 가지 통합 경로로 붙일 수 있어요.
+
 ## 구조
 
 ```text
@@ -92,11 +98,11 @@ Android 네이티브 패키지만 로컬에서 확인할 때는 아래 스크립
 ./react_native_android_prebuild/build_aars.sh v0.1.0
 ```
 
-## 클라이언트 프로젝트(Android)
+## 클라이언트 앱(Android)
 
-Android 패키지는 `poppang-rn-android` SDK AAR, npm 네이티브 모듈 AAR, React Native와 Hermes를 포함한 폴더형 Maven 저장소예요. SDK는 RN C++ ABI에 맞춘 debug/release AAR을 함께 제공하고 Gradle이 앱 빌드 타입에 맞는 변형을 자동 선택해요. 소비 앱에는 `node_modules`나 React Native Gradle Plugin이 필요하지 않아요.
+Android 패키지는 `poppang-rn-android` SDK AAR, npm 네이티브 모듈 AAR, React Native와 Hermes를 포함한 폴더형 Maven 저장소예요. SDK는 RN C++ ABI에 맞춘 debug/release AAR을 함께 제공하고 Gradle이 앱 빌드 타입에 맞는 변형을 자동 선택해요. 클라이언트 앱에는 `node_modules`나 React Native Gradle Plugin이 필요하지 않아요.
 
-Android 클라이언트 프로젝트에서는 아래 스크립트를 `scripts/download-rn-release.sh`로 두면 돼요. 지정한 릴리즈 버전의 Maven 저장소와 Android bundle을 한 번에 내려받아 적용할 수 있어요.
+Android 클라이언트 앱에서는 아래 스크립트를 `scripts/download-rn-release.sh`로 두면 돼요. 지정한 릴리즈 버전의 Maven 저장소와 Android bundle을 한 번에 내려받아 적용할 수 있어요.
 
 <details>
 <summary>다운로드 스크립트 전체 보기</summary>
@@ -230,10 +236,10 @@ startActivity(
 - `PopPangRnSdk.Feature.ROOT`
 - `PopPangRnSdk.Feature.ADMIN`
 
-## 클라이언트 프로젝트(iOS)
+## 클라이언트 앱(iOS)
 
-- iOS 클라이언트 프로젝트에서는 아래 스크립트를 `scripts/download-rn-release.sh`로 두면 돼요.
-- 이 스크립트로 지정한 릴리즈 버전의 iOS bundle과 SPM 패키지를 내려받아 프로젝트에 적용할 수 있어요.
+- iOS 클라이언트 앱에서는 아래 스크립트를 `scripts/download-rn-release.sh`로 두면 돼요.
+- 이 스크립트로 지정한 릴리즈 버전의 iOS bundle과 SPM 패키지를 내려받아 앱에 적용할 수 있어요.
 
 <details>
 <summary>다운로드 스크립트 전체 보기</summary>

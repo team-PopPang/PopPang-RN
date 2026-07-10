@@ -13,11 +13,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/intersectionobservernativemodule.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsi.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "intersectionobservernativemodule"
+        "targetName" : "jsi"
       },
       {
         "kind" : {
@@ -49,137 +49,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTDeprecation.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflags.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "RCTDeprecation"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "ReactCodegen"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_debug.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_debug"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererdebug.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_rendererdebug"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/folly.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "folly"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/hermesvm.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "hermesvm"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererconsistency.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_rendererconsistency"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_renderercss.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_renderercss"
+        "targetName" : "React_featureflags"
       },
       {
         "kind" : {
@@ -211,11 +85,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeCore.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/JSITooling.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "React_RuntimeCore"
+        "targetName" : "JSITooling"
       },
       {
         "kind" : {
@@ -229,11 +103,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTText.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "RCTText"
+        "targetName" : "ReactCodegen"
       },
       {
         "kind" : {
@@ -247,11 +121,29 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/DoubleConversion.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "DoubleConversion"
+        "targetName" : "React"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimeexecutor.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_runtimeexecutor"
       },
       {
         "kind" : {
@@ -283,11 +175,29 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTTypeSafety.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTImage.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "RCTTypeSafety"
+        "targetName" : "RCTImage"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_jserrorhandler.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_jserrorhandler"
       },
       {
         "kind" : {
@@ -319,6 +229,582 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/idlecallbacksnativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "idlecallbacksnativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_renderercss.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_renderercss"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeCore.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_RuntimeCore"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricComponents.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_FabricComponents"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTText.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTText"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_domnativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_domnativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_microtasksnativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_microtasksnativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeApple.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_RuntimeApple"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_viewtransitionnativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_viewtransitionnativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_utils.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_utils"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/glog.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "glog"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTVibration.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTVibration"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderntracing.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "jsinspector_moderntracing"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUIWrapper.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTSwiftUIWrapper"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsireact.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "jsireact"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderncdp.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "jsinspector_moderncdp"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Fabric.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_Fabric"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererdebug.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_rendererdebug"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTLinking.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTLinking"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Mapbuffer.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_Mapbuffer"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCommon.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "ReactCommon"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/intersectionobservernativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "intersectionobservernativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancecdpmetrics.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_performancecdpmetrics"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "Pods_ReactNativePrebuild"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTFBReactNativeSpec.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_RCTFBReactNativeSpec"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTFabric.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTFabric"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modernnetwork.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "jsinspector_modernnetwork"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTNetwork.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTNetwork"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/yoga.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "yoga"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactAppDependencyProvider.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "ReactAppDependencyProvider"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricImage.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_FabricImage"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_rendererconsistency.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_rendererconsistency"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
         "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTAppDelegate.xcframework",
         "source" : {
           "type" : "local"
@@ -337,65 +823,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/mutationobservernativemodule.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_graphics.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "mutationobservernativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimescheduler.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_runtimescheduler"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/oscompat.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "oscompat"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancetimeline.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_performancetimeline"
+        "targetName" : "React_graphics"
       },
       {
         "kind" : {
@@ -427,11 +859,281 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/fmt.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "fmt"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/DoubleConversion.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "DoubleConversion"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_networking.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_networking"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimescheduler.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_runtimescheduler"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/hermesvm.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "hermesvm"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reactperflogger.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "reactperflogger"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancetimeline.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_performancetimeline"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/SocketRocket.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "SocketRocket"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_debug.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_debug"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
         "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/cxxreact.xcframework",
         "source" : {
           "type" : "local"
         },
         "targetName" : "cxxreact"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTTypeSafety.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTTypeSafety"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSettings.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "RCTSettings"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/logger.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "logger"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reacthermes.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "reacthermes"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_defaultsnativemodule.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "React_defaultsnativemodule"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/oscompat.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "oscompat"
       },
       {
         "kind" : {
@@ -481,636 +1183,6 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUI.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTSwiftUI"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/JSITooling.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "JSITooling"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/idlecallbacksnativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "idlecallbacksnativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Mapbuffer.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_Mapbuffer"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_networking.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_networking"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsi.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "jsi"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_Fabric.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_Fabric"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactAppDependencyProvider.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "ReactAppDependencyProvider"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/fmt.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "fmt"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTLinking.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTLinking"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_runtimeexecutor.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_runtimeexecutor"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_modernnetwork.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "jsinspector_modernnetwork"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/logger.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "logger"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricComponents.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_FabricComponents"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderntracing.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "jsinspector_moderntracing"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTVibration.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTVibration"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reactperflogger.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "reactperflogger"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RuntimeApple.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_RuntimeApple"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_graphics.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_graphics"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTImage.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTImage"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTFabric.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTFabric"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_defaultsnativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_defaultsnativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_performancecdpmetrics.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_performancecdpmetrics"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCommon.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "ReactCommon"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUIWrapper.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTSwiftUIWrapper"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/reacthermes.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "reacthermes"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSettings.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTSettings"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_FabricImage.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_FabricImage"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTNetwork.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "RCTNetwork"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_RCTFBReactNativeSpec.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_RCTFBReactNativeSpec"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_microtasksnativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_microtasksnativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsinspector_moderncdp.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "jsinspector_moderncdp"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_domnativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_domnativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "Pods_ReactNativePrebuild"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
         "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/CoreModules.xcframework",
         "source" : {
           "type" : "local"
@@ -1129,11 +1201,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/glog.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTSwiftUI.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "glog"
+        "targetName" : "RCTSwiftUI"
       },
       {
         "kind" : {
@@ -1147,65 +1219,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/SocketRocket.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/RCTDeprecation.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "SocketRocket"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_utils.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_utils"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/webperformancenativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "webperformancenativemodule"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_viewtransitionnativemodule.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_viewtransitionnativemodule"
+        "targetName" : "RCTDeprecation"
       },
       {
         "kind" : {
@@ -1237,11 +1255,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/yoga.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/folly.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "yoga"
+        "targetName" : "folly"
       },
       {
         "kind" : {
@@ -1255,11 +1273,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/jsireact.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/mutationobservernativemodule.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "jsireact"
+        "targetName" : "mutationobservernativemodule"
       },
       {
         "kind" : {
@@ -1291,29 +1309,11 @@
           "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
           "name" : "react_native_prebuild"
         },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_jserrorhandler.xcframework",
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/webperformancenativemodule.xcframework",
         "source" : {
           "type" : "local"
         },
-        "targetName" : "React_jserrorhandler"
-      },
-      {
-        "kind" : {
-          "xcframework" : {
-
-          }
-        },
-        "packageRef" : {
-          "identity" : "react_native_prebuild",
-          "kind" : "root",
-          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
-          "name" : "react_native_prebuild"
-        },
-        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/React_featureflags.xcframework",
-        "source" : {
-          "type" : "local"
-        },
-        "targetName" : "React_featureflags"
+        "targetName" : "webperformancenativemodule"
       }
     ],
     "dependencies" : [

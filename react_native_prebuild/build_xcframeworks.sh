@@ -57,7 +57,9 @@ archive() {
     -configuration "$CONFIGURATION" \
     -sdk iphonesimulator \
     SKIP_INSTALL=NO \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    CLANG_ENABLE_EXPLICIT_MODULES=NO \
+    SWIFT_ENABLE_EXPLICIT_MODULES=NO
 
   # 실제 iPhone/iPad Device용 archive를 생성한다.
   xcodebuild archive \
@@ -67,7 +69,9 @@ archive() {
     -configuration "$CONFIGURATION" \
     -sdk iphoneos \
     SKIP_INSTALL=NO \
-    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+    CLANG_ENABLE_EXPLICIT_MODULES=NO \
+    SWIFT_ENABLE_EXPLICIT_MODULES=NO
 }
 
 create_xcframework() {
@@ -143,6 +147,23 @@ copy_hermes_xcframework() {
   ditto "$HERMES_PREBUILT" "$output"
 }
 
+mark_framework_headers_as_system() {
+  local module_map
+
+  # 소비 앱이 RN 헤더 내부의 경고를 표시하지 않도록
+  # 생성된 모든 framework module을 system module로 표시한다.
+  while IFS= read -r -d '' module_map; do
+    perl -0pi -e \
+      's/^framework module ([^[:space:]]+) \{/framework module $1 [system] {/m' \
+      "$module_map"
+  done < <(
+    find "$FRAMEWORKS_DIR" \
+      -type f \
+      -path "*/Modules/module.modulemap" \
+      -print0
+  )
+}
+
 run_pod_install() {
   # Gemfile이 있으면 Bundler를 통해 pod install을 실행한다.
   if [[ -f "$SRCROOT/Gemfile" ]]; then
@@ -193,6 +214,9 @@ build_and_create_frameworks() {
 
   # RN 0.86이 필요로 하는 Hermes VM prebuilt XCFramework를 추가한다.
   copy_hermes_xcframework
+
+  # RN 헤더 내부 경고를 소비 앱에 노출하지 않는다.
+  mark_framework_headers_as_system
 }
 
 initDirectory() {

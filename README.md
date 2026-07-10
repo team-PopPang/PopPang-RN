@@ -193,6 +193,9 @@ chmod +x scripts/download-rn-release.sh
 
 </details>
 
+<details>
+<summary>스크립트 없이 Android에 직접 적용하기</summary>
+
 스크립트를 쓰지 않는 경우에는 아래 순서로 직접 적용할 수 있어요.
 
 1. `poppang-rn-android-maven-v0.1.0.zip`은 앱 저장소의 `Vendor/PopPangRN`에 압축을 풀어요.
@@ -235,6 +238,8 @@ startActivity(
 
 - `PopPangRnSdk.Feature.ROOT`
 - `PopPangRnSdk.Feature.ADMIN`
+
+</details>
 
 ## 클라이언트 앱(iOS)
 

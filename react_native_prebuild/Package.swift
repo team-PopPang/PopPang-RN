@@ -84,6 +84,7 @@ let package = Package(
                   "logger",
                   "mutationobservernativemodule",
                   "oscompat",
+                  "react_native_safe_area_context",
                   "reacthermes",
                   "reactperflogger",
                   "webperformancenativemodule",
@@ -381,6 +382,10 @@ let package = Package(
 .binaryTarget(
     name: "oscompat",
     path: "Frameworks/oscompat.xcframework"
+),
+.binaryTarget(
+    name: "react_native_safe_area_context",
+    path: "Frameworks/react_native_safe_area_context.xcframework"
 ),
 .binaryTarget(
     name: "reacthermes",

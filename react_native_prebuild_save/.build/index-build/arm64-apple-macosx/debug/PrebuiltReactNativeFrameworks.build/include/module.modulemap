@@ -1,0 +1,3 @@
+module PrebuiltReactNativeFrameworks {
+    header "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/.build/index-build/arm64-apple-macosx/debug/PrebuiltReactNativeFrameworks.build/include/PrebuiltReactNativeFrameworks-Swift.h"
+}

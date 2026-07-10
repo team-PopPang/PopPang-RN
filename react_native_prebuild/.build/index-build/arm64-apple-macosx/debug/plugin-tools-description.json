@@ -192,6 +192,7 @@
       "webperformancenativemodule",
       "reactperflogger",
       "reacthermes",
+      "react_native_safe_area_context",
       "oscompat",
       "mutationobservernativemodule",
       "logger",

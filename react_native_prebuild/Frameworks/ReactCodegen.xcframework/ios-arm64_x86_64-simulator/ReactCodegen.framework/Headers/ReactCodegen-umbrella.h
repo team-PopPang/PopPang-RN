@@ -14,6 +14,14 @@
 #import "RCTModulesConformingToProtocolsProvider.h"
 #import "RCTThirdPartyComponentsProvider.h"
 #import "RCTUnstableModulesRequiringMainQueueSetupProvider.h"
+#import "react/renderer/components/safeareacontext/ComponentDescriptors.h"
+#import "react/renderer/components/safeareacontext/EventEmitters.h"
+#import "react/renderer/components/safeareacontext/Props.h"
+#import "react/renderer/components/safeareacontext/RCTComponentViewHelpers.h"
+#import "react/renderer/components/safeareacontext/ShadowNodes.h"
+#import "react/renderer/components/safeareacontext/States.h"
+#import "safeareacontext/safeareacontext.h"
+#import "safeareacontextJSI.h"
 
 FOUNDATION_EXPORT double ReactCodegenVersionNumber;
 FOUNDATION_EXPORT const unsigned char ReactCodegenVersionString[];

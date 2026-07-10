@@ -1,0 +1,58 @@
+source 'https://cdn.cocoapods.org/'
+platform :ios, '17.0'
+
+# prepare_react_native_project 를 호출하기 위함.
+require_relative './node_modules/react-native/scripts/react_native_pods'
+
+# ReactNativeDependencies.xcframework 끄기
+ENV['RCT_USE_RN_DEP'] = '0'
+# 0: RN이 소스에서 직접 빌드
+# 1: RN이 미리 빌드된 React Core 사용
+ENV['RCT_USE_PREBUILT_RNCORE'] = '0'
+
+inhibit_all_warnings!
+
+# React Native 프로젝트 설치를 준비한다.
+prepare_react_native_project!
+
+target 'ReactNativePrebuild' do
+  use_frameworks! :linkage => :static
+
+  # package.json의 네이티브 RN 라이브러리를 찾아 Pods에 추가한다.
+  # 현재는 react-native-safe-area-context를 찾아 포함한다.
+  config = use_native_modules!
+
+  # React Native와 Hermes 등의 iOS 의존성을 설치한다.
+  use_react_native!(
+    :path => './node_modules/react-native',
+
+    # package.json과 node_modules가 있는 프로젝트 루트 경로
+    :app_path => "#{Pod::Config.instance.installation_root}/"
+  )
+
+end
+
+post_install do |installer|
+  # React Native가 요구하는 Xcode 빌드 설정을 적용한다.
+  react_native_post_install(
+      installer,
+      './node_modules/react-native',
+      :mac_catalyst_enabled => false
+    )
+
+end
+
+# rm -rf Pods Podfile.lock Frameworks Sources build \
+#   Pods-ReactNativePrebuild-iphoneos.xcarchive \
+#   Pods-ReactNativePrebuild-iphonesimulator.xcarchive
+
+# find Frameworks -maxdepth 1 -iname '*react*'
+# find Frameworks -maxdepth 1 -iname '*hermes*'
+
+
+# rm -rf Pods Podfile.lock Frameworks Sources build \
+#   Pods-ReactNativePrebuild-iphoneos.xcarchive \
+#   Pods-ReactNativePrebuild-iphonesimulator.xcarchive
+# npm ci
+# bundle exec pod install
+# ./build_xcframeworks.sh

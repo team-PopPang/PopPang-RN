@@ -1,0 +1,85 @@
+{
+  "object" : {
+    "artifacts" : [
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/Pods_ReactNativePrebuild.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "Pods_ReactNativePrebuild"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactAppDependencyProvider.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "ReactAppDependencyProvider"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/ReactCodegen.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "ReactCodegen"
+      },
+      {
+        "kind" : {
+          "xcframework" : {
+
+          }
+        },
+        "packageRef" : {
+          "identity" : "react_native_prebuild",
+          "kind" : "root",
+          "location" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild",
+          "name" : "react_native_prebuild"
+        },
+        "path" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Frameworks/hermesvm.xcframework",
+        "source" : {
+          "type" : "local"
+        },
+        "targetName" : "hermesvm"
+      }
+    ],
+    "dependencies" : [
+
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}

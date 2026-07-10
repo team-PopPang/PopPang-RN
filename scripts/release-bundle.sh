@@ -1,24 +1,39 @@
-# ./scripts/release-bundle.sh v0.1.0
-# npm run release:bundle -- v0.1.0
 #!/bin/bash
 set -e
 
 VERSION=$1
 
 if [ -z "$VERSION" ]; then
-  echo "사용법: ./scripts/release-bundle.sh v0.1.0"
+  echo "사용법: ./scripts/release-rn.sh v0.1.0"
   exit 1
 fi
 
-RELEASE_NAME="poppang-rn-bundle-$VERSION"
-ZIP_NAME="$RELEASE_NAME.zip"
+BUNDLE_RELEASE_NAME="poppang-rn-bundle-$VERSION"
+FRAMEWORK_RELEASE_NAME="poppang-rn-frameworks-$VERSION"
 
-echo "Bundle 생성"
+BUNDLE_ZIP_NAME="$BUNDLE_RELEASE_NAME.zip"
+FRAMEWORK_ZIP_NAME="$FRAMEWORK_RELEASE_NAME.zip"
+
+echo "JS Bundle 생성"
 npm run bundle:all
 
-echo "Zip 압축"
-rm -f "$ZIP_NAME"
-zip -r "$ZIP_NAME" dist
+echo "RN XCFramework 생성"
+cd react_native_prebuild
+./build_xcframeworks.sh
+cd ..
+
+echo "Bundle Zip 압축"
+rm -f "$BUNDLE_ZIP_NAME"
+zip -r "$BUNDLE_ZIP_NAME" dist
+
+echo "Frameworks Zip 압축"
+rm -f "$FRAMEWORK_ZIP_NAME"
+cd react_native_prebuild
+zip -r "../$FRAMEWORK_ZIP_NAME" \
+  Package.swift \
+  Sources \
+  Frameworks
+cd ..
 
 echo "기존 GitHub Release 삭제"
 gh release delete "$VERSION" --yes || true
@@ -36,8 +51,12 @@ echo "새 tag push"
 git push origin "$VERSION"
 
 echo "GitHub Release 재생성"
-gh release create "$VERSION" "$ZIP_NAME" \
+gh release create "$VERSION" \
+  "$BUNDLE_ZIP_NAME" \
+  "$FRAMEWORK_ZIP_NAME" \
   --title "$VERSION" \
-  --notes "PopPang RN bundle release $VERSION"
+  --notes "PopPang RN release $VERSION"
 
-echo "완료: $ZIP_NAME"
+echo "완료"
+echo "$BUNDLE_ZIP_NAME"
+echo "$FRAMEWORK_ZIP_NAME"

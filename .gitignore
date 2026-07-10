@@ -116,6 +116,9 @@ react_native_prebuild/.build/
 react_native_prebuild/.swiftpm/
 react_native_prebuild/*.xcarchive
 
+# Generated outputs from react_native_android_prebuild
+react_native_android_prebuild/output/
+
 # Generated outputs from legacy prebuild
 react_native_prebuild_legacy/Frameworks/
 react_native_prebuild_legacy/Sources/

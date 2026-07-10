@@ -1,0 +1,32 @@
+pluginManagement {
+    includeBuild("../node_modules/@react-native/gradle-plugin")
+
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+plugins {
+    id("com.facebook.react.settings")
+}
+
+extensions.configure(com.facebook.react.ReactSettingsExtension) { extension ->
+    // 프로젝트 루트의 package.json과 node_modules를 기준으로 Android 네이티브 모듈을 찾는다.
+    extension.autolinkLibrariesFromCommand()
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "ReactNativeAndroidPrebuild"
+
+include(":poppang-rn-sdk")
+includeBuild("../node_modules/@react-native/gradle-plugin")

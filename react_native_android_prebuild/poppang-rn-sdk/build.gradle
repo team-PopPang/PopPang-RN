@@ -1,0 +1,91 @@
+plugins {
+    id "com.android.library"
+    id "org.jetbrains.kotlin.android"
+    id "maven-publish"
+}
+
+android {
+    namespace "com.poppang.rn"
+    compileSdk rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdk rootProject.ext.minSdkVersion
+
+        buildConfigField(
+            "String",
+            "POPPANG_RN_VERSION",
+            "\"${rootProject.ext.poppangVersion}\"",
+        )
+
+        consumerProguardFiles("consumer-rules.pro")
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    sourceSets {
+        main.java.srcDir(rootProject.ext.packageListOutputDir)
+        debug.jniLibs.srcDir("$buildDir/generated/jniLibs/debug")
+        release.jniLibs.srcDir("$buildDir/generated/jniLibs/release")
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    publishing {
+        multipleVariants {
+            withSourcesJar()
+            allVariants()
+        }
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+dependencies {
+    api("androidx.appcompat:appcompat:1.7.0")
+    api("com.facebook.react:react-android:${rootProject.ext.reactNativeVersion}")
+    api("com.facebook.hermes:hermes-android:${rootProject.ext.hermesVersion}")
+    api("com.facebook.soloader:soloader:0.12.1")
+
+    // settings.gradle에서 autolink된 npm Android 라이브러리를 모두 SDK 의존성으로 연결한다.
+    rootProject.subprojects
+        .findAll { nativeProject -> nativeProject.path != project.path }
+        .each { nativeProject -> api(project(nativeProject.path)) }
+}
+
+tasks.named("preBuild").configure {
+    dependsOn(rootProject.tasks.named("generatePoppangPackageList"))
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // RN/Hermes의 C++ ABI는 build type별로 다르므로 debug/release AAR을 함께 발행한다.
+                from components.default
+
+                groupId = "com.poppang"
+                artifactId = "poppang-rn-android"
+                version = rootProject.ext.poppangVersion
+
+                pom {
+                    name = "PopPang React Native Android SDK"
+                    description = "Prebuilt Android host and native-module graph for PopPang RN"
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = "prebuiltRepository"
+                url = rootProject.ext.repositoryOutputDir
+            }
+        }
+    }
+}

@@ -104,9 +104,11 @@ STAGING_DIR="$RELEASE_DIR/staging"
 
 SPM_DIR_NAME="PrebuiltReactNativeFrameworks"
 SPM_SRC_DIR="$ROOT_DIR/react_native_prebuild"
+ANDROID_PREBUILD_SRC_DIR="$ROOT_DIR/react_native_android_prebuild"
 
 IOS_BUNDLE_NAME="poppang-rn-ios-bundle-$VERSION"
 ANDROID_BUNDLE_NAME="poppang-rn-android-bundle-$VERSION"
+ANDROID_MAVEN_ZIP_NAME="poppang-rn-android-maven-$VERSION.zip"
 SPM_ZIP_NAME="poppang-rn-spm-$VERSION.zip"
 IOS_ZIP_NAME="$IOS_BUNDLE_NAME.zip"
 ANDROID_ZIP_NAME="$ANDROID_BUNDLE_NAME.zip"
@@ -130,6 +132,12 @@ echo "RN XCFramework 생성"
   ./build_xcframeworks.sh
 )
 
+echo "RN Android AAR 및 Maven 저장소 생성"
+(
+  cd "$ANDROID_PREBUILD_SRC_DIR"
+  ./build_aars.sh "$VERSION"
+)
+
 echo "SPM 패키지 staging"
 mkdir -p "$STAGING_DIR/$SPM_DIR_NAME"
 cp "$SPM_SRC_DIR/Package.swift" "$STAGING_DIR/$SPM_DIR_NAME/"
@@ -150,6 +158,11 @@ echo "Android bundle zip 생성"
 ditto -c -k --sequesterRsrc --keepParent \
   "$ROOT_DIR/dist/android" \
   "$RELEASE_DIR/$ANDROID_ZIP_NAME"
+
+echo "Android Maven 저장소 staging"
+cp \
+  "$ANDROID_PREBUILD_SRC_DIR/output/$ANDROID_MAVEN_ZIP_NAME" \
+  "$RELEASE_DIR/$ANDROID_MAVEN_ZIP_NAME"
 
 # 빌드 산출물이 모두 성공한 뒤에만 기존 릴리즈를 교체한다.
 echo "기존 GitHub Release 삭제"
@@ -172,6 +185,7 @@ gh release create "$VERSION" \
   "$RELEASE_DIR/$SPM_ZIP_NAME" \
   "$RELEASE_DIR/$IOS_ZIP_NAME" \
   "$RELEASE_DIR/$ANDROID_ZIP_NAME" \
+  "$RELEASE_DIR/$ANDROID_MAVEN_ZIP_NAME" \
   --title "$VERSION" \
   --notes "PopPang RN release $VERSION"
 
@@ -179,3 +193,4 @@ echo "완료"
 echo "$RELEASE_DIR/$SPM_ZIP_NAME"
 echo "$RELEASE_DIR/$IOS_ZIP_NAME"
 echo "$RELEASE_DIR/$ANDROID_ZIP_NAME"
+echo "$RELEASE_DIR/$ANDROID_MAVEN_ZIP_NAME"

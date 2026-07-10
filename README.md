@@ -24,6 +24,8 @@ PopPang-RN/
 │  └─ PopPangRNRoot.tsx     # 네이티브 앱에 붙일 실제 RN 루트
 ├─ react_native_prebuild/
 │  └─ iOS용 React Native XCFramework 생성 도구
+├─ react_native_android_prebuild/
+│  └─ Android용 React Native AAR 및 로컬 Maven 저장소 생성 도구
 └─ scripts/
    ├─ bundle-ios.sh
    ├─ bundle-android.sh
@@ -67,6 +69,144 @@ npm run android
 ```bash
 # ./scripts/release-rn.sh 버전명
 ./scripts/release-rn.sh v0.1.0
+```
+
+릴리즈에는 플랫폼별 JavaScript bundle과 함께 다음 네이티브 패키지가 포함돼요.
+
+- iOS: `poppang-rn-spm-v0.1.0.zip`
+- Android: `poppang-rn-android-maven-v0.1.0.zip`
+
+Android 네이티브 패키지만 로컬에서 확인하려면 아래 스크립트를 실행하세요.
+
+```bash
+./react_native_android_prebuild/build_aars.sh v0.1.0
+```
+
+## 클라이언트 프로젝트(Android)
+
+Android 패키지는 `poppang-rn-android` SDK AAR, npm 네이티브 모듈 AAR, React Native와 Hermes를 포함한 폴더형 Maven 저장소예요. SDK는 RN C++ ABI에 맞춘 debug/release AAR을 함께 제공하고 Gradle이 앱 빌드 타입에 맞는 변형을 자동 선택해요. 소비 앱에는 `node_modules`나 React Native Gradle Plugin이 필요하지 않아요.
+
+Android 클라이언트 프로젝트에 아래 스크립트를 `scripts/download-rn-release.sh`로 추가하세요. 지정한 릴리즈 버전의 Maven 저장소와 Android bundle을 한 번에 내려받아 적용해요.
+
+<details>
+<summary>다운로드 스크립트 전체 보기</summary>
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="${1:-v0.1.0}"
+SDK_VERSION="${VERSION#v}"
+
+REPO="team-PopPang/PopPang-RN"
+
+MAVEN_ASSET_NAME="poppang-rn-android-maven-$VERSION.zip"
+BUNDLE_ASSET_NAME="poppang-rn-android-bundle-$VERSION.zip"
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+MAVEN_OUTPUT_DIR="$ROOT_DIR/Vendor/PopPangRN"
+BUNDLE_OUTPUT_DIR="$ROOT_DIR/app/src/main/assets"
+TMP_DIR="$ROOT_DIR/.rn-release-temp"
+
+cleanup() {
+  rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT
+
+echo "RN Android 릴리즈 다운로드 시작: $VERSION"
+
+rm -rf "$TMP_DIR"
+mkdir -p "$TMP_DIR"
+
+echo "Android Maven 저장소 다운로드"
+gh release download "$VERSION" \
+  --repo "$REPO" \
+  --pattern "$MAVEN_ASSET_NAME" \
+  --dir "$TMP_DIR" \
+  --clobber
+
+echo "Android bundle 다운로드"
+gh release download "$VERSION" \
+  --repo "$REPO" \
+  --pattern "$BUNDLE_ASSET_NAME" \
+  --dir "$TMP_DIR" \
+  --clobber
+
+echo "압축 해제"
+mkdir -p "$TMP_DIR/maven" "$TMP_DIR/bundle"
+unzip -q "$TMP_DIR/$MAVEN_ASSET_NAME" -d "$TMP_DIR/maven"
+unzip -q "$TMP_DIR/$BUNDLE_ASSET_NAME" -d "$TMP_DIR/bundle"
+
+if [[ ! -d "$TMP_DIR/maven/repository" ]]; then
+  echo "Maven repository를 찾을 수 없습니다." >&2
+  exit 1
+fi
+
+if [[ ! -f "$TMP_DIR/bundle/android/index.android.bundle" ]]; then
+  echo "index.android.bundle을 찾을 수 없습니다." >&2
+  exit 1
+fi
+
+echo "Maven 저장소 적용"
+rm -rf "$MAVEN_OUTPUT_DIR"
+mkdir -p "$MAVEN_OUTPUT_DIR"
+cp -R "$TMP_DIR/maven/repository" "$MAVEN_OUTPUT_DIR/repository"
+
+echo "Android bundle 적용"
+mkdir -p "$BUNDLE_OUTPUT_DIR"
+cp \
+  "$TMP_DIR/bundle/android/index.android.bundle" \
+  "$BUNDLE_OUTPUT_DIR/index.android.bundle"
+
+echo "다운로드 및 적용 완료"
+echo "Maven 저장소: $MAVEN_OUTPUT_DIR/repository"
+echo "Android bundle: $BUNDLE_OUTPUT_DIR/index.android.bundle"
+echo "Gradle SDK 버전: $SDK_VERSION"
+```
+
+```bash
+# 실행 권한 추가
+chmod +x scripts/download-rn-release.sh
+
+# v0.1.0 릴리즈 다운로드 및 적용
+./scripts/download-rn-release.sh v0.1.0
+```
+
+앱 모듈 이름이 `app`이 아니라면 스크립트의 `BUNDLE_OUTPUT_DIR`을 실제 모듈 경로로 바꾸세요.
+
+</details>
+
+스크립트를 사용하지 않고 직접 적용하려면 다음 경로에 압축을 해제하고 bundle을 복사하세요.
+
+1. `poppang-rn-android-maven-v0.1.0.zip`을 앱 저장소의 `Vendor/PopPangRN`에 압축 해제하세요.
+2. `poppang-rn-android-bundle-v0.1.0.zip`의 `index.android.bundle`을 앱의 `src/main/assets`에 복사하세요.
+3. `settings.gradle`에 로컬 Maven 저장소를 등록하세요.
+
+```gradle
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("$rootDir/Vendor/PopPangRN/repository")
+        }
+    }
+}
+```
+
+앱 모듈에는 PopPang SDK 의존성 한 개만 추가해요.
+
+```gradle
+dependencies {
+    implementation("com.poppang:poppang-rn-android:0.1.0")
+}
+```
+
+React Native 화면은 SDK가 제공하는 Intent로 열어요.
+
+```kotlin
+startActivity(PopPangRnSdk.createIntent(this))
 ```
 
 ## 클라이언트 프로젝트(iOS)
@@ -338,6 +478,10 @@ npm install --save-dev eslint-plugin-import
 
 `react_native_prebuild/`에는 의존성을 추가하지 않아요.  
 이 폴더는 프로젝트 루트의 `node_modules`를 사용해 iOS용 XCFramework를 만들어요.
+
+`react_native_android_prebuild/`도 별도 npm 의존성을 갖지 않아요.
+
+루트 `node_modules`에서 Android 네이티브 모듈을 찾아 AAR와 Maven metadata를 자동 생성해요.
 
 </details>
 

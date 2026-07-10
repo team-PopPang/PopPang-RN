@@ -1,0 +1,216 @@
+import groovy.json.JsonSlurper
+import org.gradle.api.artifacts.component.ModuleComponentIdentifier
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
+import org.gradle.api.publish.tasks.GenerateModuleMetadata
+
+plugins {
+    id "com.android.library" version "8.12.0" apply false
+    id "org.jetbrains.kotlin.android" version "2.1.20" apply false
+    id "com.facebook.react" apply false
+}
+
+def jsonSlurper = new JsonSlurper()
+def rnProjectRoot = file("..")
+def reactNativePackage = jsonSlurper.parse(file("$rnProjectRoot/node_modules/react-native/package.json"))
+def rootPackage = jsonSlurper.parse(file("$rnProjectRoot/package.json"))
+def hermesProperties = new Properties()
+file("$rnProjectRoot/node_modules/react-native/sdks/hermes-engine/version.properties").withInputStream {
+    hermesProperties.load(it)
+}
+
+ext {
+    buildToolsVersion = "36.0.0"
+    minSdkVersion = 24
+    compileSdkVersion = 36
+    targetSdkVersion = 36
+    ndkVersion = "27.1.12297006"
+    kotlinVersion = "2.1.20"
+
+    reactNativeVersion = reactNativePackage.version.toString()
+    hermesVersion = hermesProperties.getProperty("HERMES_V1_VERSION_NAME")
+    poppangVersion = providers.gradleProperty("poppangVersion")
+        .orElse(rootPackage.version.toString())
+        .get()
+    poppangTag = providers.gradleProperty("poppangTag")
+        .orElse("v${poppangVersion}")
+        .get()
+
+    prebuiltGroup = "com.poppang.prebuilt"
+    repositoryOutputDir = file("$rootDir/output/repository")
+    packageListOutputDir = file("$rootDir/poppang-rn-sdk/build/generated/source/autolinking/java")
+}
+
+allprojects {
+    configurations.configureEach { configuration ->
+        configuration.resolutionStrategy.dependencySubstitution {
+            substitute module("com.facebook.react:react-native") using module(
+                "com.facebook.react:react-android:${rootProject.ext.reactNativeVersion}"
+            )
+            substitute module("com.facebook.react:hermes-engine") using module(
+                "com.facebook.hermes:hermes-android:${rootProject.ext.hermesVersion}"
+            )
+            substitute module("com.facebook.react:hermes-android") using module(
+                "com.facebook.hermes:hermes-android:${rootProject.ext.hermesVersion}"
+            )
+        }
+
+        configuration.resolutionStrategy.force(
+            "com.facebook.react:react-android:${rootProject.ext.reactNativeVersion}",
+            "com.facebook.hermes:hermes-android:${rootProject.ext.hermesVersion}",
+        )
+    }
+}
+
+// React Native CLI가 settings 단계에서 포함한 네이티브 라이브러리를 각각 AAR로 배포한다.
+subprojects { subproject ->
+    if (subproject.path == ":poppang-rn-sdk") {
+        return
+    }
+
+    def packageJsonFile = file("${subproject.projectDir}/../package.json")
+    if (!packageJsonFile.exists()) {
+        throw new GradleException("Native module package.json not found: ${packageJsonFile}")
+    }
+
+    def packageMetadata = jsonSlurper.parse(packageJsonFile)
+    subproject.group = rootProject.ext.prebuiltGroup
+    subproject.version = packageMetadata.version.toString()
+
+    subproject.pluginManager.withPlugin("com.android.library") {
+        subproject.apply plugin: "maven-publish"
+
+        subproject.android {
+            compileOptions {
+                sourceCompatibility JavaVersion.VERSION_17
+                targetCompatibility JavaVersion.VERSION_17
+            }
+
+            publishing {
+                singleVariant("release") {
+                    withSourcesJar()
+                }
+            }
+        }
+
+        // 네이티브 모듈의 원본 metadata에는 react-native:+가 남을 수 있으므로
+        // POM을 단일 진실 공급원으로 사용하고 아래에서 정확한 RN 버전으로 치환한다.
+        subproject.tasks.withType(GenerateModuleMetadata).configureEach {
+            enabled = false
+        }
+
+        subproject.afterEvaluate {
+            subproject.publishing {
+                publications {
+                    prebuiltRelease(MavenPublication) {
+                        from subproject.components.release
+
+                        groupId = rootProject.ext.prebuiltGroup
+                        artifactId = subproject.name
+                        version = subproject.version.toString()
+
+                        pom.withXml {
+                            def dependencies = asNode().dependencies?.dependency ?: []
+                            dependencies.each { dependency ->
+                                def dependencyGroup = dependency.groupId[0]?.text()
+                                def dependencyArtifact = dependency.artifactId[0]?.text()
+
+                                if (dependencyGroup == "com.facebook.react" &&
+                                    dependencyArtifact == "react-native") {
+                                    dependency.artifactId[0].setValue("react-android")
+                                    dependency.version[0].setValue(rootProject.ext.reactNativeVersion)
+                                }
+
+                                if (dependencyGroup == "com.facebook.react" &&
+                                    dependencyArtifact in ["hermes-engine", "hermes-android"]) {
+                                    dependency.groupId[0].setValue("com.facebook.hermes")
+                                    dependency.artifactId[0].setValue("hermes-android")
+                                    dependency.version[0].setValue(rootProject.ext.hermesVersion)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                repositories {
+                    maven {
+                        name = "prebuiltRepository"
+                        url = rootProject.ext.repositoryOutputDir
+                    }
+                }
+            }
+        }
+    }
+
+    subproject.pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+        subproject.kotlin.jvmToolchain(17)
+    }
+}
+
+def autolinkingFile = file("$buildDir/generated/autolinking/autolinking.json")
+def packageListFile = file(
+    "${rootProject.ext.packageListOutputDir}/com/poppang/rn/PopPangPackageList.java"
+)
+
+tasks.register("generatePoppangPackageList", Exec) {
+    inputs.file(autolinkingFile)
+    inputs.file(file("$rootDir/scripts/generate-package-list.mjs"))
+    outputs.file(packageListFile)
+
+    commandLine(
+        "node",
+        file("$rootDir/scripts/generate-package-list.mjs"),
+        autolinkingFile,
+        packageListFile,
+    )
+}
+
+def dependencyCoordinatesFile = layout.buildDirectory.file(
+    "prebuild/external-dependencies.txt"
+)
+
+tasks.register("writeExternalDependencyCoordinates") {
+    dependsOn(":poppang-rn-sdk:assembleDebug", ":poppang-rn-sdk:assembleRelease")
+    outputs.file(dependencyCoordinatesFile)
+
+    doLast {
+        def coordinates = new TreeSet<String>()
+        def sdkProject = project(":poppang-rn-sdk")
+
+        ["debugRuntimeClasspath", "releaseRuntimeClasspath"].each { configurationName ->
+            def configuration = sdkProject.configurations.getByName(configurationName)
+            configuration.incoming.resolutionResult.allComponents.each { component ->
+                def componentIdentifier = component.id
+                if (componentIdentifier instanceof ModuleComponentIdentifier) {
+                    coordinates.add(
+                        "${componentIdentifier.group}:${componentIdentifier.module}:${componentIdentifier.version}"
+                    )
+                }
+            }
+        }
+
+        def output = dependencyCoordinatesFile.get().asFile
+        output.parentFile.mkdirs()
+        output.text = coordinates.join(System.lineSeparator()) + System.lineSeparator()
+    }
+}
+
+tasks.register("publishPrebuiltRepository")
+
+gradle.projectsEvaluated {
+    tasks.named("publishPrebuiltRepository").configure { aggregateTask ->
+        def publicationTasks = subprojects.collectMany { subproject ->
+            subproject.tasks.withType(PublishToMavenRepository).toList()
+        }
+        aggregateTask.dependsOn(publicationTasks)
+    }
+}
+
+tasks.register("packageRepository", Zip) {
+    from(rootProject.ext.repositoryOutputDir) {
+        into("repository")
+    }
+
+    destinationDirectory = file("$rootDir/output")
+    archiveFileName = "poppang-rn-android-maven-${rootProject.ext.poppangTag}.zip"
+}

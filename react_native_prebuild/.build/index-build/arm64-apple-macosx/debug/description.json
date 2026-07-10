@@ -92,7 +92,9 @@
         "-Xcc",
         "-fPIC",
         "-Xcc",
-        "-g"
+        "-g",
+        "-package-name",
+        "react_native_prebuild"
       ],
       "outputFileMapPath" : "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/.build/index-build/arm64-apple-macosx/debug/PrebuiltReactNativeFrameworks.build/output-file-map.json",
       "outputs" : [
@@ -117,6 +119,8 @@
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
       "-module-name",
       "PrebuiltReactNativeFrameworks",
+      "-package-name",
+      "react_native_prebuild",
       "-c",
       "/Users/kimdonghyeon/2025/develop/App/PopPang/PopPang-RN/react_native_prebuild/Sources/dummy.swift",
       "-I",
@@ -172,16 +176,19 @@
       "-fPIC",
       "-Xcc",
       "-g",
+      "-package-name",
+      "react_native_prebuild",
       "-driver-use-frontend-path",
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
     ]
   },
   "targetDependencyMap" : {
     "PrebuiltReactNativeFrameworks" : [
-      "ReactAppDependencyProvider",
-      "Pods_ReactNativePrebuild",
       "hermesvm",
-      "ReactCodegen"
+      "ReactCodegen",
+      "ReactAppDependencyProvider",
+      "React",
+      "Pods_ReactNativePrebuild"
     ]
   },
   "testDiscoveryCommands" : {

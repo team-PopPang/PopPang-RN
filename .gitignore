@@ -104,3 +104,25 @@ ios/build/
 # Android build output
 android/build/
 android/app/build/
+
+# Generated local SPM package
+PrebuiltReactNativeFrameworks/
+
+# Generated outputs from react_native_prebuild
+react_native_prebuild/Frameworks/
+react_native_prebuild/Sources/
+react_native_prebuild/Package.swift
+react_native_prebuild/.build/
+react_native_prebuild/.swiftpm/
+react_native_prebuild/*.xcarchive
+
+# Generated outputs from legacy prebuild
+react_native_prebuild_legacy/Frameworks/
+react_native_prebuild_legacy/Sources/
+react_native_prebuild_legacy/Package.swift
+react_native_prebuild_legacy/.build/
+react_native_prebuild_legacy/.swiftpm/
+react_native_prebuild_legacy/*.xcarchive
+
+# Release artifacts
+release/

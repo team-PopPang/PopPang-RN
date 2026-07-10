@@ -7,6 +7,6 @@ mkdir -p dist/ios
 npx react-native bundle \
   --platform ios \
   --dev false \
-  --entry-file index.js \
+  --entry-file native-entry.js \
   --bundle-output dist/ios/main.jsbundle \
   --assets-dest dist/ios/assets

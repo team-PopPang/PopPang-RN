@@ -1,66 +1,176 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 set -euo pipefail
 
-export SRCROOT=$(pwd)
-export WORKSPACE=ReactNativePrebuild
-export PROJECT="Pods-$WORKSPACE"
+# 이 스크립트는 RN source-build 결과만 사용한다.
+# Podfile/use_react_native! 쪽도 아래 두 값이 0이어야 한다.
+export RCT_USE_PREBUILT_RNCORE="${RCT_USE_PREBUILT_RNCORE:-0}"
+export RCT_USE_RN_DEP="${RCT_USE_RN_DEP:-0}"
 
-function init_directory() {
-  rm -rf "$SRCROOT/Frameworks"
-  rm -rf "$SRCROOT/Sources"
-  mkdir "$SRCROOT/Frameworks"
-  mkdir "$SRCROOT/Sources"
-  touch "$SRCROOT/Sources/dummy.swift"
-}
+# 스크립트를 실행한 현재 위치가 아니라,
+# 스크립트 파일이 있는 위치를 기준으로 동작한다.
+readonly SRCROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SRCROOT"
 
-function archive() {
+readonly WORKSPACE="ReactNativePrebuild"
+readonly PROJECT="Pods-$WORKSPACE"
+readonly CONFIGURATION="${1:-Release}"
+
+readonly FRAMEWORKS_DIR="$SRCROOT/Frameworks"
+readonly SOURCES_DIR="$SRCROOT/Sources"
+
+readonly SIM_ARCHIVE="$SRCROOT/$PROJECT-iphonesimulator.xcarchive"
+readonly DEVICE_ARCHIVE="$SRCROOT/$PROJECT-iphoneos.xcarchive"
+
+readonly SIM_FRAMEWORKS_DIR="$SIM_ARCHIVE/Products/Library/Frameworks"
+readonly DEVICE_FRAMEWORKS_DIR="$DEVICE_ARCHIVE/Products/Library/Frameworks"
+
+archive() {
+  # Simulator용 archive를 생성한다.
   xcodebuild archive \
     -workspace "$WORKSPACE.xcworkspace" \
     -scheme "$PROJECT" \
-    -archivePath "$SRCROOT/$PROJECT-iphonesimulator.xcarchive" \
-    -configuration Release \
+    -archivePath "$SIM_ARCHIVE" \
+    -configuration "$CONFIGURATION" \
     -sdk iphonesimulator \
-    -quiet \
-    SKIP_INSTALL=NO
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 
+  # Device용 archive를 생성한다.
   xcodebuild archive \
     -workspace "$WORKSPACE.xcworkspace" \
     -scheme "$PROJECT" \
-    -archivePath "$SRCROOT/$PROJECT-iphoneos.xcarchive" \
-    -configuration Release \
+    -archivePath "$DEVICE_ARCHIVE" \
+    -configuration "$CONFIGURATION" \
     -sdk iphoneos \
-    -quiet \
-    SKIP_INSTALL=NO
+    SKIP_INSTALL=NO \
+    BUILD_LIBRARY_FOR_DISTRIBUTION=YES
 }
 
-function create_xcframework() {
-  for framework in $(find "$SRCROOT/$PROJECT-iphonesimulator.xcarchive/Products/Library/Frameworks" -type d -name "*.framework"); do
-    basename=$(basename "$framework")
-    framework_name=$(basename "$framework" .framework)
+create_xcframework() {
+  local framework
+  local basename
+  local framework_name
+  local device_framework
+  local output
+  local created_count=0
+
+  if [[ ! -d "$SIM_FRAMEWORKS_DIR" ]]; then
+    echo "error: simulator frameworks directory not found" >&2
+    echo "path: $SIM_FRAMEWORKS_DIR" >&2
+    return 1
+  fi
+
+  if [[ ! -d "$DEVICE_FRAMEWORKS_DIR" ]]; then
+    echo "error: device frameworks directory not found" >&2
+    echo "path: $DEVICE_FRAMEWORKS_DIR" >&2
+    return 1
+  fi
+
+  # simulator archive 안의 top-level framework들을 순회하면서
+  # device archive의 같은 이름 framework와 짝지어 xcframework를 만든다.
+  while IFS= read -r -d '' framework; do
+    basename="$(basename "$framework")"
+    framework_name="${basename%.framework}"
+
+    device_framework="$DEVICE_FRAMEWORKS_DIR/$basename"
+    output="$FRAMEWORKS_DIR/$framework_name.xcframework"
+
+    # Simulator archive에는 존재하지만
+    # Device archive에는 같은 framework가 없는 경우 건너뛴다.
+    if [[ ! -d "$device_framework" ]]; then
+      echo "warning: device framework not found: $basename" >&2
+      continue
+    fi
+
+    # 이전 결과가 남아 있으면 xcodebuild가 실패할 수 있으므로 제거한다.
+    rm -rf "$output"
 
     xcodebuild -create-xcframework \
-      -framework "$SRCROOT/$PROJECT-iphonesimulator.xcarchive/Products/Library/Frameworks/$basename" \
-      -framework "$SRCROOT/$PROJECT-iphoneos.xcarchive/Products/Library/Frameworks/$basename" \
-      -output "$SRCROOT/Frameworks/$framework_name.xcframework"
-  done
+      -framework "$framework" \
+      -framework "$device_framework" \
+      -output "$output"
 
-  cp -R "$SRCROOT/Pods/hermes-engine/destroot/Library/Frameworks/universal/hermesvm.xcframework" \
-  "$SRCROOT/Frameworks/hermesvm.xcframework"
+    created_count=$((created_count + 1))
+  done < <(
+    find "$SIM_FRAMEWORKS_DIR" \
+      -maxdepth 1 \
+      -type d \
+      -name "*.framework" \
+      -print0
+  )
+
+  if [[ "$created_count" -eq 0 ]]; then
+    echo "error: no frameworks were packaged into xcframeworks" >&2
+    return 1
+  fi
 }
 
-function clean_temp() {
-  rm -rf "$SRCROOT/$PROJECT-iphoneos.xcarchive"
-  rm -rf "$SRCROOT/$PROJECT-iphonesimulator.xcarchive"
+run_pod_install() {
+  # Gemfile이 있으면 Bundler를 통해 pod install을 실행한다.
+  if [[ -f "$SRCROOT/Gemfile" ]]; then
+    bundle exec pod install
+  else
+    pod install
+  fi
 }
 
-init_directory
+run_package_generator() {
+  # generate_package_swift.rb도 Gemfile이 있으면
+  # Bundler를 통해 실행한다.
+  if [[ -f "$SRCROOT/Gemfile" ]]; then
+    bundle exec ruby "$SRCROOT/generate_package_swift.rb"
+  else
+    ruby "$SRCROOT/generate_package_swift.rb"
+  fi
+}
 
-npm install
-pod install
+cleanup() {
+  # 임시 빌드 산출물만 정리한다.
+  rm -rf \
+    "$SIM_ARCHIVE" \
+    "$DEVICE_ARCHIVE" \
+    "$SRCROOT/build"
 
-archive
-create_xcframework
-clean_temp
+  # 매번 완전 초기화를 원하면 주석 해제.
+  # rm -rf "$SRCROOT/Pods" "$SRCROOT/node_modules"
+  # rm -f "$SRCROOT/Podfile.lock"
+}
 
-ruby ./generate_package_swift.rb
+build_and_create_frameworks() {
+  # 이전 빌드 찌꺼기를 먼저 정리한다.
+  rm -rf \
+    "$SIM_ARCHIVE" \
+    "$DEVICE_ARCHIVE" \
+    "$SRCROOT/build"
+
+  # package-lock.json을 기준으로
+  # node_modules를 깨끗하게 다시 설치한다.
+  npm ci
+
+  # React Native와 CocoaPods 의존성을 설치한다.
+  run_pod_install
+
+  # Simulator / Device archive를 각각 생성한다.
+  archive
+
+  # archive 안의 framework들을 xcframework로 만든다.
+  create_xcframework
+}
+
+initDirectory() {
+  # 이전에 생성된 결과물을 제거한다.
+  rm -rf "$FRAMEWORKS_DIR" "$SOURCES_DIR"
+  rm -f "$SRCROOT/Package.swift"
+
+  # 새로운 출력 디렉터리를 만든다.
+  mkdir -p "$FRAMEWORKS_DIR" "$SOURCES_DIR"
+
+  # Swift Package의 일반 target이 비어 있지 않도록
+  # 빈 Swift 파일을 생성한다.
+  touch "$SOURCES_DIR/dummy.swift"
+}
+
+initDirectory
+build_and_create_frameworks
+run_package_generator
+cleanup

@@ -22,39 +22,7 @@
 		</data>
 		<key>Headers/ReactCodegen-umbrella.h</key>
 		<data>
-		/HsFtyHYQNkjUWEl6v5xw0X0uQg=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/ComponentDescriptors.h</key>
-		<data>
-		m2mpLZjK7ulZkSYHN3N+FlFh3xU=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/EventEmitters.h</key>
-		<data>
-		uU/GpgWDX2SDf4EBEOj0rEJjJtQ=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/Props.h</key>
-		<data>
-		Fcme17O/9vY+S7tIEI+V15ghWdo=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/RCTComponentViewHelpers.h</key>
-		<data>
-		rcVuL4HCIWUU3SRIp1Y0Rtm7H7M=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/ShadowNodes.h</key>
-		<data>
-		I9mRwOqVdfnE9zw/Ws8HmnxeK9c=
-		</data>
-		<key>Headers/react/renderer/components/safeareacontext/States.h</key>
-		<data>
-		RgWFyiliLLxEZVzNPcePWk/joG8=
-		</data>
-		<key>Headers/safeareacontext/safeareacontext.h</key>
-		<data>
-		nkFwgABeJ0xB6uEngdRloJKvGy0=
-		</data>
-		<key>Headers/safeareacontextJSI.h</key>
-		<data>
-		eT6Zf2+yrZTQyA7LSzZRfZyCDys=
+		J6OzaE6hcfBC0IxIDJZABqtBCtU=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -99,63 +67,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			lHO6HkC/pIpjdH4eo/LmFpkaAiX/zOfqrviDbr6hfFs=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/ComponentDescriptors.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			mWt17HlGT6c5f1tzIuV0+9yjGNDyHSaB1YK99CiPMs8=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/EventEmitters.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			/w99I6RCG+x8pyovSh7JU+vZyhO5kPurD6kOfMwnh9I=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/Props.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			zvq0v8sKhPZPyJEQTlS7S9iyzzf7RocQcqHaM8dUWTk=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/RCTComponentViewHelpers.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			HWKlqJp3AaBiKyAPLbDb7MGoe812kZ6E0QutEreXIF4=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/ShadowNodes.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			xKPyha+uhsJ5xmfUeMT3KW0K2o5IOwLgRZMUC3wvyAo=
-			</data>
-		</dict>
-		<key>Headers/react/renderer/components/safeareacontext/States.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			m6WtQFG+X/iFIcn1d+GTerBitp+kMwGMXYJdlh97MQc=
-			</data>
-		</dict>
-		<key>Headers/safeareacontext/safeareacontext.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			E/PGw0yJGENjIAezybqRKJjSPcBErKrvQ1NLcobnPVY=
-			</data>
-		</dict>
-		<key>Headers/safeareacontextJSI.h</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			NxKTg2MFnw5L6ui1iMOHZlKp1vW/xD0foDeoJ0HEvbQ=
+			+Sy3YyIyGFJv/bbIO8RXIvq0ohO7vnal8i3GjEtl2wo=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

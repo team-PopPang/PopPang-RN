@@ -7,91 +7,91 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		49645D1B15BBADBA402DFE5A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F15FFD0A260EB3467603A3D5 /* Foundation.framework */; };
-		6E2F4492E2E9C0375D94E828 /* Pods_ReactNativePrebuild.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DE2AEC50C7E4A32FA79842 /* Pods_ReactNativePrebuild.framework */; };
-		A708DEFE939B4379A707710F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C5EFB8672335664F1B8135BC /* PrivacyInfo.xcprivacy */; };
+		146B73136C93091099B968AD /* Pods_ReactNativePrebuild.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 908D987A9B3DFB7072EB5ACC /* Pods_ReactNativePrebuild.framework */; };
+		36763C2D4C75B0A0686EBA8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 64029DBC072EF74B82CF032B /* Foundation.framework */; };
+		4B27EF2C72AA49BA0E9A7B39 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BD3E25A1E88A99950ED98F51 /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14DE2AEC50C7E4A32FA79842 /* Pods_ReactNativePrebuild.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactNativePrebuild.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8F5494AB8A2F3429E9EB6CBB /* ReactNativePrebuild.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactNativePrebuild.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9C5C65B5A7AC49A9CF770A09 /* Pods-ReactNativePrebuild.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativePrebuild.release.xcconfig"; path = "Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild.release.xcconfig"; sourceTree = "<group>"; };
-		B348E6A0318F7C79205A030F /* Pods-ReactNativePrebuild.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativePrebuild.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild.debug.xcconfig"; sourceTree = "<group>"; };
-		C5EFB8672335664F1B8135BC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		F15FFD0A260EB3467603A3D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		64029DBC072EF74B82CF032B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6ED72748504D5DB7171EECB4 /* ReactNativePrebuild.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReactNativePrebuild.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		908D987A9B3DFB7072EB5ACC /* Pods_ReactNativePrebuild.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ReactNativePrebuild.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BD3E25A1E88A99950ED98F51 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		CCA6E637673DAB255806571C /* Pods-ReactNativePrebuild.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativePrebuild.debug.xcconfig"; path = "Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild.debug.xcconfig"; sourceTree = "<group>"; };
+		F51649F66CB4F5FAF15C9C44 /* Pods-ReactNativePrebuild.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactNativePrebuild.release.xcconfig"; path = "Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		192DA59B44848CFD56047521 /* Frameworks */ = {
+		22CDF024CC71AD850B3C6E67 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				49645D1B15BBADBA402DFE5A /* Foundation.framework in Frameworks */,
-				6E2F4492E2E9C0375D94E828 /* Pods_ReactNativePrebuild.framework in Frameworks */,
+				36763C2D4C75B0A0686EBA8C /* Foundation.framework in Frameworks */,
+				146B73136C93091099B968AD /* Pods_ReactNativePrebuild.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0030D75599545868DD5B2488 /* Frameworks */ = {
+		22AF041575DF7F4D9C04FFF2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1E728956EEEB262C2EBE89D8 /* iOS */,
-				14DE2AEC50C7E4A32FA79842 /* Pods_ReactNativePrebuild.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		1E728956EEEB262C2EBE89D8 /* iOS */ = {
-			isa = PBXGroup;
-			children = (
-				F15FFD0A260EB3467603A3D5 /* Foundation.framework */,
-			);
-			name = iOS;
-			sourceTree = "<group>";
-		};
-		7C6710A2606DE64230A81A1F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8F5494AB8A2F3429E9EB6CBB /* ReactNativePrebuild.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		A217D47C54E811FB73AC2495 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9C5C65B5A7AC49A9CF770A09 /* Pods-ReactNativePrebuild.release.xcconfig */,
-				B348E6A0318F7C79205A030F /* Pods-ReactNativePrebuild.debug.xcconfig */,
+				F51649F66CB4F5FAF15C9C44 /* Pods-ReactNativePrebuild.release.xcconfig */,
+				CCA6E637673DAB255806571C /* Pods-ReactNativePrebuild.debug.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		F6DB8325CF89D4012CE4EEA3 = {
+		2C1C91D50B9013B3D5ED52FF /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				7C6710A2606DE64230A81A1F /* Products */,
-				0030D75599545868DD5B2488 /* Frameworks */,
-				C5EFB8672335664F1B8135BC /* PrivacyInfo.xcprivacy */,
-				A217D47C54E811FB73AC2495 /* Pods */,
+				64029DBC072EF74B82CF032B /* Foundation.framework */,
 			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		4D71B1FCD5D2FAB67A6B1006 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C1C91D50B9013B3D5ED52FF /* iOS */,
+				908D987A9B3DFB7072EB5ACC /* Pods_ReactNativePrebuild.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B3D68AD6ACCD4B945806CEDD = {
+			isa = PBXGroup;
+			children = (
+				BB68CF2826FA9F15B5C30C31 /* Products */,
+				4D71B1FCD5D2FAB67A6B1006 /* Frameworks */,
+				BD3E25A1E88A99950ED98F51 /* PrivacyInfo.xcprivacy */,
+				22AF041575DF7F4D9C04FFF2 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		BB68CF2826FA9F15B5C30C31 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6ED72748504D5DB7171EECB4 /* ReactNativePrebuild.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		61347115F8A82031CFF5D74B /* ReactNativePrebuild */ = {
+		3BBFAF8DF35C7A2205072E22 /* ReactNativePrebuild */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0E0F6A4B8F5683E8BE8CF039 /* Build configuration list for PBXNativeTarget "ReactNativePrebuild" */;
+			buildConfigurationList = 3A0B4ABFE43907914A001D77 /* Build configuration list for PBXNativeTarget "ReactNativePrebuild" */;
 			buildPhases = (
-				93AB07F0E36E6F9FA38CC089 /* [CP] Check Pods Manifest.lock */,
-				FABC44AC80D2E11759469810 /* Sources */,
-				192DA59B44848CFD56047521 /* Frameworks */,
-				7AEACB2FDA22A89DDE68DC40 /* Resources */,
-				9CE70CC08ABF9E8AA809484F /* [CP] Embed Pods Frameworks */,
-				416D4D086552C28F6C3C657C /* [CP] Copy Pods Resources */,
+				B720301035D6ECB963B28405 /* [CP] Check Pods Manifest.lock */,
+				C7105A72FCFFEA6C79F2CAF7 /* Sources */,
+				22CDF024CC71AD850B3C6E67 /* Frameworks */,
+				C1F3AFC5EBC806347CD8AF1A /* Resources */,
+				57449D13DF31EC88AADCCBBC /* [CP] Embed Pods Frameworks */,
+				BCEA91E63A98A0BF9D8D4A1F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -99,19 +99,19 @@
 			);
 			name = ReactNativePrebuild;
 			productName = ReactNativePrebuild;
-			productReference = 8F5494AB8A2F3429E9EB6CBB /* ReactNativePrebuild.app */;
+			productReference = 6ED72748504D5DB7171EECB4 /* ReactNativePrebuild.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		53630617C52C29ABF13C0EBC /* Project object */ = {
+		1C3E902310598361A46D86AA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 			};
-			buildConfigurationList = BB29DAF97392076CA33EBB4E /* Build configuration list for PBXProject "ReactNativePrebuild" */;
+			buildConfigurationList = 8A6998221AF3E65FFC08E6D7 /* Build configuration list for PBXProject "ReactNativePrebuild" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -119,53 +119,48 @@
 				en,
 				Base,
 			);
-			mainGroup = F6DB8325CF89D4012CE4EEA3;
+			mainGroup = B3D68AD6ACCD4B945806CEDD;
 			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 100;
-			productRefGroup = 7C6710A2606DE64230A81A1F /* Products */;
+			productRefGroup = BB68CF2826FA9F15B5C30C31 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				61347115F8A82031CFF5D74B /* ReactNativePrebuild */,
+				3BBFAF8DF35C7A2205072E22 /* ReactNativePrebuild */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		7AEACB2FDA22A89DDE68DC40 /* Resources */ = {
+		C1F3AFC5EBC806347CD8AF1A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A708DEFE939B4379A707710F /* PrivacyInfo.xcprivacy in Resources */,
+				4B27EF2C72AA49BA0E9A7B39 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		416D4D086552C28F6C3C657C /* [CP] Copy Pods Resources */ = {
+		57449D13DF31EC88AADCCBBC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-timing/React-timing_privacy.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermesvm.framework/hermesvm",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-timing_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermesvm.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		93AB07F0E36E6F9FA38CC089 /* [CP] Check Pods Manifest.lock */ = {
+		B720301035D6ECB963B28405 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -187,32 +182,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9CE70CC08ABF9E8AA809484F /* [CP] Embed Pods Frameworks */ = {
+		BCEA91E63A98A0BF9D8D4A1F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/React-Core-prebuilt/React.framework/React",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/ReactNativeDependencies/ReactNativeDependencies.framework/ReactNativeDependencies",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermesvm.framework/hermesvm",
+				"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-timing/React-timing_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactNativeDependencies.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermesvm.framework",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-cxxreact_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-timing_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/boost_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/glog_privacy.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ReactNativePrebuild/Pods-ReactNativePrebuild-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		FABC44AC80D2E11759469810 /* Sources */ = {
+		C7105A72FCFFEA6C79F2CAF7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -222,7 +223,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		36F958729091AFDE0D730D18 /* Debug */ = {
+		9568FD014AC45EBBFFD7B0D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -287,6 +288,18 @@
 					"${PODS_ROOT}/React-graphics/react/renderer/graphics/platform/ios",
 					"${PODS_ROOT}/React-featureflags",
 					"${PODS_ROOT}/React-renderercss",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-featureflags/React_featureflags.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-renderercss/React_renderercss.framework/Headers",
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -310,9 +323,21 @@
 			};
 			name = Debug;
 		};
-		374123CA6A704031DA04D69E /* Release */ = {
+		AA86E0FD4268B7BD43F45E8E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C5C65B5A7AC49A9CF770A09 /* Pods-ReactNativePrebuild.release.xcconfig */;
+			baseConfigurationReference = CCA6E637673DAB255806571C /* Pods-ReactNativePrebuild.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFF0E53DE17C2A9BD001F376 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F51649F66CB4F5FAF15C9C44 /* Pods-ReactNativePrebuild.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -323,7 +348,7 @@
 			};
 			name = Release;
 		};
-		C0E8A13D897F6029CE95F46E /* Release */ = {
+		F0E20F877CDE9E2CDB518051 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -382,6 +407,18 @@
 					"${PODS_ROOT}/React-graphics/react/renderer/graphics/platform/ios",
 					"${PODS_ROOT}/React-featureflags",
 					"${PODS_ROOT}/React-renderercss",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-runtimeexecutor/React_runtimeexecutor.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-featureflags/React_featureflags.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-renderercss/React_renderercss.framework/Headers",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -404,40 +441,28 @@
 			};
 			name = Release;
 		};
-		F324FE8CBC4E376D9F413C02 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B348E6A0318F7C79205A030F /* Pods-ReactNativePrebuild.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0E0F6A4B8F5683E8BE8CF039 /* Build configuration list for PBXNativeTarget "ReactNativePrebuild" */ = {
+		3A0B4ABFE43907914A001D77 /* Build configuration list for PBXNativeTarget "ReactNativePrebuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				374123CA6A704031DA04D69E /* Release */,
-				F324FE8CBC4E376D9F413C02 /* Debug */,
+				CFF0E53DE17C2A9BD001F376 /* Release */,
+				AA86E0FD4268B7BD43F45E8E /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BB29DAF97392076CA33EBB4E /* Build configuration list for PBXProject "ReactNativePrebuild" */ = {
+		8A6998221AF3E65FFC08E6D7 /* Build configuration list for PBXProject "ReactNativePrebuild" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				36F958729091AFDE0D730D18 /* Debug */,
-				C0E8A13D897F6029CE95F46E /* Release */,
+				9568FD014AC45EBBFFD7B0D8 /* Debug */,
+				F0E20F877CDE9E2CDB518051 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 53630617C52C29ABF13C0EBC /* Project object */;
+	rootObject = 1C3E902310598361A46D86AA /* Project object */;
 }

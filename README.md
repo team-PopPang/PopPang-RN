@@ -9,6 +9,8 @@ PopPang RN은 iOS와 Android에서 공통으로 사용할 화면을 React Native
 
 ## 왜 Prebuild 방식인가요?
 
+![Prebuild 방식 설명](./prebuild.png)
+
 이 저장소에서는 React Native 런타임과 네이티브 의존성을 먼저 빌드한 뒤, 클라이언트 앱에 산출물 형태로 전달하는 방식을 `Prebuild`라고 불러요. iOS는 `XCFramework`, Android는 `AAR`과 로컬 Maven 저장소로 패키징해서 배포해요.
 
 이 방식을 택한 이유는 기존 네이티브 앱의 의존성 관리 체계를 흔들지 않기 위해서예요. React Native 공식 문서처럼 앱 프로젝트 안에 React Native를 직접 통합하면 클라이언트 앱도 `CocoaPods`나 React Native 빌드 설정을 함께 가져가야 할 수 있어요. 이미 `Swift Package Manager`, 사내 빌드 시스템, 기존 Gradle 구조를 쓰는 앱에 다른 의존성 관리 방식을 섞으면 중복 의존성, 충돌, 커스텀 히스토리 같은 운영 비용이 커져요. `Prebuild` 방식이면 클라이언트 앱은 React Native 프로젝트 자체를 품지 않아도 되고, 필요한 산출물만 받아 한 가지 통합 경로로 붙일 수 있어요.

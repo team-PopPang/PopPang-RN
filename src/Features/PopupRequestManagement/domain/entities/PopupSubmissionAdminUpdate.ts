@@ -18,7 +18,7 @@ export type PopupSubmissionAdminForm = {
   longitude: string;
   captionSummary: string;
   caption: string;
-  mediaType: 'IMAGE' | 'CAROUSEL' | 'VIDEO';
+  mediaType: 'IMAGE' | 'CAROUSEL_ALBUM' | 'VIDEO';
   instaPostUrl: string;
   instaPostId: string;
   geocodingQuery: string;
@@ -41,8 +41,8 @@ export type PopupSubmissionAdminUpdateRequest = {
   roadAddress: string;
   region: string;
   address: string;
-  openTime: string | null;
-  closeTime: string | null;
+  openTime: PopupSubmissionDetail['openTime'];
+  closeTime: PopupSubmissionDetail['closeTime'];
   latitude: number;
   longitude: number;
   captionSummary: string;
@@ -67,8 +67,8 @@ export function adminFormFromDetail(
 
   return {
     address: detail.address ?? '',
-    caption: '',
-    captionSummary: '',
+    caption: detail.description,
+    captionSummary: detail.description,
     closeTime: time(detail.closeTime),
     endDate: detail.endDate,
     geocodingQuery: '',
@@ -81,7 +81,7 @@ export function adminFormFromDetail(
     instaPostUrl: detail.instaPostUrl ?? '',
     latitude: '',
     longitude: '',
-    mediaType: detail.imageList.length > 1 ? 'CAROUSEL' : 'IMAGE',
+    mediaType: detail.imageList.length > 1 ? 'CAROUSEL_ALBUM' : 'IMAGE',
     name: detail.name,
     openTime: time(detail.openTime),
     region: detail.region,

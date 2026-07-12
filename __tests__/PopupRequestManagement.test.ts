@@ -167,8 +167,8 @@ describe('LivePopupRequestManagementRepository', () => {
 function validAdminForm(): PopupSubmissionAdminForm {
   return {
     address: '서울 성동구 성수동 1',
-    caption: '팝업 상세 소개',
-    captionSummary: '팝업 한줄 소개',
+    caption: '원본 제보 내용',
+    captionSummary: '원본 제보 내용',
     closeTime: '20:00',
     endDate: '2026-07-19',
     geocodingQuery: '',
@@ -186,7 +186,7 @@ function validAdminForm(): PopupSubmissionAdminForm {
     instaPostUrl: '',
     latitude: '37.544',
     longitude: '127.055',
-    mediaType: 'CAROUSEL',
+    mediaType: 'CAROUSEL_ALBUM',
     name: '성수 팝업',
     openTime: '10:00',
     region: '서울',
@@ -199,7 +199,12 @@ function validAdminForm(): PopupSubmissionAdminForm {
 test('승인 폼의 기존 이미지와 새 이미지 fileIndex를 구분한다', () => {
   const form = validAdminForm();
   expect(validateAdminApprovalForm(form)).toBeNull();
-  expect(mapAdminApprovalRequest(form).imageList).toEqual([
+  const request = mapAdminApprovalRequest(form);
+  expect(request.captionSummary).toBe('원본 제보 내용');
+  expect(request.caption).toBe('원본 제보 내용');
+  expect(request.mediaType).toBe('CAROUSEL_ALBUM');
+  expect(request.openTime).toEqual({hour: 10, minute: 0, nano: 0, second: 0});
+  expect(request.imageList).toEqual([
     {
       imageUrl: '/submissionImages/old.jpg',
       sortOrder: 0,

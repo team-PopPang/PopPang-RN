@@ -30,8 +30,8 @@ export type PopupRequestSubmission = {
   name: string;
   startDate: string;
   endDate: string;
-  openTime: string | null;
-  closeTime: string | null;
+  openTime: {hour: number; minute: number; second: number; nano: number} | null;
+  closeTime: {hour: number; minute: number; second: number; nano: number} | null;
   address: string;
   roadAddress: string;
   region: string;

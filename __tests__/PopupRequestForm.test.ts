@@ -46,6 +46,16 @@ test('HH:mm 형식이 아닌 운영 시간을 거부한다', () => {
   );
 });
 
+test('운영 시간을 Swagger LocalTime 객체로 변환한다', () => {
+  const request = mapPopupRequest(
+    {...validForm(), closeTime: '20:30', openTime: '10:05'},
+    'user-1',
+  );
+
+  expect(request.openTime).toEqual({hour: 10, minute: 5, nano: 0, second: 0});
+  expect(request.closeTime).toEqual({hour: 20, minute: 30, nano: 0, second: 0});
+});
+
 test('파일 확장자와 MIME 타입이 다른 이미지를 거부한다', () => {
   const form = {
     ...validForm(),

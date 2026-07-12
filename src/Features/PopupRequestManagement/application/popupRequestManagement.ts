@@ -33,6 +33,12 @@ const trimmed = (value: string) => value.trim();
 const optional = (value: string) => trimmed(value) || null;
 const validTime = (value: string) =>
   value === '' || /^([01]\d|2[0-3]):[0-5]\d$/.test(value);
+const localTime = (value: string) => {
+  const normalized = trimmed(value);
+  if (!normalized) return null;
+  const [hour, minute] = normalized.split(':').map(Number);
+  return {hour, minute, nano: 0, second: 0};
+};
 
 export function validateAdminApprovalForm(form: PopupSubmissionAdminForm) {
   if (!trimmed(form.name)) return '팝업명을 입력해 주세요.';
@@ -45,8 +51,6 @@ export function validateAdminApprovalForm(form: PopupSubmissionAdminForm) {
     return '위도를 숫자로 입력해 주세요.';
   if (!trimmed(form.longitude) || Number.isNaN(Number(form.longitude)))
     return '경도를 숫자로 입력해 주세요.';
-  if (!trimmed(form.captionSummary)) return '팝업 한줄 소개를 입력해 주세요.';
-  if (!trimmed(form.caption)) return '팝업 상세 소개를 입력해 주세요.';
   if (!form.selectedRecommendIds.length)
     return '추천 카테고리를 1개 이상 선택해 주세요.';
   if (!form.images.length) return '이미지를 1개 이상 등록해 주세요.';
@@ -65,7 +69,7 @@ export function mapAdminApprovalRequest(
     address: trimmed(form.address),
     caption: trimmed(form.caption),
     captionSummary: trimmed(form.captionSummary),
-    closeTime: optional(form.closeTime),
+    closeTime: localTime(form.closeTime),
     endDate: form.endDate,
     geocodingQuery: optional(form.geocodingQuery),
     imageList: form.images.map((image, sortOrder) => {
@@ -88,7 +92,7 @@ export function mapAdminApprovalRequest(
     longitude: Number(form.longitude),
     mediaType: form.mediaType,
     name: trimmed(form.name),
-    openTime: optional(form.openTime),
+    openTime: localTime(form.openTime),
     recommendIdList: [...form.selectedRecommendIds].sort((a, b) => a - b),
     region: trimmed(form.region),
     roadAddress: trimmed(form.roadAddress),

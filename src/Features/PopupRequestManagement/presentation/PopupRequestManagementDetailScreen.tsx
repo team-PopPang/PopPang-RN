@@ -154,8 +154,6 @@ function AdminEditForm({form, recommends, update}: {
         <DateRangeInput startDate={form.startDate} endDate={form.endDate} onStartDateChange={value => update('startDate', value)} onEndDateChange={value => update('endDate', value)} />
         <FormTextInput title="도로명 주소" required placeholder="도로명 주소" value={form.roadAddress} onChangeText={value => update('roadAddress', value)} />
         <FormTextInput title="지역" required placeholder="예: 서울" value={form.region} onChangeText={value => update('region', value)} />
-        <FormTextInput title="팝업 한줄 소개" required multiline placeholder="노출용 한줄 소개를 입력해 주세요" value={form.captionSummary} onChangeText={value => update('captionSummary', value)} />
-        <FormTextInput title="팝업 상세 소개" required multiline placeholder="최종 노출용 상세 소개를 입력해 주세요" value={form.caption} onChangeText={value => update('caption', value)} />
         <CategoryPicker categories={recommends} selectedIds={form.selectedRecommendIds} onToggle={toggleRecommend} />
       </FormSection>
 
@@ -235,11 +233,16 @@ function MediaTypePicker({selected, onSelect}: {
   selected: PopupSubmissionAdminForm['mediaType'];
   onSelect: (value: PopupSubmissionAdminForm['mediaType']) => void;
 }) {
+  const labels = {
+    CAROUSEL_ALBUM: '여러 장',
+    IMAGE: '이미지',
+    VIDEO: '동영상',
+  } as const;
   return (
     <View style={styles.mediaTypes}>
-      {(['IMAGE', 'CAROUSEL', 'VIDEO'] as const).map(value => (
+      {(['IMAGE', 'CAROUSEL_ALBUM', 'VIDEO'] as const).map(value => (
         <Pressable key={value} onPress={() => onSelect(value)} style={[styles.mediaType, selected === value && styles.mediaTypeSelected]}>
-          <Text style={[styles.mediaTypeText, selected === value && styles.mediaTypeTextSelected]}>{value}</Text>
+          <Text style={[styles.mediaTypeText, selected === value && styles.mediaTypeTextSelected]}>{labels[value]}</Text>
         </Pressable>
       ))}
     </View>

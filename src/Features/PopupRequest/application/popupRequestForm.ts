@@ -44,7 +44,9 @@ const validOptionalUrl = (value: string) =>
   value === '' || /^https?:\/\/\S+$/i.test(value);
 const mapTime = (value: string) => {
   const normalized = trimmed(value);
-  return normalized || null;
+  if (!normalized) return null;
+  const [hour, minute] = normalized.split(':').map(Number);
+  return {hour, minute, nano: 0, second: 0};
 };
 
 export function validatePopupRequest(form: PopupRequestForm, userUuid: string) {

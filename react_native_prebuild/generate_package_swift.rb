@@ -38,6 +38,7 @@ package_swift_content << <<~SWIFT
               sources: ["dummy.swift"],
               linkerSettings: [
                   // CocoaPods의 OTHER_LDFLAGS 중 시스템 의존성만 옮긴다.
+                  // 공통 iOS 시스템 링크 설정
                   .unsafeFlags(["-ObjC"]),
                   .linkedLibrary("objc"),
                   .linkedLibrary("c++"),
@@ -53,6 +54,12 @@ package_swift_content << <<~SWIFT
                   .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
                   .linkedFramework("Security", .when(platforms: [.iOS])),
                   .linkedFramework("UIKit", .when(platforms: [.iOS])),
+
+                  // 이미지 선택/미디어 처리 네이티브 모듈이 요구하는 iOS 시스템 프레임워크
+                  .linkedFramework("AVFoundation", .when(platforms: [.iOS])),
+                  .linkedFramework("CoreMedia", .when(platforms: [.iOS])),
+                  .linkedFramework("Photos", .when(platforms: [.iOS])),
+                  .linkedFramework("PhotosUI", .when(platforms: [.iOS])),
               ]
           ),
 SWIFT

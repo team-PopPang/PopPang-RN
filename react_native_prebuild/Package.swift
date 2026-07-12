@@ -34,6 +34,8 @@ let package = Package(
                   "RCTText",
                   "RCTTypeSafety",
                   "RCTVibration",
+                  "RNDateTimePicker",
+                  "RNScreens",
                   "React",
                   "ReactAppDependencyProvider",
                   "ReactCodegen",
@@ -84,6 +86,8 @@ let package = Package(
                   "logger",
                   "mutationobservernativemodule",
                   "oscompat",
+                  "react_native_blob_util",
+                  "react_native_image_picker",
                   "react_native_safe_area_context",
                   "reacthermes",
                   "reactperflogger",
@@ -94,6 +98,7 @@ let package = Package(
     sources: ["dummy.swift"],
     linkerSettings: [
         // CocoaPods의 OTHER_LDFLAGS 중 시스템 의존성만 옮긴다.
+        // 공통 iOS 시스템 링크 설정
         .unsafeFlags(["-ObjC"]),
         .linkedLibrary("objc"),
         .linkedLibrary("c++"),
@@ -109,6 +114,12 @@ let package = Package(
         .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
         .linkedFramework("Security", .when(platforms: [.iOS])),
         .linkedFramework("UIKit", .when(platforms: [.iOS])),
+
+        // 이미지 선택/미디어 처리 네이티브 모듈이 요구하는 iOS 시스템 프레임워크
+        .linkedFramework("AVFoundation", .when(platforms: [.iOS])),
+        .linkedFramework("CoreMedia", .when(platforms: [.iOS])),
+        .linkedFramework("Photos", .when(platforms: [.iOS])),
+        .linkedFramework("PhotosUI", .when(platforms: [.iOS])),
     ]
 ),
 .binaryTarget(
@@ -182,6 +193,14 @@ let package = Package(
 .binaryTarget(
     name: "RCTVibration",
     path: "Frameworks/RCTVibration.xcframework"
+),
+.binaryTarget(
+    name: "RNDateTimePicker",
+    path: "Frameworks/RNDateTimePicker.xcframework"
+),
+.binaryTarget(
+    name: "RNScreens",
+    path: "Frameworks/RNScreens.xcframework"
 ),
 .binaryTarget(
     name: "React",
@@ -382,6 +401,14 @@ let package = Package(
 .binaryTarget(
     name: "oscompat",
     path: "Frameworks/oscompat.xcframework"
+),
+.binaryTarget(
+    name: "react_native_blob_util",
+    path: "Frameworks/react_native_blob_util.xcframework"
+),
+.binaryTarget(
+    name: "react_native_image_picker",
+    path: "Frameworks/react_native_image_picker.xcframework"
 ),
 .binaryTarget(
     name: "react_native_safe_area_context",

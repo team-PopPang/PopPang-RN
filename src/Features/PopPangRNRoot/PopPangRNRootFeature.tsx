@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import type {PopPangFeatureProps} from './poppangFeatureProps';
+import type {PopPangFeatureProps} from '../poppangFeatureProps';
 
 export default function PopPangRNRootFeature(_: PopPangFeatureProps) {
   return (

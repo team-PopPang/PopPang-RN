@@ -6,12 +6,10 @@ import {
 } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import type {PopPangFeatureProps} from './poppangFeatureProps';
-import {
-  LivePopupRequestManagementRepository,
-  PopupRequestManagementDetailScreen,
-  PopupRequestManagementScreen,
-} from './PopupRequestManagement';
+import type {PopPangFeatureProps} from '../poppangFeatureProps';
+import {LivePopupRequestManagementRepository} from './data/repositories/LivePopupRequestManagementRepository';
+import {PopupRequestManagementDetailScreen} from './presentation/PopupRequestManagementDetailScreen';
+import {PopupRequestManagementScreen} from './presentation/PopupRequestManagementScreen';
 
 const liveRepository = new LivePopupRequestManagementRepository();
 

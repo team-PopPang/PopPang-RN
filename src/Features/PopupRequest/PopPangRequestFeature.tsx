@@ -1,11 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {
-  LivePopupRequestRepository,
-  PopupRequestScreen,
-} from './PopupRequest';
-import type {PopPangFeatureProps} from './poppangFeatureProps';
+import {LivePopupRequestRepository} from './data/repositories/LivePopupRequestRepository';
+import {PopupRequestScreen} from './presentation/PopupRequestScreen';
+import type {PopPangFeatureProps} from '../poppangFeatureProps';
 
 const liveRepository = new LivePopupRequestRepository();
 

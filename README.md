@@ -34,8 +34,10 @@ PopPang-RN/
 │  │  └─ DemoFeatureCatalog.tsx      # 데모용 피처 목록
 │  └─ Features/
 │     ├─ poppangFeatures.ts          # feature 정의와 매핑
-│     ├─ PopPangRNRootFeature.tsx    # 기본 root feature
-│     └─ PopPangAdminFeature.tsx     # admin feature
+│     ├─ PopPangRNRoot/              # 기본 root feature
+│     ├─ PopPangAdmin/               # admin feature
+│     ├─ PopupRequest/               # 팝업 제보 feature
+│     └─ PopupRequestManagement/     # 팝업 제보 관리 feature
 ├─ react_native_prebuild/
 │  └─ iOS용 React Native XCFramework 생성 도구
 ├─ react_native_android_prebuild/

@@ -1,8 +1,8 @@
 import type {ComponentType} from 'react';
-import PopPangAdminFeature from './PopPangAdminFeature';
-import PopPangRequestFeature from './PopPangRequestFeature';
-import PopPangRequestManagementFeature from './PopPangRequestManagementFeature';
-import PopPangRNRootFeature from './PopPangRNRootFeature';
+import {PopPangAdminFeature} from './PopPangAdmin';
+import {PopPangRequestFeature} from './PopupRequest';
+import {PopPangRequestManagementFeature} from './PopupRequestManagement';
+import {PopPangRNRootFeature} from './PopPangRNRoot';
 import type {PopPangFeatureProps} from './poppangFeatureProps';
 
 export const POPPANG_FEATURE = {

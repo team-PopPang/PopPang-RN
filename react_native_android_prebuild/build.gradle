@@ -3,7 +3,8 @@ import org.gradle.api.artifacts.component.ModuleComponentIdentifier
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.publish.maven.tasks.PublishToMavenRepository
 import org.gradle.api.publish.tasks.GenerateModuleMetadata
-import org.gradle.api.tasks.compile.JavaCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id "com.android.library" version "8.12.0" apply false
@@ -199,12 +200,15 @@ tasks.register("writeExternalDependencyCoordinates") {
 tasks.register("publishPrebuiltRepository")
 
 gradle.projectsEvaluated {
-    // 일부 네이티브 모듈(예: react-native-screens)이 자체 build.gradle에서 Java 8을 다시 지정하므로,
-    // 모든 프로젝트 평가가 끝난 뒤 실제 Java 컴파일 작업을 17로 통일해 Kotlin JVM 17과 맞춘다.
+    // 일부 네이티브 모듈(예: react-native-screens)은 Java 8을 직접 지정하므로,
+    // Android boot classpath를 건드리지 않고 각 모듈의 Kotlin 바이트코드 타깃을 Java 타깃에 맞춘다.
     subprojects.each { subproject ->
-        subproject.tasks.withType(JavaCompile).configureEach {
-            sourceCompatibility = JavaVersion.VERSION_17.toString()
-            targetCompatibility = JavaVersion.VERSION_17.toString()
+        if (subproject.plugins.hasPlugin("org.jetbrains.kotlin.android") &&
+            subproject.plugins.hasPlugin("com.android.library")) {
+            def javaTarget = subproject.android.compileOptions.targetCompatibility.toString()
+            subproject.tasks.withType(KotlinCompile).configureEach {
+                compilerOptions.jvmTarget.set(JvmTarget.fromTarget(javaTarget))
+            }
         }
     }
 

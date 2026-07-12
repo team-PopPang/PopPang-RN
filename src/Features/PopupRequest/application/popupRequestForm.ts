@@ -87,7 +87,6 @@ export function mapPopupRequest(
     region: trimmed(form.region),
     instaPostUrl: instagramUrl || null,
     description: trimmed(form.description),
-    imageList: [],
     recommendIdList: [...form.selectedRecommendIds].sort((a, b) => a - b),
   };
 }

@@ -35,7 +35,7 @@ test('유효한 폼을 Swift API 계약과 같은 제출 모델로 변환한다'
   expect(request.userUuid).toBe('user-1');
   expect(request.name).toBe('성수 팝업');
   expect(request.recommendIdList).toEqual([1, 3]);
-  expect(request.imageList).toEqual([]);
+  expect(request).not.toHaveProperty('imageList');
   expect(request.address).toBe('서울 성동구 성수이로 00');
 });
 

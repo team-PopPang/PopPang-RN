@@ -37,6 +37,5 @@ export type PopupRequestSubmission = {
   region: string;
   instaPostUrl: string | null;
   description: string;
-  imageList: [];
   recommendIdList: number[];
 };

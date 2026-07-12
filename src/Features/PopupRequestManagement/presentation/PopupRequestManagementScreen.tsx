@@ -1,4 +1,5 @@
 import React from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import {
   ActivityIndicator,
   Pressable,
@@ -40,21 +41,18 @@ export function PopupRequestManagementScreen({
   repository: PopupRequestManagementRepository;
 }) {
   const state = usePopupRequestManagement(adminUuid, repository);
+  const refresh = state.refresh;
+  const hasFocused = React.useRef(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (hasFocused.current) refresh();
+      else hasFocused.current = true;
+    }, [refresh]),
+  );
 
   return (
     <View style={styles.screen}>
-      <View style={styles.refreshRow}>
-        <Pressable
-          disabled={state.isLoading}
-          onPress={state.refresh}
-          style={({pressed}) => [
-            styles.refreshButton,
-            pressed && styles.pressed,
-            state.isLoading && styles.disabled,
-          ]}>
-          <Text style={styles.refreshIcon}>↻</Text>
-        </Pressable>
-      </View>
       <ScrollView
         contentContainerStyle={styles.content}
         refreshControl={
@@ -254,8 +252,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 16,
   },
-  content: {gap: 18, paddingBottom: 32, paddingHorizontal: 15},
-  disabled: {opacity: 0.4},
+  content: {gap: 18, paddingBottom: 32, paddingHorizontal: 15, paddingTop: 16},
   filter: {
     alignItems: 'center',
     backgroundColor: colors.white,
@@ -275,9 +272,6 @@ const styles = StyleSheet.create({
   metaRow: {alignItems: 'center', flexDirection: 'row', gap: 8},
   metaText: {color: colors.gray2, flexShrink: 1, fontSize: 11, fontWeight: '500'},
   pressed: {opacity: 0.65},
-  refreshButton: {alignItems: 'center', height: 38, justifyContent: 'center', width: 38},
-  refreshIcon: {color: '#000000', fontSize: 25, fontWeight: '600'},
-  refreshRow: {alignItems: 'flex-end', height: 38, paddingHorizontal: 15},
   retryButton: {
     alignItems: 'center',
     alignSelf: 'stretch',

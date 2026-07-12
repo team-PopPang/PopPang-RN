@@ -64,12 +64,17 @@ export function usePopupRequestManagement(
     load(selectedFilter);
   }, [adminUuid, load, selectedFilter]);
 
+  const refresh = React.useCallback(
+    () => load(selectedFilter),
+    [load, selectedFilter],
+  );
+
   return {
     allItems,
     errorMessage,
     isLoading,
     items,
-    refresh: () => load(selectedFilter),
+    refresh,
     selectedFilter,
     selectFilter: setSelectedFilter,
   };

@@ -87,7 +87,7 @@ export default function DemoFeatureCatalog() {
     null,
   );
   const [isTransitioning, setIsTransitioning] = React.useState(false);
-  const [userUuid, setUserUuid] = React.useState('43bbbfea-b5c9-40f0-9822-0c8e5cbd0379');
+  const [userUuid, setUserUuid] = React.useState('4c3b9a55-f4ee-42cc-9bd2-82a5c811db13');
 
   const listTranslateX = transition.interpolate({
     inputRange: [0, 1],

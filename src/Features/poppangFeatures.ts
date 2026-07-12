@@ -1,12 +1,14 @@
 import type {ComponentType} from 'react';
 import PopPangAdminFeature from './PopPangAdminFeature';
 import PopPangRequestFeature from './PopPangRequestFeature';
+import PopPangRequestManagementFeature from './PopPangRequestManagementFeature';
 import PopPangRNRootFeature from './PopPangRNRootFeature';
 import type {PopPangFeatureProps} from './poppangFeatureProps';
 
 export const POPPANG_FEATURE = {
   ADMIN: 'admin',
   REQUEST: 'request',
+  REQUEST_MANAGEMENT: 'request-management',
   ROOT: 'root',
 } as const;
 
@@ -35,6 +37,12 @@ export const poppangFeatureDefinitions: Record<
     navigationTitle: '팝업 제보하기',
     title: 'PopPang Request',
   },
+  [POPPANG_FEATURE.REQUEST_MANAGEMENT]: {
+    component: PopPangRequestManagementFeature,
+    description: '관리자 팝업 제보 리스트',
+    navigationTitle: '팝업 제보 관리',
+    title: 'Popup Request Management',
+  },
   [POPPANG_FEATURE.ADMIN]: {
     component: PopPangAdminFeature,
     description: '팝팡 관리자 페이지',
@@ -49,6 +57,9 @@ const featureAliases: Record<string, PopPangFeatureId> = {
   request: POPPANG_FEATURE.REQUEST,
   'poppang-request': POPPANG_FEATURE.REQUEST,
   PopPangRequestFeature: POPPANG_FEATURE.REQUEST,
+  'request-management': POPPANG_FEATURE.REQUEST_MANAGEMENT,
+  'popup-request-management': POPPANG_FEATURE.REQUEST_MANAGEMENT,
+  PopPangRequestManagementFeature: POPPANG_FEATURE.REQUEST_MANAGEMENT,
   root: POPPANG_FEATURE.ROOT,
   'poppang-root': POPPANG_FEATURE.ROOT,
   PopPangRNRoot: POPPANG_FEATURE.ROOT,

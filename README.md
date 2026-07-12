@@ -591,6 +591,22 @@ cd ..
 npm run ios
 ```
 
+## Android 캐시 초기화
+```bash
+cd android
+./gradlew --stop
+cd ..
+
+rm -rf ~/.gradle/caches/9.3.1/transforms
+rm -rf android/.gradle android/build android/app/build
+
+cd android
+./gradlew assembleDebug --refresh-dependencies
+cd ..
+
+npm run android
+```
+
 
 <!-- - `npm install`은 `package.json`과 `package-lock.json`을 함께 갱신해요. 변경한 `package.json`과 `package-lock.json`은 함께 커밋해요.
 - `npm ci`는 `package-lock.json`에 기록된 정확한 버전을 설치해요. 처음 설치, CI, 릴리즈 스크립트에서는 항상 `npm ci`를 사용해요. -->

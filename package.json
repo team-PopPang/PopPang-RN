@@ -8,19 +8,20 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-
     "android-connect": "react-native run-android --port 8082",
     "ios-connect": "react-native run-ios --port 8082",
     "start-connect": "react-native start --port 8082",
-
     "bundle:ios": "scripts/bundle-ios.sh",
     "bundle:android": "scripts/bundle-android.sh",
     "bundle:all": "npm run bundle:ios && npm run bundle:android"
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^9.1.0",
+    "@react-native/new-app-screen": "0.86.0",
     "react": "19.2.3",
     "react-native": "0.86.0",
-    "@react-native/new-app-screen": "0.86.0",
+    "react-native-blob-util": "^0.24.10",
+    "react-native-image-picker": "^8.2.1",
     "react-native-safe-area-context": "^5.5.2"
   },
   "devDependencies": {
@@ -32,6 +33,7 @@
     "@react-native-community/cli-platform-ios": "20.1.0",
     "@react-native/babel-preset": "0.86.0",
     "@react-native/eslint-config": "0.86.0",
+    "@react-native/jest-preset": "^0.86.0",
     "@react-native/metro-config": "0.86.0",
     "@react-native/typescript-config": "0.86.0",
     "@types/jest": "^29.5.13",

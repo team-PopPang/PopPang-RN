@@ -1,4 +1,5 @@
 import type {ComponentType} from 'react';
+import type {PopPangFeatureProps} from '../Features/poppangFeatureProps';
 import {
   poppangFeatureDefinitions,
   type PopPangFeatureId,
@@ -7,8 +8,9 @@ import {
 export type DemoFeature = {
   id: string;
   title: string;
+  navigationTitle?: string;
   description: string;
-  component: ComponentType;
+  component: ComponentType<PopPangFeatureProps>;
 };
 
 export const demoFeatures: DemoFeature[] = (
@@ -20,5 +22,6 @@ export const demoFeatures: DemoFeature[] = (
   component: definition.component,
   description: definition.description,
   id,
+  navigationTitle: definition.navigationTitle,
   title: definition.title,
 }));

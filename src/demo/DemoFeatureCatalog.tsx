@@ -7,6 +7,7 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  TextInput,
   useWindowDimensions,
   View,
   type PanResponderInstance,
@@ -50,10 +51,12 @@ function DemoFeaturePreview({
   feature,
   onBack,
   panHandlers,
+  userUuid,
 }: {
   feature: DemoFeature;
   onBack: () => void;
   panHandlers?: PanResponderInstance['panHandlers'];
+  userUuid: string;
 }) {
   const SelectedComponent = feature.component;
 
@@ -65,12 +68,12 @@ function DemoFeaturePreview({
             <Text style={styles.backButtonText}>Back</Text>
           </Pressable>
           <Text numberOfLines={1} style={styles.previewTitle}>
-            {feature.title}
+            {feature.navigationTitle ?? feature.title}
           </Text>
           <View style={styles.previewHeaderSpacer} />
         </View>
         <View style={styles.previewContent}>
-          <SelectedComponent />
+          <SelectedComponent userUuid={userUuid.trim() || null} />
         </View>
       </View>
     </SafeAreaView>
@@ -84,6 +87,7 @@ export default function DemoFeatureCatalog() {
     null,
   );
   const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const [userUuid, setUserUuid] = React.useState('43bbbfea-b5c9-40f0-9822-0c8e5cbd0379');
 
   const listTranslateX = transition.interpolate({
     inputRange: [0, 1],
@@ -133,12 +137,22 @@ export default function DemoFeatureCatalog() {
         return;
       }
 
-      setSelectedFeature(feature);
+      setIsTransitioning(true);
       transition.setValue(0);
-      animateToOpen();
+      setSelectedFeature(feature);
     },
-    [animateToOpen, isTransitioning, transition],
+    [isTransitioning, transition],
   );
+
+  React.useEffect(() => {
+    if (selectedFeature == null) {
+      return;
+    }
+
+    const animationFrame = requestAnimationFrame(animateToOpen);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, [animateToOpen, selectedFeature, transition]);
 
   const closeFeature = React.useCallback(() => {
     if (isTransitioning || selectedFeature == null) {
@@ -216,6 +230,20 @@ export default function DemoFeatureCatalog() {
               </Text> */}
             </View>
 
+            <View style={styles.userUuidBlock}>
+              <Text style={styles.userUuidLabel}>userUuid</Text>
+              <TextInput
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={setUserUuid}
+                placeholder="테스트할 userUuid를 입력하세요"
+                placeholderTextColor="#8E8E93"
+                returnKeyType="done"
+                style={styles.userUuidInput}
+                value={userUuid}
+              />
+            </View>
+
             <View style={styles.listCard}>
               <FlatList
                 data={demoFeatures}
@@ -245,6 +273,7 @@ export default function DemoFeatureCatalog() {
               feature={selectedFeature}
               onBack={closeFeature}
               panHandlers={edgeSwipeResponder.panHandlers}
+              userUuid={userUuid}
             />
           </Animated.View>
         ) : null}
@@ -274,6 +303,26 @@ const styles = StyleSheet.create({
   headerBlock: {
     paddingHorizontal: 20,
     marginBottom: 16,
+  },
+  userUuidBlock: {
+    marginBottom: 16,
+    marginHorizontal: 16,
+  },
+  userUuidLabel: {
+    color: '#6E6E73',
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  userUuidInput: {
+    backgroundColor: '#FFFFFF',
+    borderColor: '#D1D1D6',
+    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    color: '#111111',
+    fontSize: 15,
+    height: 48,
+    paddingHorizontal: 14,
   },
   headerEyebrow: {
     color: '#6E6E73',
@@ -341,11 +390,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   previewGestureSurface: {
+    backgroundColor: '#FFFFFF',
     flex: 1,
   },
   previewHeader: {
     alignItems: 'center',
-    backgroundColor: '#F8F8F8',
+    backgroundColor: '#FFFFFF',
     borderBottomColor: '#E5E5EA',
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',

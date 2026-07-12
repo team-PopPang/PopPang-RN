@@ -82,6 +82,20 @@ npm run ios
 npm run android
 ```
 
+## 실제 기기로 실행 방법
+```bash
+# 연결 확인
+
+# 연결된 실제 기기 목록에서 선택
+npm run ios -- --list-devices
+
+# 기기 이름으로 실행
+npm run ios -- --device "i"
+
+# 현재 표시된 UDID로 실행
+npm run ios -- --device "00008130-00090C281A38001C"
+```
+
 ## 모듈 배포 방법
 
 ```bash
@@ -565,6 +579,18 @@ rm -rf $TMPDIR/metro-* $TMPDIR/haste-map-*
 npm start -- --reset-cache
 ```
 
+## Pods 초기화
+```bash
+rm -rf ios/Pods ios/build
+rm -rf ~/Library/Developer/Xcode/DerivedData/PopPangRN-*
+
+cd ios
+bundle exec pod install
+cd ..
+
+npm run ios
+```
+
 
 <!-- - `npm install`은 `package.json`과 `package-lock.json`을 함께 갱신해요. 변경한 `package.json`과 `package-lock.json`은 함께 커밋해요.
 - `npm ci`는 `package-lock.json`에 기록된 정확한 버전을 설치해요. 처음 설치, CI, 릴리즈 스크립트에서는 항상 `npm ci`를 사용해요. -->
@@ -614,3 +640,26 @@ PopPangRNRoot.tsx
         ↓
 화면 표시
 ``` -->
+
+## iOS 사진 선택 후 이미지 업로드가 4307로 실패하는 경우
+
+RN 이미지 선택기는 사진 앱의 원본 경로를 애플리케이션에 직접 전달하지 않아요. 선택한 사진을 앱 전용 임시 저장소에 준비한 뒤 임시 파일의 URI, 파일명, MIME 타입을 반환해요. 이 과정에서 iOS가 앱에 전달할 이미지 표현을 고르기 때문에, 원본 사진 정보와 임시 파일 정보가 다르게 보일 수 있어요.
+
+PopPang 백엔드는 업로드 이미지의 파일 확장자와 MIME 타입을 함께 검사해요.
+
+| 파일 확장자 | MIME 타입 |
+| --- | --- |
+| `.jpg`, `.jpeg` | `image/jpeg` |
+| `.png` | `image/png` |
+| `.heic` | `image/heic` |
+| `.heif` | `image/heif` |
+
+PopupRequest에서는 사진 선택 시 `assetRepresentationMode: 'current'`를 사용해 현재 이미지 표현을 요청해요. 선택 결과는 업로드 전에 다음 규칙으로 검증해요.
+
+- `image/jpg`는 표준 MIME 타입인 `image/jpeg`로 정규화해요.
+- 대문자 확장자는 소문자로 비교해요.
+- 파일명이 없으면 MIME 타입과 일치하는 임시 업로드 이름을 만들어요.
+- 확장자와 MIME 타입이 일치하지 않거나 지원하지 않는 형식이면 업로드하지 않고 사용자에게 안내해요.
+- 이미지 데이터는 JPEG로 변환하거나 재압축하지 않으므로 화질은 변경되지 않아요.
+
+파일명만 `.jpg`로 변경하거나 MIME 타입만 `image/jpeg`로 덮어쓰면 실제 이미지 데이터와 메타데이터가 달라질 수 있어요. 따라서 불일치 파일은 임의로 수정하지 않고 선택 단계에서 차단하는 방식으로 처리해요.

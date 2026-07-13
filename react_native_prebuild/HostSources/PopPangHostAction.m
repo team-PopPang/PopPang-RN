@@ -2,6 +2,8 @@
 #import <React/RCTBridgeModule.h>
 
 NSString *const PopPangNativeEventPopupRequestSubmitted = @"popupRequestSubmitted";
+NSString *const PopPangNativeEventPopupRequestBack = @"popupRequestBack";
+NSString *const PopPangNativeEventPopupRequestManagementBack = @"popupRequestManagementBack";
 
 static PopPangHostActionHandler popPangEventHandler;
 

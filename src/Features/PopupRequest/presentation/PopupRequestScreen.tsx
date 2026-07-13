@@ -3,6 +3,7 @@ import {
   Alert,
   Animated,
   Easing,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -24,12 +25,16 @@ import {colors} from './components/FormControls';
 import {PopupRequestForm} from './components/PopupRequestForm';
 import {usePopupRequest} from './hooks/usePopupRequest';
 
+const backButtonImage = require('../../../assets/navigation/backButton.png');
+
 export function PopupRequestScreen({
   nativeEvents,
+  onDemoBack,
   userUuid,
   repository,
 }: {
   nativeEvents?: readonly PopPangNativeEvent[] | null;
+  onDemoBack?: () => void;
   userUuid: string;
   repository: PopupRequestRepository;
 }) {
@@ -40,6 +45,17 @@ export function PopupRequestScreen({
     () => ({transform: [{translateY: keyboardTranslation}]}),
     [keyboardTranslation],
   );
+  const canRequestNativeBack =
+    Boolean(onDemoBack) ||
+    nativeEvents?.includes(POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK);
+  const requestNativeBack = React.useCallback(() => {
+    if (onDemoBack) {
+      onDemoBack();
+      return;
+    }
+
+    emitPopPangNativeEvent(POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK, nativeEvents);
+  }, [nativeEvents, onDemoBack]);
 
   React.useEffect(() => {
     const showEvent = Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow';
@@ -87,6 +103,9 @@ export function PopupRequestScreen({
 
   return (
     <View style={styles.screen}>
+      <NavigationHeader
+        onBack={canRequestNativeBack ? requestNativeBack : undefined}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
         style={styles.content}>
@@ -123,7 +142,38 @@ export function PopupRequestScreen({
   );
 }
 
+function NavigationHeader({onBack}: {onBack?: () => void}) {
+  return (
+    <View style={styles.navigationBar}>
+      {onBack ? (
+        <Pressable
+          accessibilityLabel="뒤로가기"
+          accessibilityRole="button"
+          hitSlop={6}
+          onPress={onBack}
+          style={({pressed}) => [
+            styles.backButton,
+            pressed && styles.pressed,
+          ]}>
+          <Image source={backButtonImage} style={styles.backButtonImage} />
+        </Pressable>
+      ) : (
+        <View style={styles.navigationSpacer} />
+      )}
+      <Text style={styles.navigationTitle}>팝업 제보하기</Text>
+      <View style={styles.navigationSpacer} />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  backButton: {
+    alignItems: 'center',
+    height: 44,
+    justifyContent: 'center',
+    width: 48,
+  },
+  backButtonImage: {height: 18, tintColor: colors.black, width: 18},
   screen: {backgroundColor: colors.background, flex: 1},
   content: {flex: 1},
   scrollContent: {paddingBottom: 120, paddingHorizontal: 15, paddingTop: 24},
@@ -147,4 +197,16 @@ const styles = StyleSheet.create({
   },
   submitButtonMuted: {opacity: 0.45},
   submitText: {color: '#F1F1F1', fontSize: 14, fontWeight: '700'},
+  navigationBar: {
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderBottomColor: '#E5E5EA',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    height: 56,
+    justifyContent: 'space-between',
+  },
+  navigationSpacer: {width: 48},
+  navigationTitle: {color: colors.black, fontSize: 18, fontWeight: '700'},
+  pressed: {opacity: 0.65},
 });

@@ -1,6 +1,8 @@
 import {NativeModules} from 'react-native';
 
 export const POPPANG_NATIVE_EVENT = {
+  POPUP_REQUEST_BACK: 'popupRequestBack',
+  POPUP_REQUEST_MANAGEMENT_BACK: 'popupRequestManagementBack',
   POPUP_REQUEST_SUBMITTED: 'popupRequestSubmitted',
 } as const;
 

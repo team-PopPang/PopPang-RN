@@ -2,6 +2,7 @@ import React from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   ActivityIndicator,
+  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -18,6 +19,8 @@ import {popupSubmissionFilters} from '../domain/entities/PopupSubmissionListItem
 import type {PopupRequestManagementRepository} from '../domain/repositories/PopupRequestManagementRepository';
 import {usePopupRequestManagement} from './hooks/usePopupRequestManagement';
 
+const backButtonImage = require('../../../assets/navigation/backButton.png');
+
 const colors = {
   black: '#333333',
   gray: '#777777',
@@ -33,10 +36,12 @@ const colors = {
 
 export function PopupRequestManagementScreen({
   adminUuid,
+  onNativeBackPress,
   onSubmissionPress,
   repository,
 }: {
   adminUuid: string;
+  onNativeBackPress?: () => void;
   onSubmissionPress?: (submissionId: number) => void;
   repository: PopupRequestManagementRepository;
 }) {
@@ -63,6 +68,7 @@ export function PopupRequestManagementScreen({
 
   return (
     <View style={styles.screen}>
+      <NavigationHeader onBack={onNativeBackPress} />
       <ScrollView
         contentContainerStyle={styles.content}
         refreshControl={
@@ -132,6 +138,30 @@ export function PopupRequestManagementScreen({
           </View>
         )}
       </ScrollView>
+    </View>
+  );
+}
+
+function NavigationHeader({onBack}: {onBack?: () => void}) {
+  return (
+    <View style={styles.navigationBar}>
+      {onBack ? (
+        <Pressable
+          accessibilityLabel="뒤로가기"
+          accessibilityRole="button"
+          hitSlop={6}
+          onPress={onBack}
+          style={({pressed}) => [
+            styles.backButton,
+            pressed && styles.pressed,
+          ]}>
+          <Image source={backButtonImage} style={styles.backButtonImage} />
+        </Pressable>
+      ) : (
+        <View style={styles.navigationSpacer} />
+      )}
+      <Text style={styles.navigationTitle}>팝업 제보 관리</Text>
+      <View style={styles.navigationSpacer} />
     </View>
   );
 }
@@ -248,6 +278,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   badgeText: {fontSize: 11, fontWeight: '500'},
+  backButton: {
+    alignItems: 'center',
+    height: 44,
+    justifyContent: 'center',
+    width: 48,
+  },
+  backButtonImage: {height: 18, tintColor: colors.black, width: 18},
   cell: {backgroundColor: colors.white, borderRadius: 8, gap: 12, padding: 14},
   cellAddress: {color: colors.gray, fontSize: 12, fontWeight: '500'},
   cellTitle: {color: colors.black, fontSize: 15, fontWeight: '700'},
@@ -281,6 +318,17 @@ const styles = StyleSheet.create({
   metaDivider: {backgroundColor: colors.gray3, borderRadius: 2, height: 3, width: 3},
   metaRow: {alignItems: 'center', flexDirection: 'row', gap: 8},
   metaText: {color: colors.gray2, flexShrink: 1, fontSize: 11, fontWeight: '500'},
+  navigationBar: {
+    alignItems: 'center',
+    backgroundColor: colors.white,
+    borderBottomColor: '#EAEAEA',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    height: 56,
+    justifyContent: 'space-between',
+  },
+  navigationSpacer: {width: 48},
+  navigationTitle: {color: colors.black, fontSize: 18, fontWeight: '700'},
   pressed: {opacity: 0.65},
   retryButton: {
     alignItems: 'center',

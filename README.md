@@ -122,18 +122,18 @@ Android 네이티브 패키지만 로컬에서 확인할 때는 아래 스크립
 
 | 화면 | `feature` 값 | `userUuid` 용도 | 지원 네이티브 이벤트 |
 | --- | --- | --- | --- |
-| 팝업 제보 | `request` | 제보자를 식별해요. 비어 있으면 제보할 수 없어요. | `popupRequestSubmitted` |
-| 팝업 제보 관리 | `request-management` | 관리자 API 요청에 사용할 관리자 UUID예요. | 없음 |
+| 팝업 제보 | `request` | 제보자를 식별해요. 비어 있으면 제보할 수 없어요. | `popupRequestSubmitted`, `popupRequestBack` |
+| 팝업 제보 관리 | `request-management` | 관리자 API 요청에 사용할 관리자 UUID예요. | `popupRequestManagementBack` |
 
 | 파라미터 | 타입 | 필수 | 설명 |
 | --- | --- | --- | --- |
 | `feature` | 문자열 | 예 | 위 표의 정확한 모듈 값을 전달해요. |
 | `userUuid` | 문자열 | 예 | 로그인한 사용자의 UUID를 전달해요. 팝업 제보 관리에는 관리자 UUID를 사용해요. |
-| `nativeEvents` | 문자열 배열 | 아니요 | RN이 네이티브로 전달할 이벤트를 제한해요. 현재 `popupRequestSubmitted`만 지원해요. |
+| `nativeEvents` | 문자열 배열 | 아니요 | RN이 네이티브로 전달할 이벤트를 제한해요. `popupRequestSubmitted`, `popupRequestBack`, `popupRequestManagementBack`를 지원해요. |
 
 iOS는 `moduleName`에 항상 `PopPangRNRoot`를 넣고, `initialProperties`로 세 파라미터를 전달해요. Android는 `PopPangRnSdk.createIntent`가 같은 값을 전달해요. `feature`를 생략하거나 지원하지 않는 값을 넣으면 기본 root 화면이 열리므로, 클라이언트 앱에서는 위 두 값만 사용해요.
 
-`popupRequestSubmitted`는 팝업 제보 API가 성공하고 사용자가 완료 Alert의 `확인`을 누를 때만 발생해요. `nativeEvents`에서 이 값을 빼면 RN은 네이티브 모듈을 호출하지 않아요. 팝업 제보 관리 화면은 현재 네이티브 이벤트를 보내지 않아요.
+`popupRequestSubmitted`는 팝업 제보 API가 성공하고 사용자가 완료 Alert의 `확인`을 누를 때만 발생해요. `popupRequestBack`은 팝업 제보의 RN 커스텀 헤더에서 뒤로가기 버튼을 누를 때 발생해요. `popupRequestManagementBack`은 팝업 제보 관리 목록의 같은 버튼에서 발생해요. `nativeEvents`에서 해당 값을 빼면 RN은 그 이벤트를 네이티브 모듈로 전달하지 않고, 각 화면의 뒤로가기 버튼도 표시하지 않아요.
 
 ## 클라이언트 앱(Android)
 
@@ -259,7 +259,7 @@ dependencies {
 }
 ```
 
-React Native 화면은 SDK가 제공하는 Intent로 열어요. 팝업 제보 완료 이벤트를 받으려면 `ActivityResultLauncher`로 열고, `nativeEvents`에 `popupRequestSubmitted`를 넣어요.
+React Native 화면은 SDK가 제공하는 Intent로 열어요. 네이티브 이벤트를 받으려면 `ActivityResultLauncher`로 열고, 필요한 값을 `nativeEvents`에 넣어요.
 
 ```kotlin
 import android.app.Activity
@@ -272,35 +272,56 @@ private val popupRequestLauncher =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         val eventName = result.data?.getStringExtra(PopPangRnSdk.EXTRA_EVENT)
 
-        if (
-            result.resultCode == Activity.RESULT_OK &&
-            eventName == PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED
-        ) {
-            // 팝업 제보 완료 뒤 필요한 화면 갱신이나 닫기 동작을 실행해요.
+        if (result.resultCode == Activity.RESULT_OK) {
+            when (eventName) {
+                PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED -> {
+                    // 팝업 제보 완료 뒤 필요한 화면 갱신이나 닫기 동작을 실행해요.
+                }
+                PopPangRnSdk.NativeEvent.POPUP_REQUEST_BACK -> {
+                    // RN 팝업 제보 헤더의 뒤로가기 요청을 처리해요.
+                }
+                else -> Unit
+            }
         }
     }
 
-// 팝업 제보 화면 열기와 완료 이벤트 수신
+// 팝업 제보 화면 열기와 완료·뒤로가기 이벤트 수신
 popupRequestLauncher.launch(
     PopPangRnSdk.createIntent(
         this,
         "request",
         userUuid,
-        setOf(PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED),
+        setOf(
+            PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED,
+            PopPangRnSdk.NativeEvent.POPUP_REQUEST_BACK,
+        ),
     )
 )
 
-// 팝업 제보 관리 화면 열기: 네이티브 이벤트를 전달하지 않아요.
-startActivity(
+private val popupRequestManagementLauncher =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val eventName = result.data?.getStringExtra(PopPangRnSdk.EXTRA_EVENT)
+
+        if (
+            result.resultCode == Activity.RESULT_OK &&
+            eventName == PopPangRnSdk.NativeEvent.POPUP_REQUEST_MANAGEMENT_BACK
+        ) {
+            // RN 관리 목록의 뒤로가기 요청을 처리해요.
+        }
+    }
+
+// 팝업 제보 관리 화면 열기와 RN 커스텀 헤더의 뒤로가기 이벤트 수신
+popupRequestManagementLauncher.launch(
     PopPangRnSdk.createIntent(
         this,
         "request-management",
         userUuid,
+        setOf(PopPangRnSdk.NativeEvent.POPUP_REQUEST_MANAGEMENT_BACK),
     )
 )
 ```
 
-`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받고, 이벤트가 필요할 때만 네 번째 인자로 `nativeEvents` 집합을 받아요. 일반 `startActivity`로 팝업 제보를 열어도 화면은 닫히지만, 완료 결과를 처리하려면 위처럼 `ActivityResultLauncher`를 사용해야 해요.
+`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받고, 이벤트가 필요할 때만 네 번째 인자로 `nativeEvents` 집합을 받아요. 팝업 제보 완료·뒤로가기나 관리 목록의 뒤로가기 요청을 처리하려면 위처럼 `ActivityResultLauncher`를 사용해야 해요.
 
 </details>
 
@@ -521,7 +542,7 @@ struct ReactNativeScreen: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> ReactViewController {
         PopPangHostAction.setEventHandler(onNativeEvent)
 
-        ReactViewController(
+        return ReactViewController(
             moduleName: moduleName,
             initialProperties: initialProperties
         )
@@ -553,10 +574,16 @@ struct ContentView: View {
                 initialProperties: [
                     "feature": "request",
                     "userUuid": "로그인한-사용자-UUID",
-                    "nativeEvents": ["popupRequestSubmitted"]
+                    "nativeEvents": [
+                        "popupRequestSubmitted",
+                        "popupRequestBack"
+                    ]
                 ],
                 onNativeEvent: { eventName in
-                    guard eventName == PopPangNativeEventPopupRequestSubmitted else {
+                    guard
+                        eventName == PopPangNativeEventPopupRequestSubmitted ||
+                            eventName == PopPangNativeEventPopupRequestBack
+                    else {
                         return
                     }
 
@@ -571,16 +598,37 @@ struct ContentView: View {
 
 `PopPangHostAction`은 현재 표시 중인 React Native 화면 하나에 이벤트 핸들러를 연결해요. `fullScreenCover`가 사라질 때 `dismantleUIViewController`가 핸들러를 비우므로, 완료 이벤트가 다음 화면으로 전달되지 않아요.
 
-팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. `nativeEvents`와 `onNativeEvent`를 전달하지 않으므로 네이티브 완료 이벤트를 받지 않아요.
+팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. SwiftUI 기본 내비게이션 바는 숨기고, RN 커스텀 헤더의 뒤로가기 이벤트를 받으면 `NavigationStack`을 pop해요.
 
 ```swift
-ReactNativeScreen(
-    moduleName: "PopPangRNRoot",
-    initialProperties: [
-        "feature": "request-management",
-        "userUuid": "로그인한-관리자-UUID"
-    ]
-)
+@State private var navigationPath: [Destination] = []
+
+NavigationStack(path: $navigationPath) {
+    NavigationLink("팝업 제보 관리", value: Destination.popupRequestManagement)
+        .navigationDestination(for: Destination.self) { destination in
+            switch destination {
+            case .popupRequestManagement:
+                ReactNativeScreen(
+                    moduleName: "PopPangRNRoot",
+                    initialProperties: [
+                        "feature": "request-management",
+                        "userUuid": "로그인한-관리자-UUID",
+                        "nativeEvents": ["popupRequestManagementBack"]
+                    ],
+                    onNativeEvent: { eventName in
+                        guard eventName == PopPangNativeEventPopupRequestManagementBack else {
+                            return
+                        }
+
+                        if !navigationPath.isEmpty {
+                            navigationPath.removeLast()
+                        }
+                    }
+                )
+                .toolbar(.hidden, for: .navigationBar)
+            }
+        }
+}
 ```
 
 ### 동작 방식

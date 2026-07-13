@@ -9,13 +9,15 @@ const liveRepository = new LivePopupRequestRepository();
 
 export default function PopPangRequestFeature({
   nativeEvents,
+  onDemoBack,
   userUuid,
 }: PopPangFeatureProps) {
   return (
     <SafeAreaProvider>
-      <SafeAreaView edges={['bottom']} style={styles.container}>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
         <PopupRequestScreen
           nativeEvents={nativeEvents}
+          onDemoBack={onDemoBack}
           repository={liveRepository}
           userUuid={userUuid ?? (__DEV__ ? 'preview-user' : '')}
         />

@@ -93,7 +93,10 @@ function DemoFeaturePreview({feature, onBack, userUuid}: {
         <View style={styles.previewHeaderSpacer} />
       </View>
       <View style={styles.previewContent}>
-        <SelectedComponent userUuid={userUuid.trim() || null} />
+        <SelectedComponent
+          onDemoBack={onBack}
+          userUuid={userUuid.trim() || null}
+        />
       </View>
     </SafeAreaView>
   );

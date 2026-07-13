@@ -10,6 +10,10 @@ import type {PopPangFeatureProps} from '../poppangFeatureProps';
 import {LivePopupRequestManagementRepository} from './data/repositories/LivePopupRequestManagementRepository';
 import {PopupRequestManagementDetailScreen} from './presentation/PopupRequestManagementDetailScreen';
 import {PopupRequestManagementScreen} from './presentation/PopupRequestManagementScreen';
+import {
+  emitPopPangNativeEvent,
+  POPPANG_NATIVE_EVENT,
+} from '../../native/PopPangHostAction';
 
 const liveRepository = new LivePopupRequestManagementRepository();
 
@@ -21,13 +25,31 @@ type PopupRequestManagementStackParamList = {
 const Stack = createNativeStackNavigator<PopupRequestManagementStackParamList>();
 
 export default function PopPangRequestManagementFeature({
+  nativeEvents,
+  onDemoBack,
   userUuid,
 }: PopPangFeatureProps) {
   const adminUuid = userUuid?.trim() ?? '';
+  const canRequestNativeBack =
+    Boolean(onDemoBack) ||
+    nativeEvents?.includes(
+      POPPANG_NATIVE_EVENT.POPUP_REQUEST_MANAGEMENT_BACK,
+    );
+  const requestNativeBack = React.useCallback(() => {
+    if (onDemoBack) {
+      onDemoBack();
+      return;
+    }
+
+    emitPopPangNativeEvent(
+      POPPANG_NATIVE_EVENT.POPUP_REQUEST_MANAGEMENT_BACK,
+      nativeEvents,
+    );
+  }, [nativeEvents, onDemoBack]);
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView edges={['bottom']} style={styles.container}>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
         <NavigationIndependentTree>
           <NavigationContainer>
             <Stack.Navigator
@@ -41,6 +63,9 @@ export default function PopPangRequestManagementFeature({
                 {({navigation}) => (
                   <PopupRequestManagementScreen
                     adminUuid={adminUuid}
+                    onNativeBackPress={
+                      canRequestNativeBack ? requestNativeBack : undefined
+                    }
                     onSubmissionPress={submissionId =>
                       navigation.navigate('Detail', {submissionId})
                     }

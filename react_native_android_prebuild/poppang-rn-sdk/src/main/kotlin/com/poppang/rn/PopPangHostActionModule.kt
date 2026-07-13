@@ -11,7 +11,13 @@ internal class PopPangHostActionModule(
 
     @ReactMethod
     fun emit(eventName: String) {
-        if (eventName != PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED) return
+        when (eventName) {
+            PopPangRnSdk.NativeEvent.POPUP_REQUEST_BACK,
+            PopPangRnSdk.NativeEvent.POPUP_REQUEST_MANAGEMENT_BACK,
+            PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED -> Unit
+
+            else -> return
+        }
 
         val activity = reactApplicationContext.currentActivity ?: return
         activity.runOnUiThread {

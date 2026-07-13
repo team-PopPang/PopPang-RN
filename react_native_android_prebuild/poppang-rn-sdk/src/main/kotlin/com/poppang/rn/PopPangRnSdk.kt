@@ -11,6 +11,8 @@ object PopPangRnSdk {
     }
 
     object NativeEvent {
+        const val POPUP_REQUEST_BACK = "popupRequestBack"
+        const val POPUP_REQUEST_MANAGEMENT_BACK = "popupRequestManagementBack"
         const val POPUP_REQUEST_SUBMITTED = "popupRequestSubmitted"
     }
 

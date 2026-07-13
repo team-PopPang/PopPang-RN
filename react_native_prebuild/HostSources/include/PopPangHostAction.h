@@ -3,6 +3,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString *const PopPangNativeEventPopupRequestSubmitted;
+FOUNDATION_EXPORT NSString *const PopPangNativeEventPopupRequestBack;
+FOUNDATION_EXPORT NSString *const PopPangNativeEventPopupRequestManagementBack;
 
 typedef void (^PopPangHostActionHandler)(NSString *eventName);
 

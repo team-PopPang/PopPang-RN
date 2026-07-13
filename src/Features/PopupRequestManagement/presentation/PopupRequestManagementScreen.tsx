@@ -43,6 +43,16 @@ export function PopupRequestManagementScreen({
   const state = usePopupRequestManagement(adminUuid, repository);
   const refresh = state.refresh;
   const hasFocused = React.useRef(false);
+  const [isPullRefreshing, setIsPullRefreshing] = React.useState(false);
+
+  const refreshByPull = React.useCallback(async () => {
+    setIsPullRefreshing(true);
+    try {
+      await refresh();
+    } finally {
+      setIsPullRefreshing(false);
+    }
+  }, [refresh]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -57,8 +67,8 @@ export function PopupRequestManagementScreen({
         contentContainerStyle={styles.content}
         refreshControl={
           <RefreshControl
-            onRefresh={state.refresh}
-            refreshing={state.isLoading && state.allItems.length > 0}
+            onRefresh={refreshByPull}
+            refreshing={isPullRefreshing}
             tintColor={colors.orange}
           />
         }>

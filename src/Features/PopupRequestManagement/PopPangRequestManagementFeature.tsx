@@ -49,13 +49,13 @@ export default function PopPangRequestManagementFeature({
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
+      <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
         <NavigationIndependentTree>
           <NavigationContainer>
             <Stack.Navigator
               screenOptions={{
                 animation: 'default',
-                contentStyle: styles.container,
+                contentStyle: styles.content,
                 gestureEnabled: true,
                 headerShown: false,
               }}>
@@ -92,5 +92,6 @@ export default function PopPangRequestManagementFeature({
 }
 
 const styles = StyleSheet.create({
-  container: {backgroundColor: '#F8F8F8', flex: 1},
+  content: {backgroundColor: '#F8F8F8', flex: 1},
+  safeArea: {backgroundColor: '#FFFFFF', flex: 1},
 });

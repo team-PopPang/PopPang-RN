@@ -2,7 +2,6 @@ import React from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   ActivityIndicator,
-  Image,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -10,6 +9,11 @@ import {
   Text,
   View,
 } from 'react-native';
+import {
+  colors,
+  PopPangNavigationHeader,
+  PopPangSelectableChip,
+} from '../../../PopPangDesignSystem';
 import {countByStatus, submittedDate} from '../application/popupRequestManagement';
 import type {
   PopupSubmissionListItem,
@@ -18,21 +22,6 @@ import type {
 import {popupSubmissionFilters} from '../domain/entities/PopupSubmissionListItem';
 import type {PopupRequestManagementRepository} from '../domain/repositories/PopupRequestManagementRepository';
 import {usePopupRequestManagement} from './hooks/usePopupRequestManagement';
-
-const backButtonImage = require('../../../assets/navigation/backButton.png');
-
-const colors = {
-  black: '#333333',
-  gray: '#777777',
-  gray2: '#AAAAAA',
-  gray3: '#CCCCCC',
-  gray4: '#F8F8F8',
-  green: '#006813',
-  orange: '#FF7A00',
-  orangeLight: '#FFF4EA',
-  red: '#DD0000',
-  white: '#FFFFFF',
-};
 
 export function PopupRequestManagementScreen({
   adminUuid,
@@ -68,7 +57,10 @@ export function PopupRequestManagementScreen({
 
   return (
     <View style={styles.screen}>
-      <NavigationHeader onBack={onNativeBackPress} />
+      <PopPangNavigationHeader
+        onBack={onNativeBackPress}
+        title="팝업 제보 관리"
+      />
       <ScrollView
         contentContainerStyle={styles.content}
         refreshControl={
@@ -100,22 +92,12 @@ export function PopupRequestManagementScreen({
           {popupSubmissionFilters.map(filter => {
             const selected = state.selectedFilter === filter.value;
             return (
-              <Pressable
+              <PopPangSelectableChip
                 key={filter.value}
+                label={filter.label}
                 onPress={() => state.selectFilter(filter.value)}
-                style={({pressed}) => [
-                  styles.filter,
-                  selected && styles.filterSelected,
-                  pressed && styles.pressed,
-                ]}>
-                <Text
-                  style={[
-                    styles.filterText,
-                    selected && styles.filterTextSelected,
-                  ]}>
-                  {filter.label}
-                </Text>
-              </Pressable>
+                selected={selected}
+              />
             );
           })}
         </ScrollView>
@@ -142,30 +124,6 @@ export function PopupRequestManagementScreen({
   );
 }
 
-function NavigationHeader({onBack}: {onBack?: () => void}) {
-  return (
-    <View style={styles.navigationBar}>
-      {onBack ? (
-        <Pressable
-          accessibilityLabel="뒤로가기"
-          accessibilityRole="button"
-          hitSlop={6}
-          onPress={onBack}
-          style={({pressed}) => [
-            styles.backButton,
-            pressed && styles.pressed,
-          ]}>
-          <Image source={backButtonImage} style={styles.backButtonImage} />
-        </Pressable>
-      ) : (
-        <View style={styles.navigationSpacer} />
-      )}
-      <Text style={styles.navigationTitle}>팝업 제보 관리</Text>
-      <View style={styles.navigationSpacer} />
-    </View>
-  );
-}
-
 function SummaryTile({count, title}: {count: number; title: string}) {
   return (
     <View style={styles.summaryTile}>
@@ -181,7 +139,7 @@ const statusStyle: Record<
 > = {
   APPROVED: {backgroundColor: '#E0ECE2', color: colors.green, title: '승인'},
   PENDING: {
-    backgroundColor: colors.orangeLight,
+    backgroundColor: colors.categoryOrange,
     color: colors.orange,
     title: '검토 대기',
   },
@@ -278,13 +236,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   badgeText: {fontSize: 11, fontWeight: '500'},
-  backButton: {
-    alignItems: 'center',
-    height: 44,
-    justifyContent: 'center',
-    width: 48,
-  },
-  backButtonImage: {height: 18, tintColor: colors.black, width: 18},
   cell: {backgroundColor: colors.white, borderRadius: 8, gap: 12, padding: 14},
   cellAddress: {color: colors.gray, fontSize: 12, fontWeight: '500'},
   cellTitle: {color: colors.black, fontSize: 15, fontWeight: '700'},
@@ -300,35 +251,11 @@ const styles = StyleSheet.create({
     width: 16,
   },
   content: {gap: 18, paddingBottom: 32, paddingHorizontal: 15, paddingTop: 16},
-  filter: {
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderColor: colors.gray3,
-    borderRadius: 17,
-    borderWidth: 1,
-    height: 34,
-    justifyContent: 'center',
-    paddingHorizontal: 14,
-  },
   filterRow: {gap: 8},
-  filterSelected: {backgroundColor: colors.orange, borderColor: colors.orange},
-  filterText: {color: colors.gray, fontSize: 12, fontWeight: '500'},
-  filterTextSelected: {color: colors.white},
   list: {gap: 10},
   metaDivider: {backgroundColor: colors.gray3, borderRadius: 2, height: 3, width: 3},
   metaRow: {alignItems: 'center', flexDirection: 'row', gap: 8},
   metaText: {color: colors.gray2, flexShrink: 1, fontSize: 11, fontWeight: '500'},
-  navigationBar: {
-    alignItems: 'center',
-    backgroundColor: colors.white,
-    borderBottomColor: '#EAEAEA',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    flexDirection: 'row',
-    height: 56,
-    justifyContent: 'space-between',
-  },
-  navigationSpacer: {width: 48},
-  navigationTitle: {color: colors.black, fontSize: 18, fontWeight: '700'},
   pressed: {opacity: 0.65},
   retryButton: {
     alignItems: 'center',
@@ -339,7 +266,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   retryText: {color: colors.white, fontSize: 14, fontWeight: '600'},
-  screen: {backgroundColor: colors.gray4, flex: 1},
+  screen: {backgroundColor: colors.background, flex: 1},
   stateBox: {
     alignItems: 'center',
     backgroundColor: colors.white,

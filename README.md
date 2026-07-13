@@ -30,6 +30,7 @@ PopPang-RN/
 ├─ native-entry.js                   # 네이티브 앱 삽입용 진입점
 ├─ src/
 │  ├─ PopPangNativeEntry.tsx         # 네이티브 전달값으로 feature 선택
+│  ├─ PopPangDesignSystem/            # 공통 토큰·헤더·폼·선택 칩 UI
 │  ├─ demo/
 │  │  └─ DemoFeatureCatalog.tsx      # 데모용 피처 목록
 │  └─ Features/

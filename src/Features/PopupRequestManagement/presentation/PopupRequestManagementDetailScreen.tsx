@@ -14,20 +14,20 @@ import {
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {
-  CategoryPicker,
-  DateRangeInput,
-  FormSection,
-  FormTextInput,
   colors,
-} from '../../PopupRequest/presentation/components/FormControls';
+  PopPangDateRangeInput,
+  PopPangFormSection,
+  PopPangFormTextInput,
+  PopPangNavigationHeader,
+  PopPangRecommendationCategoryPicker,
+  PopPangSelectableChip,
+} from '../../../PopPangDesignSystem';
 import {createUploadImageMetadata} from '../../PopupRequest/application/popupRequestImage';
 import {absoluteImageUrl, validateAdminApprovalForm} from '../application/popupRequestManagement';
 import type {PopupSubmissionAdminForm} from '../domain/entities/PopupSubmissionAdminUpdate';
 import type {PopupSubmissionStatus} from '../domain/entities/PopupSubmissionListItem';
 import type {PopupRequestManagementRepository} from '../domain/repositories/PopupRequestManagementRepository';
 import {usePopupRequestManagementDetail} from './hooks/usePopupRequestManagementDetail';
-
-const backButtonImage = require('../../../assets/navigation/backButton.png');
 
 export function PopupRequestManagementDetailScreen({adminUuid, onBack, repository, submissionId}: {
   adminUuid: string;
@@ -78,7 +78,7 @@ export function PopupRequestManagementDetailScreen({adminUuid, onBack, repositor
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       style={styles.screen}>
-      <DetailNavigationBar onBack={onBack} />
+      <PopPangNavigationHeader onBack={onBack} title="제보 상세" />
       {state.isLoading && !state.form ? (
         <ActivityIndicator color={colors.orange} style={styles.loading} />
       ) : state.errorMessage && !state.form ? (
@@ -149,36 +149,36 @@ function AdminEditForm({form, recommends, update}: {
 
   return (
     <View style={styles.form}>
-      <FormSection title="필수 입력">
-        <FormTextInput title="팝업명" required placeholder="팝업명을 입력해 주세요" value={form.name} onChangeText={value => update('name', value)} />
-        <DateRangeInput startDate={form.startDate} endDate={form.endDate} onStartDateChange={value => update('startDate', value)} onEndDateChange={value => update('endDate', value)} />
-        <FormTextInput title="도로명 주소" required placeholder="도로명 주소" value={form.roadAddress} onChangeText={value => update('roadAddress', value)} />
-        <FormTextInput title="지역" required placeholder="예: 서울" value={form.region} onChangeText={value => update('region', value)} />
-        <CategoryPicker categories={recommends} selectedIds={form.selectedRecommendIds} onToggle={toggleRecommend} />
-      </FormSection>
+      <PopPangFormSection title="필수 입력">
+        <PopPangFormTextInput title="팝업명" required placeholder="팝업명을 입력해 주세요" value={form.name} onChangeText={value => update('name', value)} />
+        <PopPangDateRangeInput startDate={form.startDate} endDate={form.endDate} onStartDateChange={value => update('startDate', value)} onEndDateChange={value => update('endDate', value)} />
+        <PopPangFormTextInput title="도로명 주소" required placeholder="도로명 주소" value={form.roadAddress} onChangeText={value => update('roadAddress', value)} />
+        <PopPangFormTextInput title="지역" required placeholder="예: 서울" value={form.region} onChangeText={value => update('region', value)} />
+        <PopPangRecommendationCategoryPicker categories={recommends} selectedIds={form.selectedRecommendIds} onToggle={toggleRecommend} />
+      </PopPangFormSection>
 
-      <FormSection title="이미지" required>
+      <PopPangFormSection title="이미지" required>
         <AdminImagePicker form={form} update={update} />
-      </FormSection>
+      </PopPangFormSection>
 
-      <FormSection title="기본 정보">
-        <FormTextInput title="지번 주소" required placeholder="지번 주소" value={form.address} onChangeText={value => update('address', value)} />
+      <PopPangFormSection title="기본 정보">
+        <PopPangFormTextInput title="지번 주소" required placeholder="지번 주소" value={form.address} onChangeText={value => update('address', value)} />
         <View style={styles.twoColumns}>
-          <View style={styles.column}><FormTextInput title="오픈 시간" keyboardType="numbers-and-punctuation" placeholder="10:00" value={form.openTime} onChangeText={value => update('openTime', value)} /></View>
-          <View style={styles.column}><FormTextInput title="마감 시간" keyboardType="numbers-and-punctuation" placeholder="20:00" value={form.closeTime} onChangeText={value => update('closeTime', value)} /></View>
+          <View style={styles.column}><PopPangFormTextInput title="오픈 시간" keyboardType="numbers-and-punctuation" placeholder="10:00" value={form.openTime} onChangeText={value => update('openTime', value)} /></View>
+          <View style={styles.column}><PopPangFormTextInput title="마감 시간" keyboardType="numbers-and-punctuation" placeholder="20:00" value={form.closeTime} onChangeText={value => update('closeTime', value)} /></View>
         </View>
         <View style={styles.twoColumns}>
-          <View style={styles.column}><FormTextInput title="위도" required keyboardType="decimal-pad" placeholder="37.544" value={form.latitude} onChangeText={value => update('latitude', value)} /></View>
-          <View style={styles.column}><FormTextInput title="경도" required keyboardType="decimal-pad" placeholder="127.055" value={form.longitude} onChangeText={value => update('longitude', value)} /></View>
+          <View style={styles.column}><PopPangFormTextInput title="위도" required keyboardType="decimal-pad" placeholder="37.544" value={form.latitude} onChangeText={value => update('latitude', value)} /></View>
+          <View style={styles.column}><PopPangFormTextInput title="경도" required keyboardType="decimal-pad" placeholder="127.055" value={form.longitude} onChangeText={value => update('longitude', value)} /></View>
         </View>
-        <FormTextInput title="인스타그램 URL" keyboardType="url" placeholder="https://instagram.com/p/..." value={form.instaPostUrl} onChangeText={value => update('instaPostUrl', value)} />
-      </FormSection>
+        <PopPangFormTextInput title="인스타그램 URL" keyboardType="url" placeholder="https://instagram.com/p/..." value={form.instaPostUrl} onChangeText={value => update('instaPostUrl', value)} />
+      </PopPangFormSection>
 
-      <FormSection title="관리자 입력">
+      <PopPangFormSection title="관리자 입력">
         <MediaTypePicker selected={form.mediaType} onSelect={value => update('mediaType', value)} />
-        <FormTextInput title="인스타그램 Post ID" placeholder="선택 입력" value={form.instaPostId} onChangeText={value => update('instaPostId', value)} />
-        <FormTextInput title="Geocoding Query" placeholder="선택 입력" value={form.geocodingQuery} onChangeText={value => update('geocodingQuery', value)} />
-      </FormSection>
+        <PopPangFormTextInput title="인스타그램 Post ID" placeholder="선택 입력" value={form.instaPostId} onChangeText={value => update('instaPostId', value)} />
+        <PopPangFormTextInput title="Geocoding Query" placeholder="선택 입력" value={form.geocodingQuery} onChangeText={value => update('geocodingQuery', value)} />
+      </PopPangFormSection>
     </View>
   );
 }
@@ -241,16 +241,15 @@ function MediaTypePicker({selected, onSelect}: {
   return (
     <View style={styles.mediaTypes}>
       {(['IMAGE', 'CAROUSEL_ALBUM', 'VIDEO'] as const).map(value => (
-        <Pressable key={value} onPress={() => onSelect(value)} style={[styles.mediaType, selected === value && styles.mediaTypeSelected]}>
-          <Text style={[styles.mediaTypeText, selected === value && styles.mediaTypeTextSelected]}>{labels[value]}</Text>
-        </Pressable>
+        <PopPangSelectableChip
+          key={value}
+          label={labels[value]}
+          onPress={() => onSelect(value)}
+          selected={selected === value}
+        />
       ))}
     </View>
   );
-}
-
-function DetailNavigationBar({onBack}: {onBack: () => void}) {
-  return <View style={styles.navigationBar}><Pressable accessibilityLabel="뒤로가기" accessibilityRole="button" hitSlop={6} onPress={onBack} style={styles.backButton}><Image source={backButtonImage} style={styles.backButtonImage} /></Pressable><Text style={styles.navigationTitle}>제보 상세</Text><View style={styles.navigationSpacer} /></View>;
 }
 
 function StatusBadge({status}: {status: PopupSubmissionStatus}) {
@@ -265,17 +264,14 @@ function ErrorView({message, retry}: {message: string; retry: () => void}) {
 const styles = StyleSheet.create({
   addImageButton: {borderColor: colors.orange, borderRadius: 8, borderWidth: 1, height: 44, justifyContent: 'center', paddingHorizontal: 14},
   addImageText: {color: colors.orange, fontSize: 12, fontWeight: '500'}, approveButton: {alignItems: 'center', backgroundColor: colors.orange, borderRadius: 12, flex: 1, height: 56, justifyContent: 'center'},
-  approveText: {color: colors.white, fontSize: 15, fontWeight: '600'}, backButton: {height: 44, justifyContent: 'center', minWidth: 64},
-  backButtonImage: {height: 18, tintColor: colors.black, width: 18}, cardTitle: {color: colors.black, fontSize: 15, fontWeight: '700'},
+  approveText: {color: colors.white, fontSize: 15, fontWeight: '600'}, cardTitle: {color: colors.black, fontSize: 15, fontWeight: '700'},
   column: {flex: 1}, content: {gap: 16, paddingBottom: 32, paddingHorizontal: 15, paddingTop: 16}, descriptionCard: {backgroundColor: colors.white, borderRadius: 8, gap: 10, padding: 18},
   descriptionText: {color: colors.gray, fontSize: 13, lineHeight: 21}, disabled: {opacity: 0.45}, emptyImage: {alignItems: 'center', borderColor: colors.gray3, borderRadius: 8, borderStyle: 'dashed', borderWidth: 1, height: 88, justifyContent: 'center'},
   emptyText: {color: colors.gray2, fontSize: 12}, errorBox: {alignItems: 'center', gap: 16, padding: 24}, errorText: {color: colors.gray, fontSize: 13, textAlign: 'center'},
   footer: {backgroundColor: colors.white, borderTopColor: '#E5E5EA', borderTopWidth: StyleSheet.hairlineWidth, flexDirection: 'row', gap: 10, paddingHorizontal: 15, paddingVertical: 12},
   form: {gap: 28}, image: {borderRadius: 8, height: 104, width: 104}, imageContainer: {height: 104, position: 'relative', width: 104}, imagePicker: {gap: 10}, imageRow: {gap: 10},
-  loading: {marginTop: 48}, mediaType: {alignItems: 'center', borderColor: colors.gray3, borderRadius: 17, borderWidth: 1, height: 34, justifyContent: 'center', paddingHorizontal: 14},
-  mediaTypeSelected: {backgroundColor: colors.orange, borderColor: colors.orange}, mediaTypeText: {color: colors.gray, fontSize: 12}, mediaTypeTextSelected: {color: colors.white}, mediaTypes: {flexDirection: 'row', gap: 8},
-  navigationBar: {alignItems: 'center', backgroundColor: colors.white, borderBottomColor: '#E5E5EA', borderBottomWidth: StyleSheet.hairlineWidth, flexDirection: 'row', height: 52, justifyContent: 'space-between', paddingHorizontal: 12},
-  navigationSpacer: {minWidth: 64}, navigationTitle: {color: '#111111', fontSize: 17, fontWeight: '700'}, orderBadge: {alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 10, bottom: 6, height: 20, justifyContent: 'center', left: 6, position: 'absolute', width: 20},
+  loading: {marginTop: 48}, mediaTypes: {flexDirection: 'row', gap: 8},
+  orderBadge: {alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.6)', borderRadius: 10, bottom: 6, height: 20, justifyContent: 'center', left: 6, position: 'absolute', width: 20},
   orderText: {color: colors.white, fontSize: 11, fontWeight: '700'}, rejectButton: {alignItems: 'center', backgroundColor: 'rgba(221,0,0,0.1)', borderRadius: 12, flex: 1, height: 56, justifyContent: 'center'},
   rejectText: {color: colors.red, fontSize: 15, fontWeight: '600'}, removeButton: {alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.72)', borderRadius: 12, height: 24, justifyContent: 'center', position: 'absolute', right: 5, top: 5, width: 24},
   removeText: {color: colors.white, fontSize: 19, lineHeight: 21}, screen: {backgroundColor: colors.background, flex: 1}, statusBadge: {alignSelf: 'flex-start', backgroundColor: colors.categoryOrange, borderRadius: 16, height: 32, justifyContent: 'center', paddingHorizontal: 12},

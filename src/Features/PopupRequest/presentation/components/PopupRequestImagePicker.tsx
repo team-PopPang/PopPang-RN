@@ -9,9 +9,9 @@ import {
   View,
 } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {colors} from '../../../../PopPangDesignSystem';
 import {createUploadImageMetadata} from '../../application/popupRequestImage';
 import type {PopupRequestImage} from '../../domain/entities/PopupRequestForm';
-import {colors} from './FormControls';
 
 export function PopupRequestImagePicker({
   images,

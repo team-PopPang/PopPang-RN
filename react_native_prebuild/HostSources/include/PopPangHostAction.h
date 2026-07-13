@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <React/RCTBridgeModule.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -9,7 +10,7 @@ FOUNDATION_EXPORT NSString *const PopPangNativeEventPopupRequestManagementBack;
 typedef void (^PopPangHostActionHandler)(NSString *eventName);
 
 // React Native 이벤트를 SwiftUI 호스트 화면의 액션으로 전달한다.
-@interface PopPangHostAction : NSObject
+@interface PopPangHostAction : NSObject <RCTBridgeModule>
 
 + (void)setEventHandler:(nullable PopPangHostActionHandler)eventHandler;
 

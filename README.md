@@ -136,6 +136,17 @@ iOS는 `moduleName`에 항상 `PopPangRNRoot`를 넣고, `initialProperties`로 
 
 `popupRequestSubmitted`는 팝업 제보 API가 성공하고 사용자가 완료 Alert의 `확인`을 누를 때만 발생해요. `popupRequestBack`은 팝업 제보의 RN 커스텀 헤더에서 뒤로가기 버튼을 누를 때 발생해요. `popupRequestManagementBack`은 팝업 제보 관리 목록의 같은 버튼에서 발생해요. `nativeEvents`에서 해당 값을 빼면 RN은 그 이벤트를 네이티브 모듈로 전달하지 않고, 각 화면의 뒤로가기 버튼도 표시하지 않아요.
 
+## RN 커스텀 뒤로가기 연결
+
+RN 화면의 커스텀 헤더는 `nativeEvents`에 해당 뒤로가기 이벤트가 있을 때만 화살표를 표시해요. 사용자가 화살표를 누르면 RN이 이벤트 이름을 네이티브 호스트로 전달해요.
+
+| 화면 | `nativeEvents`에 넣을 값 | iOS 호스트 동작 | Android 호스트 동작 |
+| --- | --- | --- | --- |
+| 팝업 제보하기 | `popupRequestBack` | `fullScreenCover`를 닫아요. | SDK Activity가 종료되고 `ActivityResultLauncher`가 결과를 받아요. |
+| 팝업 제보 관리 | `popupRequestManagementBack` | `NavigationStack`에서 이전 화면으로 돌아가요. | SDK Activity가 종료되고 `ActivityResultLauncher`가 결과를 받아요. |
+
+팝업 제보하기의 완료 이벤트까지 처리하려면 `popupRequestSubmitted`도 함께 넣어요. 이벤트를 받는 구체적인 코드는 각 플랫폼 예제를 참고하세요.
+
 ## 클라이언트 앱(Android)
 
 Android 패키지는 `poppang-rn-android` SDK AAR, npm 네이티브 모듈 AAR, React Native와 Hermes를 포함한 폴더형 Maven 저장소예요. SDK는 RN C++ ABI에 맞춘 debug/release AAR을 함께 제공하고 Gradle이 앱 빌드 타입에 맞는 변형을 자동 선택해요. 클라이언트 앱에는 `node_modules`나 React Native Gradle Plugin이 필요하지 않아요.
@@ -260,7 +271,9 @@ dependencies {
 }
 ```
 
-React Native 화면은 SDK가 제공하는 Intent로 열어요. 네이티브 이벤트를 받으려면 `ActivityResultLauncher`로 열고, 필요한 값을 `nativeEvents`에 넣어요.
+### Android에서 RN 커스텀 뒤로가기 연결
+
+React Native 화면은 SDK가 제공하는 Intent로 열어요. 네이티브 이벤트를 받으려면 반드시 `ActivityResultLauncher`로 열고, 필요한 값을 `nativeEvents`에 넣어요. RN이 뒤로가기 이벤트를 보내면 SDK Activity는 `RESULT_OK`와 이벤트 이름을 설정한 뒤 종료돼요. 따라서 호스트는 결과 콜백에서 화면 갱신이나 추가 액션만 처리하면 돼요.
 
 ```kotlin
 import android.app.Activity
@@ -279,7 +292,8 @@ private val popupRequestLauncher =
                     // 팝업 제보 완료 뒤 필요한 화면 갱신이나 닫기 동작을 실행해요.
                 }
                 PopPangRnSdk.NativeEvent.POPUP_REQUEST_BACK -> {
-                    // RN 팝업 제보 헤더의 뒤로가기 요청을 처리해요.
+                    // SDK Activity는 이미 종료됐어요.
+                    // 필요하면 팝업 제보 진입 화면의 상태를 갱신해요.
                 }
                 else -> Unit
             }
@@ -307,7 +321,8 @@ private val popupRequestManagementLauncher =
             result.resultCode == Activity.RESULT_OK &&
             eventName == PopPangRnSdk.NativeEvent.POPUP_REQUEST_MANAGEMENT_BACK
         ) {
-            // RN 관리 목록의 뒤로가기 요청을 처리해요.
+            // SDK Activity는 이미 종료됐어요.
+            // 필요하면 팝업 제보 관리 진입 화면의 상태를 갱신해요.
         }
     }
 
@@ -322,7 +337,7 @@ popupRequestManagementLauncher.launch(
 )
 ```
 
-`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받고, 이벤트가 필요할 때만 네 번째 인자로 `nativeEvents` 집합을 받아요. 팝업 제보 완료·뒤로가기나 관리 목록의 뒤로가기 요청을 처리하려면 위처럼 `ActivityResultLauncher`를 사용해야 해요.
+`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받고, 이벤트가 필요할 때만 네 번째 인자로 `nativeEvents` 집합을 받아요. 시스템 뒤로가기와 RN 커스텀 헤더의 뒤로가기 모두 SDK Activity를 닫지만, RN 커스텀 헤더로 나간 경우에만 위 이벤트 이름을 결과에서 받을 수 있어요.
 
 </details>
 
@@ -438,6 +453,10 @@ Swift
   → moduleName: "PopPangRNRoot"
 ```
 
+### iOS에서 RN 커스텀 뒤로가기 연결
+
+`PopPangHostAction`이 RN 이벤트를 SwiftUI 클로저로 전달해요. 화면마다 다른 이벤트를 연결할 수 있어요. `fullScreenCover`로 연 팝업 제보하기는 상태를 `false`로 바꿔 닫고, `NavigationStack`으로 연 팝업 제보 관리는 경로를 하나 제거해요.
+
 ### 구현
 
 ```swift
@@ -526,9 +545,16 @@ final class ReactViewController: UIViewController {
 
 // UIKit 기반 React Native 화면을 SwiftUI에서 사용할 수 있게 감싼다.
 struct ReactNativeScreen: UIViewControllerRepresentable {
+    final class EventHandlerCoordinator {
+        let id = UUID()
+    }
+
     let moduleName: String
     let initialProperties: [String: Any]?
     let onNativeEvent: ((String) -> Void)?
+
+    // 현재 표시 중인 RN 화면만 이벤트 핸들러를 해제할 수 있게 소유자를 기록한다.
+    private static var eventHandlerOwnerID: UUID?
 
     init(
         moduleName: String,
@@ -540,8 +566,17 @@ struct ReactNativeScreen: UIViewControllerRepresentable {
         self.onNativeEvent = onNativeEvent
     }
 
-    func makeUIViewController(context: Context) -> ReactViewController {
+    func makeCoordinator() -> EventHandlerCoordinator {
+        EventHandlerCoordinator()
+    }
+
+    private func installEventHandler(for coordinator: EventHandlerCoordinator) {
+        Self.eventHandlerOwnerID = coordinator.id
         PopPangHostAction.setEventHandler(onNativeEvent)
+    }
+
+    func makeUIViewController(context: Context) -> ReactViewController {
+        installEventHandler(for: context.coordinator)
 
         return ReactViewController(
             moduleName: moduleName,
@@ -552,13 +587,20 @@ struct ReactNativeScreen: UIViewControllerRepresentable {
     func updateUIViewController(
         _ uiViewController: ReactViewController,
         context: Context
-    ) {}
+    ) {
+        installEventHandler(for: context.coordinator)
+    }
 
     static func dismantleUIViewController(
         _ uiViewController: ReactViewController,
-        coordinator: ()
+        coordinator: EventHandlerCoordinator
     ) {
+        guard eventHandlerOwnerID == coordinator.id else {
+            return
+        }
+
         PopPangHostAction.setEventHandler(nil)
+        eventHandlerOwnerID = nil
     }
 }
 
@@ -597,7 +639,7 @@ struct ContentView: View {
 }
 ```
 
-`PopPangHostAction`은 현재 표시 중인 React Native 화면 하나에 이벤트 핸들러를 연결해요. `fullScreenCover`가 사라질 때 `dismantleUIViewController`가 핸들러를 비우므로, 완료 이벤트가 다음 화면으로 전달되지 않아요.
+`PopPangHostAction`은 현재 표시 중인 React Native 화면 하나에 이벤트 핸들러를 연결해요. `fullScreenCover`가 사라질 때 `dismantleUIViewController`가 현재 화면의 핸들러만 비우므로, 이전 화면이 새 화면의 핸들러를 해제하지 않아요.
 
 팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. SwiftUI 기본 내비게이션 바는 숨기고, RN 커스텀 헤더의 뒤로가기 이벤트를 받으면 `NavigationStack`을 pop해요.
 

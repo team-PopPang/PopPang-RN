@@ -16,183 +16,49 @@ let package = Package(
         .target(
             name: "PrebuiltReactNativeFrameworks",
             dependencies: [
-                  "CoreModules",
-                  "DoubleConversion",
-                  "JSITooling",
                   "Pods_ReactNativePrebuild",
-                  "RCTAnimation",
-                  "RCTBlob",
-                  "RCTDeprecation",
-                  "RCTFabric",
-                  "RCTImage",
-                  "RCTLinking",
-                  "RCTNetwork",
-                  "RCTRuntime",
-                  "RCTSettings",
-                  "RCTSwiftUI",
-                  "RCTSwiftUIWrapper",
-                  "RCTText",
-                  "RCTTypeSafety",
-                  "RCTVibration",
                   "RNDateTimePicker",
                   "RNScreens",
                   "React",
                   "ReactAppDependencyProvider",
                   "ReactCodegen",
-                  "ReactCommon",
-                  "React_Fabric",
-                  "React_FabricComponents",
-                  "React_FabricImage",
-                  "React_ImageManager",
-                  "React_Mapbuffer",
-                  "React_NativeModulesApple",
+                  "ReactNativeDependencies",
                   "React_RCTAppDelegate",
-                  "React_RCTFBReactNativeSpec",
-                  "React_RuntimeApple",
-                  "React_RuntimeCore",
-                  "React_RuntimeHermes",
-                  "React_debug",
-                  "React_defaultsnativemodule",
-                  "React_domnativemodule",
-                  "React_featureflags",
-                  "React_featureflagsnativemodule",
-                  "React_graphics",
-                  "React_jserrorhandler",
-                  "React_microtasksnativemodule",
-                  "React_networking",
-                  "React_performancecdpmetrics",
-                  "React_performancetimeline",
-                  "React_rendererconsistency",
-                  "React_renderercss",
-                  "React_rendererdebug",
-                  "React_runtimeexecutor",
-                  "React_runtimescheduler",
-                  "React_utils",
-                  "React_viewtransitionnativemodule",
-                  "SocketRocket",
-                  "cxxreact",
-                  "fmt",
-                  "folly",
-                  "glog",
                   "hermesvm",
-                  "idlecallbacksnativemodule",
-                  "intersectionobservernativemodule",
-                  "jsi",
-                  "jsinspector_modern",
-                  "jsinspector_moderncdp",
-                  "jsinspector_modernnetwork",
-                  "jsinspector_moderntracing",
-                  "jsireact",
-                  "logger",
-                  "mutationobservernativemodule",
-                  "oscompat",
                   "react_native_blob_util",
                   "react_native_image_picker",
-                  "react_native_safe_area_context",
-                  "reacthermes",
-                  "reactperflogger",
-                  "webperformancenativemodule",
-                  "yoga"
-    ],
-    path: "Sources",
-    sources: ["dummy.swift"],
-    linkerSettings: [
-        // CocoaPods의 OTHER_LDFLAGS 중 시스템 의존성만 옮긴다.
-        // 공통 iOS 시스템 링크 설정
-        .unsafeFlags(["-ObjC"]),
-        .linkedLibrary("objc"),
-        .linkedLibrary("c++"),
-        .linkedLibrary("c++abi"),
-        .linkedLibrary("icucore"),
-        .linkedFramework("Accelerate", .when(platforms: [.iOS])),
-        .linkedFramework("AudioToolbox", .when(platforms: [.iOS])),
-        .linkedFramework("CFNetwork", .when(platforms: [.iOS])),
-        .linkedFramework("CoreGraphics", .when(platforms: [.iOS])),
-        .linkedFramework("ImageIO", .when(platforms: [.iOS])),
-        .linkedFramework("JavaScriptCore", .when(platforms: [.iOS])),
-        .linkedFramework("MobileCoreServices", .when(platforms: [.iOS])),
-        .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
-        .linkedFramework("Security", .when(platforms: [.iOS])),
-        .linkedFramework("UIKit", .when(platforms: [.iOS])),
+                  "react_native_safe_area_context"
+              ],
+              path: "Sources",
+              sources: ["dummy.swift"],
+              linkerSettings: [
+                  // CocoaPods aggregate target의 OTHER_LDFLAGS에서 시스템 링크 설정을 자동 추출한다.
+                  // 공통 linker flags
+                  .unsafeFlags(["-ObjC"]),
 
-        // 이미지 선택/미디어 처리 네이티브 모듈이 요구하는 iOS 시스템 프레임워크
-        .linkedFramework("AVFoundation", .when(platforms: [.iOS])),
-        .linkedFramework("CoreMedia", .when(platforms: [.iOS])),
-        .linkedFramework("Photos", .when(platforms: [.iOS])),
-        .linkedFramework("PhotosUI", .when(platforms: [.iOS])),
-    ]
-),
-.binaryTarget(
-    name: "CoreModules",
-    path: "Frameworks/CoreModules.xcframework"
-),
-.binaryTarget(
-    name: "DoubleConversion",
-    path: "Frameworks/DoubleConversion.xcframework"
-),
-.binaryTarget(
-    name: "JSITooling",
-    path: "Frameworks/JSITooling.xcframework"
-),
+                  // 시스템 라이브러리
+                  .linkedLibrary("c++"),
+
+                  // iOS 시스템 프레임워크
+                  .linkedFramework("AVFoundation", .when(platforms: [.iOS])),
+                  .linkedFramework("Accelerate", .when(platforms: [.iOS])),
+                  .linkedFramework("AudioToolbox", .when(platforms: [.iOS])),
+                  .linkedFramework("CoreGraphics", .when(platforms: [.iOS])),
+                  .linkedFramework("CoreMedia", .when(platforms: [.iOS])),
+                  .linkedFramework("ImageIO", .when(platforms: [.iOS])),
+                  .linkedFramework("MobileCoreServices", .when(platforms: [.iOS])),
+                  .linkedFramework("Photos", .when(platforms: [.iOS])),
+                  .linkedFramework("PhotosUI", .when(platforms: [.iOS])),
+                  .linkedFramework("QuartzCore", .when(platforms: [.iOS])),
+                  .linkedFramework("UIKit", .when(platforms: [.iOS])),
+
+                  // 약한 링크가 필요한 iOS 시스템 프레임워크
+                  .unsafeFlags(["-weak_framework", "JavaScriptCore"], .when(platforms: [.iOS])),
+              ]
+          ),
 .binaryTarget(
     name: "Pods_ReactNativePrebuild",
     path: "Frameworks/Pods_ReactNativePrebuild.xcframework"
-),
-.binaryTarget(
-    name: "RCTAnimation",
-    path: "Frameworks/RCTAnimation.xcframework"
-),
-.binaryTarget(
-    name: "RCTBlob",
-    path: "Frameworks/RCTBlob.xcframework"
-),
-.binaryTarget(
-    name: "RCTDeprecation",
-    path: "Frameworks/RCTDeprecation.xcframework"
-),
-.binaryTarget(
-    name: "RCTFabric",
-    path: "Frameworks/RCTFabric.xcframework"
-),
-.binaryTarget(
-    name: "RCTImage",
-    path: "Frameworks/RCTImage.xcframework"
-),
-.binaryTarget(
-    name: "RCTLinking",
-    path: "Frameworks/RCTLinking.xcframework"
-),
-.binaryTarget(
-    name: "RCTNetwork",
-    path: "Frameworks/RCTNetwork.xcframework"
-),
-.binaryTarget(
-    name: "RCTRuntime",
-    path: "Frameworks/RCTRuntime.xcframework"
-),
-.binaryTarget(
-    name: "RCTSettings",
-    path: "Frameworks/RCTSettings.xcframework"
-),
-.binaryTarget(
-    name: "RCTSwiftUI",
-    path: "Frameworks/RCTSwiftUI.xcframework"
-),
-.binaryTarget(
-    name: "RCTSwiftUIWrapper",
-    path: "Frameworks/RCTSwiftUIWrapper.xcframework"
-),
-.binaryTarget(
-    name: "RCTText",
-    path: "Frameworks/RCTText.xcframework"
-),
-.binaryTarget(
-    name: "RCTTypeSafety",
-    path: "Frameworks/RCTTypeSafety.xcframework"
-),
-.binaryTarget(
-    name: "RCTVibration",
-    path: "Frameworks/RCTVibration.xcframework"
 ),
 .binaryTarget(
     name: "RNDateTimePicker",
@@ -215,192 +81,16 @@ let package = Package(
     path: "Frameworks/ReactCodegen.xcframework"
 ),
 .binaryTarget(
-    name: "ReactCommon",
-    path: "Frameworks/ReactCommon.xcframework"
-),
-.binaryTarget(
-    name: "React_Fabric",
-    path: "Frameworks/React_Fabric.xcframework"
-),
-.binaryTarget(
-    name: "React_FabricComponents",
-    path: "Frameworks/React_FabricComponents.xcframework"
-),
-.binaryTarget(
-    name: "React_FabricImage",
-    path: "Frameworks/React_FabricImage.xcframework"
-),
-.binaryTarget(
-    name: "React_ImageManager",
-    path: "Frameworks/React_ImageManager.xcframework"
-),
-.binaryTarget(
-    name: "React_Mapbuffer",
-    path: "Frameworks/React_Mapbuffer.xcframework"
-),
-.binaryTarget(
-    name: "React_NativeModulesApple",
-    path: "Frameworks/React_NativeModulesApple.xcframework"
+    name: "ReactNativeDependencies",
+    path: "Frameworks/ReactNativeDependencies.xcframework"
 ),
 .binaryTarget(
     name: "React_RCTAppDelegate",
     path: "Frameworks/React_RCTAppDelegate.xcframework"
 ),
 .binaryTarget(
-    name: "React_RCTFBReactNativeSpec",
-    path: "Frameworks/React_RCTFBReactNativeSpec.xcframework"
-),
-.binaryTarget(
-    name: "React_RuntimeApple",
-    path: "Frameworks/React_RuntimeApple.xcframework"
-),
-.binaryTarget(
-    name: "React_RuntimeCore",
-    path: "Frameworks/React_RuntimeCore.xcframework"
-),
-.binaryTarget(
-    name: "React_RuntimeHermes",
-    path: "Frameworks/React_RuntimeHermes.xcframework"
-),
-.binaryTarget(
-    name: "React_debug",
-    path: "Frameworks/React_debug.xcframework"
-),
-.binaryTarget(
-    name: "React_defaultsnativemodule",
-    path: "Frameworks/React_defaultsnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "React_domnativemodule",
-    path: "Frameworks/React_domnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "React_featureflags",
-    path: "Frameworks/React_featureflags.xcframework"
-),
-.binaryTarget(
-    name: "React_featureflagsnativemodule",
-    path: "Frameworks/React_featureflagsnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "React_graphics",
-    path: "Frameworks/React_graphics.xcframework"
-),
-.binaryTarget(
-    name: "React_jserrorhandler",
-    path: "Frameworks/React_jserrorhandler.xcframework"
-),
-.binaryTarget(
-    name: "React_microtasksnativemodule",
-    path: "Frameworks/React_microtasksnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "React_networking",
-    path: "Frameworks/React_networking.xcframework"
-),
-.binaryTarget(
-    name: "React_performancecdpmetrics",
-    path: "Frameworks/React_performancecdpmetrics.xcframework"
-),
-.binaryTarget(
-    name: "React_performancetimeline",
-    path: "Frameworks/React_performancetimeline.xcframework"
-),
-.binaryTarget(
-    name: "React_rendererconsistency",
-    path: "Frameworks/React_rendererconsistency.xcframework"
-),
-.binaryTarget(
-    name: "React_renderercss",
-    path: "Frameworks/React_renderercss.xcframework"
-),
-.binaryTarget(
-    name: "React_rendererdebug",
-    path: "Frameworks/React_rendererdebug.xcframework"
-),
-.binaryTarget(
-    name: "React_runtimeexecutor",
-    path: "Frameworks/React_runtimeexecutor.xcframework"
-),
-.binaryTarget(
-    name: "React_runtimescheduler",
-    path: "Frameworks/React_runtimescheduler.xcframework"
-),
-.binaryTarget(
-    name: "React_utils",
-    path: "Frameworks/React_utils.xcframework"
-),
-.binaryTarget(
-    name: "React_viewtransitionnativemodule",
-    path: "Frameworks/React_viewtransitionnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "SocketRocket",
-    path: "Frameworks/SocketRocket.xcframework"
-),
-.binaryTarget(
-    name: "cxxreact",
-    path: "Frameworks/cxxreact.xcframework"
-),
-.binaryTarget(
-    name: "fmt",
-    path: "Frameworks/fmt.xcframework"
-),
-.binaryTarget(
-    name: "folly",
-    path: "Frameworks/folly.xcframework"
-),
-.binaryTarget(
-    name: "glog",
-    path: "Frameworks/glog.xcframework"
-),
-.binaryTarget(
     name: "hermesvm",
     path: "Frameworks/hermesvm.xcframework"
-),
-.binaryTarget(
-    name: "idlecallbacksnativemodule",
-    path: "Frameworks/idlecallbacksnativemodule.xcframework"
-),
-.binaryTarget(
-    name: "intersectionobservernativemodule",
-    path: "Frameworks/intersectionobservernativemodule.xcframework"
-),
-.binaryTarget(
-    name: "jsi",
-    path: "Frameworks/jsi.xcframework"
-),
-.binaryTarget(
-    name: "jsinspector_modern",
-    path: "Frameworks/jsinspector_modern.xcframework"
-),
-.binaryTarget(
-    name: "jsinspector_moderncdp",
-    path: "Frameworks/jsinspector_moderncdp.xcframework"
-),
-.binaryTarget(
-    name: "jsinspector_modernnetwork",
-    path: "Frameworks/jsinspector_modernnetwork.xcframework"
-),
-.binaryTarget(
-    name: "jsinspector_moderntracing",
-    path: "Frameworks/jsinspector_moderntracing.xcframework"
-),
-.binaryTarget(
-    name: "jsireact",
-    path: "Frameworks/jsireact.xcframework"
-),
-.binaryTarget(
-    name: "logger",
-    path: "Frameworks/logger.xcframework"
-),
-.binaryTarget(
-    name: "mutationobservernativemodule",
-    path: "Frameworks/mutationobservernativemodule.xcframework"
-),
-.binaryTarget(
-    name: "oscompat",
-    path: "Frameworks/oscompat.xcframework"
 ),
 .binaryTarget(
     name: "react_native_blob_util",
@@ -413,22 +103,6 @@ let package = Package(
 .binaryTarget(
     name: "react_native_safe_area_context",
     path: "Frameworks/react_native_safe_area_context.xcframework"
-),
-.binaryTarget(
-    name: "reacthermes",
-    path: "Frameworks/reacthermes.xcframework"
-),
-.binaryTarget(
-    name: "reactperflogger",
-    path: "Frameworks/reactperflogger.xcframework"
-),
-.binaryTarget(
-    name: "webperformancenativemodule",
-    path: "Frameworks/webperformancenativemodule.xcframework"
-),
-.binaryTarget(
-    name: "yoga",
-    path: "Frameworks/yoga.xcframework"
 )
     ]
 )

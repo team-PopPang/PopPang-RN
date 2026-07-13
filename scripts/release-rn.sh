@@ -129,7 +129,8 @@ npm run bundle:android
 echo "RN XCFramework 생성"
 (
   cd "$SPM_SRC_DIR"
-  ./build_xcframeworks.sh
+  ./New_build_xcframeworks.sh
+  # ./build_xcframeworks.sh
 )
 
 echo "RN Android AAR 및 Maven 저장소 생성"

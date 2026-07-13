@@ -4,11 +4,9 @@ platform :ios, '17.0'
 # 상위 PopPang-RN 프로젝트의 node_modules를 사용한다.
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 
-# ReactNativeDependencies.xcframework를 사용하지 않는다.
-ENV['RCT_USE_RN_DEP'] = '0'
-
-# React Core를 source-build 한다.
-ENV['RCT_USE_PREBUILT_RNCORE'] = '0'
+# React Native Core와 의존성의 prebuilt 사용 여부는 실행 스크립트가 결정한다.
+# build_xcframeworks.sh는 source-build를, New_build_xcframeworks.sh는 prebuilt를 요청한다.
+# 값을 지정하지 않으면 React Native 0.86의 기본값인 prebuilt를 사용한다.
 
 inhibit_all_warnings!
 

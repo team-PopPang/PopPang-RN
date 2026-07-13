@@ -10,8 +10,8 @@
 
 #if __has_include(<React-RCTAppDelegate/RCTDependencyProvider.h>)
 #import <React-RCTAppDelegate/RCTDependencyProvider.h>
-#elif __has_include(<React_RCTAppDelegate/RCTDependencyProvider.h>)
-#import <React_RCTAppDelegate/RCTDependencyProvider.h>
+#elif __has_include(<React/React_RCTAppDelegate/RCTDependencyProvider.h>)
+#import <React/React_RCTAppDelegate/RCTDependencyProvider.h>
 #else
 #import "RCTDependencyProvider.h"
 #endif

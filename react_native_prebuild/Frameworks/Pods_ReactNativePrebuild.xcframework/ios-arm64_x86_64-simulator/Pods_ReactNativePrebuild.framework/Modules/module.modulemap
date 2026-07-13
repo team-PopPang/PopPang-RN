@@ -1,4 +1,4 @@
-framework module Pods_ReactNativePrebuild [system] {
+framework module Pods_ReactNativePrebuild {
   umbrella header "Pods-ReactNativePrebuild-umbrella.h"
 
   export *

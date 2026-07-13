@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # React Core와 ReactNativeDependencies를 source-build 한다.
-# Podfile에도 동일하게 0이 설정돼 있어야 한다.
+# Podfile은 이 환경 변수를 그대로 사용한다.
 export RCT_USE_PREBUILT_RNCORE="${RCT_USE_PREBUILT_RNCORE:-0}"
 export RCT_USE_RN_DEP="${RCT_USE_RN_DEP:-0}"
 

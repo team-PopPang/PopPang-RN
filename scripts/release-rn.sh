@@ -142,6 +142,7 @@ echo "RN Android AAR 및 Maven 저장소 생성"
 echo "SPM 패키지 staging"
 mkdir -p "$STAGING_DIR/$SPM_DIR_NAME"
 cp "$SPM_SRC_DIR/Package.swift" "$STAGING_DIR/$SPM_DIR_NAME/"
+ditto "$SPM_SRC_DIR/HostSources" "$STAGING_DIR/$SPM_DIR_NAME/HostSources"
 ditto "$SPM_SRC_DIR/Sources" "$STAGING_DIR/$SPM_DIR_NAME/Sources"
 ditto "$SPM_SRC_DIR/Frameworks" "$STAGING_DIR/$SPM_DIR_NAME/Frameworks"
 

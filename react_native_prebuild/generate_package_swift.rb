@@ -166,7 +166,7 @@ package_swift_content = <<~SWIFT
       products: [
           .library(
               name: "PrebuiltReactNativeFrameworks",
-              targets: ["PrebuiltReactNativeFrameworks"]
+            targets: ["PrebuiltReactNativeFrameworks", "PopPangReactNativeHost"]
           )
       ],
       targets: [
@@ -186,6 +186,15 @@ package_swift_content << <<~SWIFT
               sources: ["dummy.swift"],
               linkerSettings: [
 #{linker_settings}
+              ]
+          ),
+          .target(
+              name: "PopPangReactNativeHost",
+              dependencies: ["React"],
+              path: "HostSources",
+              publicHeadersPath: "include",
+              linkerSettings: [
+                  .unsafeFlags(["-ObjC"])
               ]
           ),
 SWIFT

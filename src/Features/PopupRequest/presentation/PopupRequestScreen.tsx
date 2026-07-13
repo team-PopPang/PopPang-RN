@@ -14,15 +14,22 @@ import {
   type KeyboardEvent,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {
+  emitPopPangNativeEvent,
+  POPPANG_NATIVE_EVENT,
+  type PopPangNativeEvent,
+} from '../../../native/PopPangHostAction';
 import type {PopupRequestRepository} from '../domain/repositories/PopupRequestRepository';
 import {colors} from './components/FormControls';
 import {PopupRequestForm} from './components/PopupRequestForm';
 import {usePopupRequest} from './hooks/usePopupRequest';
 
 export function PopupRequestScreen({
+  nativeEvents,
   userUuid,
   repository,
 }: {
+  nativeEvents?: readonly PopPangNativeEvent[] | null;
   userUuid: string;
   repository: PopupRequestRepository;
 }) {
@@ -63,7 +70,16 @@ export function PopupRequestScreen({
   const submit = async () => {
     const result = await popupRequest.submit();
     if (result.success) {
-      Alert.alert('제보 완료', '팝업 제보가 등록되었습니다.');
+      Alert.alert('제보 완료', '팝업 제보가 등록되었습니다.', [
+        {
+          onPress: () =>
+            emitPopPangNativeEvent(
+              POPPANG_NATIVE_EVENT.POPUP_REQUEST_SUBMITTED,
+              nativeEvents,
+            ),
+          text: '확인',
+        },
+      ]);
     } else {
       Alert.alert('제출 실패', result.error ?? '제출에 실패했습니다.');
     }

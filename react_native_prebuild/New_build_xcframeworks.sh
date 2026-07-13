@@ -27,6 +27,7 @@ readonly POD_STATE_DIR="$CACHE_DIR/pods"
 readonly OUTPUT_STATE_DIR="$CACHE_DIR/outputs"
 
 readonly FRAMEWORKS_DIR="$SRCROOT/Frameworks"
+readonly HOST_SOURCES_DIR="$SRCROOT/HostSources"
 readonly SOURCES_DIR="$SRCROOT/Sources"
 readonly PACKAGE_SWIFT_PATH="$SRCROOT/Package.swift"
 
@@ -100,6 +101,8 @@ output_fingerprint() {
     hash_file_if_present "$SRCROOT/New_build_xcframeworks.sh"
     hash_file_if_present "$SRCROOT/materialize_react_vfs_headers.rb"
     hash_file_if_present "$SRCROOT/generate_package_swift.rb"
+    hash_file_if_present "$HOST_SOURCES_DIR/PopPangHostAction.m"
+    hash_file_if_present "$HOST_SOURCES_DIR/include/PopPangHostAction.h"
   } | shasum -a 256 | awk '{print $1}'
 }
 
@@ -163,6 +166,7 @@ output_is_current() {
     [[ -f "$state_file" ]] &&
     [[ "$(<"$state_file")" == "$fingerprint" ]] &&
     [[ -d "$FRAMEWORKS_DIR" ]] &&
+    [[ -d "$HOST_SOURCES_DIR" ]] &&
     [[ -d "$SOURCES_DIR" ]] &&
     [[ -f "$PACKAGE_SWIFT_PATH" ]] &&
     prebuilt_frameworks_are_packaged "$FRAMEWORKS_DIR" "$PACKAGE_SWIFT_PATH" &&
@@ -228,6 +232,7 @@ prebuilt_react_headers_are_materialized() {
 mkdir -p "$SRCROOT/.build"
 readonly STAGING_ROOT="$(mktemp -d "$SRCROOT/.build/new-prebuild.XXXXXX")"
 readonly STAGING_FRAMEWORKS_DIR="$STAGING_ROOT/Frameworks"
+readonly STAGING_HOST_SOURCES_DIR="$STAGING_ROOT/HostSources"
 readonly STAGING_SOURCES_DIR="$STAGING_ROOT/Sources"
 readonly STAGING_PACKAGE_SWIFT_PATH="$STAGING_ROOT/Package.swift"
 readonly SIM_ARCHIVE="$STAGING_ROOT/$PROJECT-iphonesimulator.xcarchive"
@@ -238,15 +243,15 @@ readonly DEVICE_FRAMEWORKS_DIR="$DEVICE_ARCHIVE/Products/Library/Frameworks"
 PUBLISHED=0
 PUBLISH_BACKUP_DIR=""
 
-# publish 중간에 실패했을 때 기존 Frameworks, Sources, Package.swift를 복원한다.
+# publish 중간에 실패했을 때 기존 Frameworks, HostSources, Sources, Package.swift를 복원한다.
 # staging 결과가 불완전해도 마지막 정상 산출물은 유지한다.
 rollback_publish() {
   local entry
 
   [[ -n "$PUBLISH_BACKUP_DIR" ]] || return 0
 
-  rm -rf "$FRAMEWORKS_DIR" "$SOURCES_DIR" "$PACKAGE_SWIFT_PATH"
-  for entry in Frameworks Sources Package.swift; do
+  rm -rf "$FRAMEWORKS_DIR" "$HOST_SOURCES_DIR" "$SOURCES_DIR" "$PACKAGE_SWIFT_PATH"
+  for entry in Frameworks HostSources Sources Package.swift; do
     if [[ -e "$PUBLISH_BACKUP_DIR/$entry" ]]; then
       mv "$PUBLISH_BACKUP_DIR/$entry" "$SRCROOT/$entry"
     fi
@@ -446,6 +451,17 @@ strip_packaged_xcframework_signatures() {
   )
 }
 
+# iOS 호스트 앱이 RN 완료 이벤트를 Swift 액션으로 연결할 수 있도록 브리지 소스를 staging에 넣는다.
+copy_host_sources() {
+  [[ -d "$HOST_SOURCES_DIR" ]] || {
+    echo "error: PopPang iOS host bridge sources not found" >&2
+    echo "path: $HOST_SOURCES_DIR" >&2
+    return 1
+  }
+
+  ditto "$HOST_SOURCES_DIR" "$STAGING_HOST_SOURCES_DIR"
+}
+
 # staging Frameworks 목록을 바탕으로 SwiftPM Package.swift를 생성한다.
 # 생성기는 CocoaPods linker flag도 SwiftPM linkerSettings로 옮긴다.
 generate_package_swift() {
@@ -468,6 +484,11 @@ verify_staged_package() {
     return 1
   }
 
+  [[ -f "$STAGING_HOST_SOURCES_DIR/PopPangHostAction.m" ]] || {
+    echo "error: PopPang iOS host bridge source was not staged" >&2
+    return 1
+  }
+
   find "$STAGING_FRAMEWORKS_DIR" -maxdepth 1 -type d -name '*.xcframework' -print -quit | grep -q . || {
     echo "error: no XCFramework was generated" >&2
     return 1
@@ -487,13 +508,14 @@ publish_staged_package() {
   local entry
 
   PUBLISH_BACKUP_DIR="$(mktemp -d "$CACHE_DIR/publish-backup.XXXXXX")"
-  for entry in Frameworks Sources Package.swift; do
+  for entry in Frameworks HostSources Sources Package.swift; do
     if [[ -e "$SRCROOT/$entry" ]]; then
       mv "$SRCROOT/$entry" "$PUBLISH_BACKUP_DIR/$entry"
     fi
   done
 
   mv "$STAGING_FRAMEWORKS_DIR" "$FRAMEWORKS_DIR"
+  mv "$STAGING_HOST_SOURCES_DIR" "$HOST_SOURCES_DIR"
   mv "$STAGING_SOURCES_DIR" "$SOURCES_DIR"
   mv "$STAGING_PACKAGE_SWIFT_PATH" "$PACKAGE_SWIFT_PATH"
   PUBLISHED=1
@@ -527,6 +549,7 @@ main() {
   copy_prebuilt_react_native_xcframeworks
   materialize_prebuilt_react_headers
   strip_packaged_xcframework_signatures
+  copy_host_sources
   generate_package_swift
   verify_staged_package
   publish_staged_package

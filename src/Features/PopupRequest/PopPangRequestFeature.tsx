@@ -8,12 +8,14 @@ import type {PopPangFeatureProps} from '../poppangFeatureProps';
 const liveRepository = new LivePopupRequestRepository();
 
 export default function PopPangRequestFeature({
+  nativeEvents,
   userUuid,
 }: PopPangFeatureProps) {
   return (
     <SafeAreaProvider>
       <SafeAreaView edges={['bottom']} style={styles.container}>
         <PopupRequestScreen
+          nativeEvents={nativeEvents}
           repository={liveRepository}
           userUuid={userUuid ?? (__DEV__ ? 'preview-user' : '')}
         />

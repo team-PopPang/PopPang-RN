@@ -1,5 +1,7 @@
 package com.poppang.rn
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
@@ -25,9 +27,12 @@ class PopPangRnActivity : ReactActivity() {
 
             override fun getLaunchOptions(): Bundle? {
                 val feature = intent?.getStringExtra(PopPangRnSdk.EXTRA_FEATURE)
+                val nativeEvents = intent?.getStringArrayListExtra(
+                    PopPangRnSdk.EXTRA_NATIVE_EVENTS,
+                )
                 val userUuid = intent?.getStringExtra(PopPangRnSdk.EXTRA_USER_UUID)
 
-                if (feature == null && userUuid == null) {
+                if (feature == null && userUuid == null && nativeEvents.isNullOrEmpty()) {
                     return null
                 }
 
@@ -39,9 +44,18 @@ class PopPangRnActivity : ReactActivity() {
                     if (userUuid != null) {
                         putString("userUuid", userUuid)
                     }
+
+                    if (!nativeEvents.isNullOrEmpty()) {
+                        putStringArrayList("nativeEvents", nativeEvents)
+                    }
                 }
             }
         }
+    }
+
+    internal fun completeWithEvent(eventName: String) {
+        setResult(Activity.RESULT_OK, Intent().putExtra(PopPangRnSdk.EXTRA_EVENT, eventName))
+        finish()
     }
 
     private companion object {

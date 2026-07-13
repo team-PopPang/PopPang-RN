@@ -45,7 +45,9 @@ internal object PopPangReactRuntime {
 
         return DefaultReactHost.getDefaultReactHost(
             context = appContext,
-            packageList = PopPangPackageList(application).packages,
+            packageList = PopPangPackageList(application).packages.apply {
+                add(PopPangHostActionPackage())
+            },
             jsBundleAssetPath = BUNDLE_ASSET_PATH,
             useDevSupport = false,
         ).also { reactHost = it }

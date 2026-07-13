@@ -118,19 +118,22 @@ Android 네이티브 패키지만 로컬에서 확인할 때는 아래 스크립
 
 ## 지원 모듈과 파라미터
 
-네이티브 클라이언트에 제공하는 모듈은 두 가지예요. iOS와 Android 모두 같은 `feature` 값과 `userUuid`를 전달해요.
+네이티브 클라이언트에 제공하는 모듈은 두 가지예요. iOS와 Android 모두 같은 `feature`, `userUuid`, `nativeEvents` 값을 전달해요.
 
-| 화면 | `feature` 값 | `userUuid` 용도 |
-| --- | --- | --- |
-| 팝업 제보 | `request` | 제보자를 식별해요. 비어 있으면 제보할 수 없어요. |
-| 팝업 제보 관리 | `request-management` | 관리자 API 요청에 사용할 관리자 UUID예요. |
+| 화면 | `feature` 값 | `userUuid` 용도 | 지원 네이티브 이벤트 |
+| --- | --- | --- | --- |
+| 팝업 제보 | `request` | 제보자를 식별해요. 비어 있으면 제보할 수 없어요. | `popupRequestSubmitted` |
+| 팝업 제보 관리 | `request-management` | 관리자 API 요청에 사용할 관리자 UUID예요. | 없음 |
 
 | 파라미터 | 타입 | 필수 | 설명 |
 | --- | --- | --- | --- |
 | `feature` | 문자열 | 예 | 위 표의 정확한 모듈 값을 전달해요. |
 | `userUuid` | 문자열 | 예 | 로그인한 사용자의 UUID를 전달해요. 팝업 제보 관리에는 관리자 UUID를 사용해요. |
+| `nativeEvents` | 문자열 배열 | 아니요 | RN이 네이티브로 전달할 이벤트를 제한해요. 현재 `popupRequestSubmitted`만 지원해요. |
 
-iOS는 `moduleName`에 항상 `PopPangRNRoot`를 넣고, `initialProperties`로 두 파라미터를 전달해요. Android는 `PopPangRnSdk.createIntent`가 같은 값을 전달해요. `feature`를 생략하거나 지원하지 않는 값을 넣으면 기본 root 화면이 열리므로, 클라이언트 앱에서는 위 두 값만 사용해요.
+iOS는 `moduleName`에 항상 `PopPangRNRoot`를 넣고, `initialProperties`로 세 파라미터를 전달해요. Android는 `PopPangRnSdk.createIntent`가 같은 값을 전달해요. `feature`를 생략하거나 지원하지 않는 값을 넣으면 기본 root 화면이 열리므로, 클라이언트 앱에서는 위 두 값만 사용해요.
+
+`popupRequestSubmitted`는 팝업 제보 API가 성공하고 사용자가 완료 Alert의 `확인`을 누를 때만 발생해요. `nativeEvents`에서 이 값을 빼면 RN은 네이티브 모듈을 호출하지 않아요. 팝업 제보 관리 화면은 현재 네이티브 이벤트를 보내지 않아요.
 
 ## 클라이언트 앱(Android)
 
@@ -256,23 +259,38 @@ dependencies {
 }
 ```
 
-React Native 화면은 SDK가 제공하는 Intent로 열어요.
+React Native 화면은 SDK가 제공하는 Intent로 열어요. 팝업 제보 완료 이벤트를 받으려면 `ActivityResultLauncher`로 열고, `nativeEvents`에 `popupRequestSubmitted`를 넣어요.
 
 ```kotlin
+import android.app.Activity
+import androidx.activity.result.contract.ActivityResultContracts
 import com.poppang.rn.PopPangRnSdk
 
 val userUuid = "로그인한-사용자-UUID"
 
-// 팝업 제보 화면 열기
-startActivity(
+private val popupRequestLauncher =
+    registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val eventName = result.data?.getStringExtra(PopPangRnSdk.EXTRA_EVENT)
+
+        if (
+            result.resultCode == Activity.RESULT_OK &&
+            eventName == PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED
+        ) {
+            // 팝업 제보 완료 뒤 필요한 화면 갱신이나 닫기 동작을 실행해요.
+        }
+    }
+
+// 팝업 제보 화면 열기와 완료 이벤트 수신
+popupRequestLauncher.launch(
     PopPangRnSdk.createIntent(
         this,
         "request",
         userUuid,
+        setOf(PopPangRnSdk.NativeEvent.POPUP_REQUEST_SUBMITTED),
     )
 )
 
-// 팝업 제보 관리 화면 열기
+// 팝업 제보 관리 화면 열기: 네이티브 이벤트를 전달하지 않아요.
 startActivity(
     PopPangRnSdk.createIntent(
         this,
@@ -282,7 +300,7 @@ startActivity(
 )
 ```
 
-`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받으므로, 위 두 값을 그대로 사용해요.
+`feature`와 `userUuid`를 모두 전달해야 해요. Android SDK는 `feature`를 문자열로 받고, 이벤트가 필요할 때만 네 번째 인자로 `nativeEvents` 집합을 받아요. 일반 `startActivity`로 팝업 제보를 열어도 화면은 닫히지만, 완료 결과를 처리하려면 위처럼 `ActivityResultLauncher`를 사용해야 해요.
 
 </details>
 
@@ -383,6 +401,7 @@ chmod +x scripts/download-rn-release.sh
 - `Resources/ReactNative` 폴더에는 `main.jsbundle`과 `assets/`를 함께 유지해요.
 - `main.jsbundle`만 `Copy Bundle Resources`에 추가하면 React Native 이미지 에셋의 하위 경로가 사라져요. `Resources/ReactNative`를 Xcode 프로젝트에 폴더 참조(파란 폴더)로 추가하고 앱 타겟의 `Copy Bundle Resources`에 포함해요.
 - `native-entry.js`에서 등록한 모듈 이름과 Swift의 `moduleName`은 같아야 해요.
+- 팝업 제보 완료 이벤트를 처리하려면 SPM 패키지가 제공하는 `PopPangReactNativeHost` 모듈을 앱 타겟에 연결해요.
 
 파일 시스템 동기화 그룹만 사용하는 Xcode 프로젝트에서는 폴더 안의 파일이 앱 루트에 평탄화될 수 있어요. 반드시 폴더 참조를 사용해 `ReactNative/assets/...` 경로를 유지해요.
 
@@ -391,6 +410,7 @@ native-entry.js
   → PopPangRNRoot 등록
   → 내부에서 initialProperties.feature로 request/request-management 선택
   → initialProperties.userUuid를 각 feature로 전달
+  → initialProperties.nativeEvents에 있는 이벤트만 네이티브로 전달
 
 Swift
   → moduleName: "PopPangRNRoot"
@@ -404,6 +424,7 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import PopPangReactNativeHost
 
 // Debug에서는 Metro를, Release에서는 앱에 포함한 main.jsbundle을 사용한다.
 final class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
@@ -485,16 +506,21 @@ final class ReactViewController: UIViewController {
 struct ReactNativeScreen: UIViewControllerRepresentable {
     let moduleName: String
     let initialProperties: [String: Any]?
+    let onNativeEvent: ((String) -> Void)?
 
     init(
         moduleName: String,
-        initialProperties: [String: Any]? = nil
+        initialProperties: [String: Any]? = nil,
+        onNativeEvent: ((String) -> Void)? = nil
     ) {
         self.moduleName = moduleName
         self.initialProperties = initialProperties
+        self.onNativeEvent = onNativeEvent
     }
 
     func makeUIViewController(context: Context) -> ReactViewController {
+        PopPangHostAction.setEventHandler(onNativeEvent)
+
         ReactViewController(
             moduleName: moduleName,
             initialProperties: initialProperties
@@ -505,23 +531,47 @@ struct ReactNativeScreen: UIViewControllerRepresentable {
         _ uiViewController: ReactViewController,
         context: Context
     ) {}
+
+    static func dismantleUIViewController(
+        _ uiViewController: ReactViewController,
+        coordinator: ()
+    ) {
+        PopPangHostAction.setEventHandler(nil)
+    }
 }
 
 struct ContentView: View {
+    @State private var isPopupRequestPresented = false
+
     var body: some View {
-        ReactNativeScreen(
-            moduleName: "PopPangRNRoot",
-            initialProperties: [
-                "feature": "request",
-                "userUuid": "로그인한-사용자-UUID"
-            ]
-        )
-        .ignoresSafeArea()
+        Button("팝업 제보하기") {
+            isPopupRequestPresented = true
+        }
+        .fullScreenCover(isPresented: $isPopupRequestPresented) {
+            ReactNativeScreen(
+                moduleName: "PopPangRNRoot",
+                initialProperties: [
+                    "feature": "request",
+                    "userUuid": "로그인한-사용자-UUID",
+                    "nativeEvents": ["popupRequestSubmitted"]
+                ],
+                onNativeEvent: { eventName in
+                    guard eventName == PopPangNativeEventPopupRequestSubmitted else {
+                        return
+                    }
+
+                    isPopupRequestPresented = false
+                }
+            )
+            .ignoresSafeArea()
+        }
     }
 }
 ```
 
-팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요.
+`PopPangHostAction`은 현재 표시 중인 React Native 화면 하나에 이벤트 핸들러를 연결해요. `fullScreenCover`가 사라질 때 `dismantleUIViewController`가 핸들러를 비우므로, 완료 이벤트가 다음 화면으로 전달되지 않아요.
+
+팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. `nativeEvents`와 `onNativeEvent`를 전달하지 않으므로 네이티브 완료 이벤트를 받지 않아요.
 
 ```swift
 ReactNativeScreen(
@@ -545,7 +595,7 @@ Metro의 index.js 로드
 Release
 앱에 포함된 main.jsbundle 로드
   → native-entry.js
-  → initialProperties.feature, initialProperties.userUuid 확인
+  → initialProperties.feature, initialProperties.userUuid, initialProperties.nativeEvents 확인
   → request 또는 request-management 화면 표시
 ```
 

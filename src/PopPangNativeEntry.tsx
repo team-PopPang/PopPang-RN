@@ -14,5 +14,10 @@ export default function PopPangNativeEntry(props: PopPangNativeEntryProps) {
   const featureId = resolvePopPangFeature(props.feature);
   const SelectedComponent = poppangFeatureDefinitions[featureId].component;
 
-  return <SelectedComponent userUuid={props.userUuid} />;
+  return (
+    <SelectedComponent
+      nativeEvents={props.nativeEvents}
+      userUuid={props.userUuid}
+    />
+  );
 }

@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "PrebuiltReactNativeFrameworks",
-            targets: ["PrebuiltReactNativeFrameworks"]
+          targets: ["PrebuiltReactNativeFrameworks", "PopPangReactNativeHost"]
         )
     ],
     targets: [
@@ -54,6 +54,15 @@ let package = Package(
 
                   // 약한 링크가 필요한 iOS 시스템 프레임워크
                   .unsafeFlags(["-weak_framework", "JavaScriptCore"], .when(platforms: [.iOS])),
+              ]
+          ),
+          .target(
+              name: "PopPangReactNativeHost",
+              dependencies: ["React"],
+              path: "HostSources",
+              publicHeadersPath: "include",
+              linkerSettings: [
+                  .unsafeFlags(["-ObjC"])
               ]
           ),
 .binaryTarget(

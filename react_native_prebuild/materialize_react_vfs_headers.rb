@@ -18,12 +18,20 @@ def fail_with(message)
   exit 1
 end
 
-react_xcframework_path, dependencies_xcframework_path, hermes_headers_path, frameworks_dir = ARGV
+react_xcframework_path, dependencies_xcframework_path, hermes_headers_path, frameworks_dir, minimum_os_version = ARGV
 if [react_xcframework_path, dependencies_xcframework_path, hermes_headers_path, frameworks_dir].any?(&:nil?)
   fail_with(
     "usage: #{File.basename($PROGRAM_NAME)} <React.xcframework> " \
-    "<ReactNativeDependencies.xcframework> <hermes-headers-dir> <frameworks-dir>"
+    "<ReactNativeDependencies.xcframework> <hermes-headers-dir> <frameworks-dir> " \
+    "[minimum-ios-version]"
   )
+end
+
+# React_RCTAppDelegate shim은 XCFramework를 직접 만들기 때문에 Info.plist도 직접 작성한다.
+# App Store Connect가 embedded framework에 요구하는 MinimumOSVersion을 누락하지 않는다.
+minimum_os_version ||= "17.0"
+unless minimum_os_version.match?(/\A\d+(?:\.\d+){1,2}\z/)
+  fail_with("invalid minimum iOS version: #{minimum_os_version}")
 end
 
 react_xcframework_path = File.expand_path(react_xcframework_path)
@@ -124,8 +132,8 @@ def run_command!(*command)
 end
 
 # shim framework가 Xcode에서 유효한 번들로 인식되도록 최소 Info.plist를 작성한다.
-# 지원 플랫폼 값은 Device, Simulator, Mac Catalyst slice별로 전달받는다.
-def write_framework_info_plist(path, framework_name, supported_platform)
+# 지원 플랫폼과 MinimumOSVersion은 Device, Simulator, Mac Catalyst slice별로 전달받는다.
+def write_framework_info_plist(path, framework_name, supported_platform, minimum_os_version)
   File.write(path, <<~XML)
     <?xml version="1.0" encoding="UTF-8"?>
     <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -140,6 +148,7 @@ def write_framework_info_plist(path, framework_name, supported_platform)
       <key>CFBundleShortVersionString</key><string>1.0</string>
       <key>CFBundleVersion</key><string>1</string>
       <key>CFBundleSupportedPlatforms</key><array><string>#{supported_platform}</string></array>
+      <key>MinimumOSVersion</key><string>#{minimum_os_version}</string>
     </dict>
     </plist>
   XML
@@ -147,7 +156,7 @@ end
 
 # 하나의 플랫폼 slice용 React_RCTAppDelegate 정적 framework를 만든다.
 # 공개 헤더와 module map은 제공하고, 바이너리는 자동 링크만 만족하는 작은 정적 라이브러리로 만든다.
-def build_static_framework(tmpdir, identifier, sdk, targets, supported_platform, headers_path)
+def build_static_framework(tmpdir, identifier, sdk, targets, supported_platform, headers_path, minimum_os_version)
   framework_name = "React_RCTAppDelegate"
   framework_path = File.join(tmpdir, identifier, "#{framework_name}.framework")
   headers_destination = File.join(framework_path, "Headers")
@@ -167,7 +176,8 @@ def build_static_framework(tmpdir, identifier, sdk, targets, supported_platform,
   write_framework_info_plist(
     File.join(framework_path, "Info.plist"),
     framework_name,
-    supported_platform
+    supported_platform,
+    minimum_os_version
   )
 
   source_path = File.join(tmpdir, "react_rct_app_delegate_linker_shim.c")
@@ -191,7 +201,7 @@ end
 
 # Device, Simulator, Mac Catalyst slice를 하나의 React_RCTAppDelegate XCFramework로 묶는다.
 # 실제 구현은 React.framework에 남기고, 이 shim은 Swift의 모듈·링크 이름만 제공한다.
-def create_react_rct_app_delegate_shim(frameworks_dir, headers_path)
+def create_react_rct_app_delegate_shim(frameworks_dir, headers_path, minimum_os_version)
   framework_name = "React_RCTAppDelegate"
   destination = File.join(frameworks_dir, "#{framework_name}.xcframework")
   FileUtils.rm_rf(destination)
@@ -207,7 +217,8 @@ def create_react_rct_app_delegate_shim(frameworks_dir, headers_path)
         "iphoneos",
         ["arm64-apple-ios17.0"],
         "iPhoneOS",
-        headers_path
+        headers_path,
+        minimum_os_version
       ),
       build_static_framework(
         tmpdir,
@@ -215,7 +226,8 @@ def create_react_rct_app_delegate_shim(frameworks_dir, headers_path)
         "iphonesimulator",
         ["arm64-apple-ios17.0-simulator", "x86_64-apple-ios17.0-simulator"],
         "iPhoneSimulator",
-        headers_path
+        headers_path,
+        minimum_os_version
       ),
       build_static_framework(
         tmpdir,
@@ -223,7 +235,8 @@ def create_react_rct_app_delegate_shim(frameworks_dir, headers_path)
         "macosx",
         ["arm64-apple-ios17.0-macabi", "x86_64-apple-ios17.0-macabi"],
         "MacOSX",
-        headers_path
+        headers_path,
+        minimum_os_version
       )
     ]
 
@@ -271,7 +284,11 @@ mark_react_module_as_system(react_xcframework_path)
 
 app_delegate_headers = File.join(react_framework_headers.first, "React_RCTAppDelegate")
 fail_with("React RCTAppDelegate headers not found: #{app_delegate_headers}") unless Dir.exist?(app_delegate_headers)
-create_react_rct_app_delegate_shim(frameworks_dir, app_delegate_headers)
+create_react_rct_app_delegate_shim(
+  frameworks_dir,
+  app_delegate_headers,
+  minimum_os_version
+)
 
 aliases = mappings.map { |logical_path, _| logical_path.split(File::SEPARATOR, 2).first }
 aliases.concat(Dir.children(dependencies_headers_root).select do |entry|

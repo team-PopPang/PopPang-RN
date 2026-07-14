@@ -22,6 +22,9 @@ cd "$SRCROOT"
 readonly WORKSPACE="ReactNativePrebuild"
 readonly PROJECT="Pods-$WORKSPACE"
 readonly CONFIGURATION="${1:-Release}"
+# 배포 대상 앱과 framework device slice의 최소 iOS 버전을 통일한다.
+# App Store Connect는 embedded framework의 Info.plist에도 이 값을 요구한다.
+readonly IOS_DEPLOYMENT_TARGET="17.0"
 readonly CACHE_DIR="$SRCROOT/.build/new-prebuild-cache"
 readonly POD_STATE_DIR="$CACHE_DIR/pods"
 readonly OUTPUT_STATE_DIR="$CACHE_DIR/outputs"
@@ -170,6 +173,7 @@ output_is_current() {
     [[ -d "$SOURCES_DIR" ]] &&
     [[ -f "$PACKAGE_SWIFT_PATH" ]] &&
     prebuilt_frameworks_are_packaged "$FRAMEWORKS_DIR" "$PACKAGE_SWIFT_PATH" &&
+    device_framework_minimum_os_versions_are_valid "$FRAMEWORKS_DIR" >/dev/null 2>&1 &&
     find "$FRAMEWORKS_DIR" -maxdepth 1 -type d -name '*.xcframework' -print -quit | grep -q .
 }
 
@@ -227,6 +231,99 @@ prebuilt_react_headers_are_materialized() {
   )
 
   [[ "$found_slice" == "1" ]]
+}
+
+# XCFramework 안에서 iOS device slice의 framework Info.plist만 순회한다.
+# Simulator와 Mac Catalyst slice는 App Store에 embedded framework로 포함되지 않으므로 제외한다.
+for_each_device_framework_info_plist() {
+  local frameworks_dir="$1"
+  local callback="$2"
+  local xcframework_path
+  local plist_path
+
+  for xcframework_path in "$frameworks_dir"/*.xcframework; do
+    [[ -d "$xcframework_path" ]] || continue
+
+    while IFS= read -r -d '' plist_path; do
+      case "$plist_path" in
+        *-simulator/* | *-maccatalyst/*)
+          continue
+          ;;
+      esac
+
+      "$callback" "$plist_path"
+    done < <(
+      find "$xcframework_path" \
+        -type f \
+        -path '*/ios-*/*.framework/Info.plist' \
+        -print0
+    )
+  done
+}
+
+# Info.plist의 MinimumOSVersion을 배포 대상과 같은 문자열 값으로 다시 기록한다.
+# prebuilt framework와 CocoaPods archive 결과 모두 같은 규칙으로 처리한다.
+set_device_framework_minimum_os_version() {
+  local plist_path="$1"
+
+  /usr/libexec/PlistBuddy -c 'Delete :MinimumOSVersion' "$plist_path" >/dev/null 2>&1 || true
+  /usr/libexec/PlistBuddy \
+    -c "Add :MinimumOSVersion string $IOS_DEPLOYMENT_TARGET" \
+    "$plist_path"
+}
+
+# 모든 iOS device framework slice가 예상한 값을 가지는지 검사한다.
+# 누락·다른 버전을 발견하면 staging 결과를 publish하지 않는다.
+verify_device_framework_minimum_os_version() {
+  local plist_path="$1"
+  local actual_version
+
+  actual_version="$(/usr/libexec/PlistBuddy -c 'Print :MinimumOSVersion' "$plist_path" 2>/dev/null || true)"
+  if [[ "$actual_version" != "$IOS_DEPLOYMENT_TARGET" ]]; then
+    echo "error: invalid MinimumOSVersion in $plist_path: ${actual_version:-missing}" >&2
+    return 1
+  fi
+}
+
+device_framework_minimum_os_versions_are_valid() {
+  local frameworks_dir="$1"
+  local plist_path
+  local found_count=0
+
+  for xcframework_path in "$frameworks_dir"/*.xcframework; do
+    [[ -d "$xcframework_path" ]] || continue
+
+    while IFS= read -r -d '' plist_path; do
+      case "$plist_path" in
+        *-simulator/* | *-maccatalyst/*)
+          continue
+          ;;
+      esac
+
+      found_count=$((found_count + 1))
+      verify_device_framework_minimum_os_version "$plist_path" || return 1
+    done < <(
+      find "$xcframework_path" \
+        -type f \
+        -path '*/ios-*/*.framework/Info.plist' \
+        -print0
+    )
+  done
+
+  if [[ "$found_count" -eq 0 ]]; then
+    echo "error: no iOS device framework Info.plist was found" >&2
+    return 1
+  fi
+}
+
+# 배포 직전에 모든 iOS device slice의 Info.plist를 정규화한다.
+# 이후 서명 제거 단계에서 수정으로 무효화된 기존 framework 서명을 함께 제거한다.
+normalize_device_framework_minimum_os_versions() {
+  for_each_device_framework_info_plist \
+    "$STAGING_FRAMEWORKS_DIR" \
+    set_device_framework_minimum_os_version
+
+  device_framework_minimum_os_versions_are_valid "$STAGING_FRAMEWORKS_DIR"
 }
 
 mkdir -p "$SRCROOT/.build"
@@ -291,6 +388,7 @@ archive_for_sdk() {
     -sdk "$sdk"
     SKIP_INSTALL=NO
     BUILD_LIBRARY_FOR_DISTRIBUTION=YES
+    IPHONEOS_DEPLOYMENT_TARGET="$IOS_DEPLOYMENT_TARGET"
     CLANG_ENABLE_EXPLICIT_MODULES=NO
     SWIFT_ENABLE_EXPLICIT_MODULES=NO
   )
@@ -425,13 +523,15 @@ materialize_prebuilt_react_headers() {
       "$STAGING_FRAMEWORKS_DIR/React.xcframework" \
       "$STAGING_FRAMEWORKS_DIR/ReactNativeDependencies.xcframework" \
       "$HERMES_HEADERS" \
-      "$STAGING_FRAMEWORKS_DIR"
+      "$STAGING_FRAMEWORKS_DIR" \
+      "$IOS_DEPLOYMENT_TARGET"
   else
     ruby "$MATERIALIZE_REACT_VFS_HEADERS" \
       "$STAGING_FRAMEWORKS_DIR/React.xcframework" \
       "$STAGING_FRAMEWORKS_DIR/ReactNativeDependencies.xcframework" \
       "$HERMES_HEADERS" \
-      "$STAGING_FRAMEWORKS_DIR"
+      "$STAGING_FRAMEWORKS_DIR" \
+      "$IOS_DEPLOYMENT_TARGET"
   fi
 }
 
@@ -498,8 +598,10 @@ verify_staged_package() {
     "$STAGING_FRAMEWORKS_DIR" \
     "$STAGING_PACKAGE_SWIFT_PATH" || {
       echo "error: prebuilt React Native XCFrameworks were not packaged correctly" >&2
-      return 1
-    }
+    return 1
+  }
+
+  device_framework_minimum_os_versions_are_valid "$STAGING_FRAMEWORKS_DIR"
 }
 
 # 검증을 통과한 staging 결과물을 최종 배포 디렉터리로 원자적으로 교체한다.
@@ -548,6 +650,7 @@ main() {
   copy_hermes_xcframework
   copy_prebuilt_react_native_xcframeworks
   materialize_prebuilt_react_headers
+  normalize_device_framework_minimum_os_versions
   strip_packaged_xcframework_signatures
   copy_host_sources
   generate_package_swift

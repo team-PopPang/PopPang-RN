@@ -108,13 +108,15 @@ def load_linker_flags(xcconfig_paths, internal_framework_names)
 end
 
 # 분류한 linker flag를 사람이 읽기 쉬운 SwiftPM Package.swift 코드 문자열로 렌더링한다.
+# Xcode 27은 SwiftPM 패키지 product를 swiftc로 링크하고, swiftc는 -ObjC나 -weak_framework 같은
+# linker 전용 flag를 직접 받지 않는다. 그래서 -Xlinker로 감싸 전달한다. clang 링크도 같은 형식을 받는다.
 def render_linker_settings(linker_flags)
   sections = []
 
   if linker_flags[:unsafe_flags].any?
     lines = ["                  // 공통 linker flags"]
     linker_flags[:unsafe_flags].sort.each do |flag|
-      lines << "                  .unsafeFlags([\"#{flag}\"]),"
+      lines << "                  .unsafeFlags([\"-Xlinker\", \"#{flag}\"]),"
     end
     sections << lines.join("\n")
   end
@@ -138,7 +140,7 @@ def render_linker_settings(linker_flags)
   if linker_flags[:weak_frameworks].any?
     lines = ["                  // 약한 링크가 필요한 iOS 시스템 프레임워크"]
     linker_flags[:weak_frameworks].sort.each do |framework|
-      lines << "                  .unsafeFlags([\"-weak_framework\", \"#{framework}\"], .when(platforms: [.iOS])),"
+      lines << "                  .unsafeFlags([\"-Xlinker\", \"-weak_framework\", \"-Xlinker\", \"#{framework}\"], .when(platforms: [.iOS])),"
     end
     sections << lines.join("\n")
   end
@@ -194,7 +196,7 @@ package_swift_content << <<~SWIFT
               path: "HostSources",
               publicHeadersPath: "include",
               linkerSettings: [
-                  .unsafeFlags(["-ObjC"])
+                  .unsafeFlags(["-Xlinker", "-ObjC"])
               ]
           ),
 SWIFT

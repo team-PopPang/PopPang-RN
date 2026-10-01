@@ -843,7 +843,8 @@ flowchart LR
   C --> D["Pods archive → XCFramework"]
   C --> E["prebuilt React / RNDependencies / Hermes 복사"]
   E --> F["materialize_react_vfs_headers.rb"]
-  F --> G["Package.swift 생성"]
+  F --> T["iOS 외 slice 제거 · Simulator 정적 라이브러리 디버그 정보 제거"]
+  T --> G["Package.swift 생성"]
   G --> H["PrebuiltReactNativeFrameworks.zip"]
   H --> I["iOS BrownField 앱에서 Swift Package로 연결"]
 ```

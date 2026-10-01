@@ -535,6 +535,58 @@ materialize_prebuilt_react_headers() {
   fi
 }
 
+# 클라이언트 앱이 쓰지 않는 플랫폼 slice를 XCFramework에서 제거해 Swift Package 크기를 줄인다.
+# iOS device와 iOS Simulator slice만 남기고 Mac Catalyst, macOS, tvOS, visionOS slice와 Info.plist 항목을 지운다.
+remove_unused_platform_slices() {
+  local xcframework_path
+  local info_plist
+  local index
+  local identifier
+  local platform
+  local variant
+
+  for xcframework_path in "$STAGING_FRAMEWORKS_DIR"/*.xcframework; do
+    [[ -d "$xcframework_path" ]] || continue
+    info_plist="$xcframework_path/Info.plist"
+    index=0
+
+    # 항목을 지우면 다음 항목이 같은 index로 당겨지므로 남길 때만 index를 올린다.
+    while identifier="$(/usr/libexec/PlistBuddy -c "Print :AvailableLibraries:$index:LibraryIdentifier" "$info_plist" 2>/dev/null)"; do
+      platform="$(/usr/libexec/PlistBuddy -c "Print :AvailableLibraries:$index:SupportedPlatform" "$info_plist")"
+      variant="$(/usr/libexec/PlistBuddy -c "Print :AvailableLibraries:$index:SupportedPlatformVariant" "$info_plist" 2>/dev/null || true)"
+
+      if [[ "$platform" == "ios" && ( -z "$variant" || "$variant" == "simulator" ) ]]; then
+        index=$((index + 1))
+        continue
+      fi
+
+      rm -rf "$xcframework_path/$identifier"
+      /usr/libexec/PlistBuddy -c "Delete :AvailableLibraries:$index" "$info_plist"
+    done
+  done
+}
+
+# Simulator slice의 정적 라이브러리에서 디버그 정보를 제거해 Swift Package 크기를 줄인다.
+# device slice는 소비 앱 dSYM에서 RN 네이티브 코드 크래시 위치를 찾을 수 있도록 디버그 정보를 남긴다.
+strip_simulator_static_library_debug_info() {
+  local framework_path
+  local binary_path
+
+  while IFS= read -r -d '' framework_path; do
+    binary_path="$framework_path/$(basename "$framework_path" .framework)"
+    [[ -f "$binary_path" ]] || continue
+    [[ "$(file -b "$binary_path")" == *"ar archive"* ]] || continue
+
+    # 이미 디버그 정보가 없는 object마다 나오는 경고만 걸러낸다.
+    xcrun strip -S "$binary_path" 2> >(grep -v 'input object file already stripped' >&2 || true)
+  done < <(
+    find "$STAGING_FRAMEWORKS_DIR" \
+      -type d \
+      -path '*/ios-*-simulator/*.framework' \
+      -print0
+  )
+}
+
 # 헤더와 module map을 수정한 뒤 무효가 된 XCFramework 코드 서명을 제거한다.
 # 최종 서명은 소비 앱을 빌드할 때 Xcode가 수행한다.
 strip_packaged_xcframework_signatures() {
@@ -601,6 +653,13 @@ verify_staged_package() {
     return 1
   }
 
+  if find "$STAGING_FRAMEWORKS_DIR" -mindepth 2 -maxdepth 2 -type d \
+    \( -name '*-maccatalyst' -o -name 'macos-*' -o -name 'tvos-*' -o -name 'xros-*' \) \
+    -print -quit | grep -q .; then
+    echo "error: unused platform slices remain in XCFrameworks" >&2
+    return 1
+  fi
+
   device_framework_minimum_os_versions_are_valid "$STAGING_FRAMEWORKS_DIR"
 }
 
@@ -651,6 +710,8 @@ main() {
   copy_prebuilt_react_native_xcframeworks
   materialize_prebuilt_react_headers
   normalize_device_framework_minimum_os_versions
+  remove_unused_platform_slices
+  strip_simulator_static_library_debug_info
   strip_packaged_xcframework_signatures
   copy_host_sources
   generate_package_swift

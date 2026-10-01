@@ -103,18 +103,18 @@ npm run ios -- --device "00008130-00090C281A38001C"
 
 ```bash
 # ./scripts/release-rn.sh 버전명
-./scripts/release-rn.sh v0.1.0
+./scripts/release-rn.sh v1.0.0
 ```
 
 릴리즈에는 플랫폼별 JavaScript bundle과 함께 다음 네이티브 패키지가 포함돼요.
 
-- iOS: `poppang-rn-spm-v0.1.0.zip`
-- Android: `poppang-rn-android-maven-v0.1.0.zip`
+- iOS: `poppang-rn-spm-v1.0.0.zip`
+- Android: `poppang-rn-android-maven-v1.0.0.zip`
 
 Android 네이티브 패키지만 로컬에서 확인할 때는 아래 스크립트를 사용해요.
 
 ```bash
-./react_native_android_prebuild/build_aars.sh v0.1.0
+./react_native_android_prebuild/build_aars.sh v1.0.0
 ```
 
 ## 지원 모듈과 파라미터
@@ -160,7 +160,7 @@ Android 클라이언트 앱에서는 아래 스크립트를 `scripts/download-rn
 #!/usr/bin/env bash
 set -euo pipefail
 
-VERSION="${1:-v0.1.0}"
+VERSION="${1:-v1.0.0}"
 SDK_VERSION="${VERSION#v}"
 
 REPO="team-PopPang/PopPang-RN"
@@ -234,8 +234,8 @@ echo "Gradle SDK 버전: $SDK_VERSION"
 # 실행 권한 추가
 chmod +x scripts/download-rn-release.sh
 
-# v0.1.0 릴리즈 다운로드 및 적용
-./scripts/download-rn-release.sh v0.1.0
+# v1.0.0 릴리즈 다운로드 및 적용
+./scripts/download-rn-release.sh v1.0.0
 ```
 
 앱 모듈 이름이 `app`이 아니면 스크립트의 `BUNDLE_OUTPUT_DIR`을 실제 모듈 경로에 맞게 바꿔요.
@@ -247,8 +247,8 @@ chmod +x scripts/download-rn-release.sh
 
 스크립트를 쓰지 않는 경우에는 아래 순서로 직접 적용할 수 있어요.
 
-1. `poppang-rn-android-maven-v0.1.0.zip`은 앱 저장소의 `Vendor/PopPangRN`에 압축을 풀어요.
-2. `poppang-rn-android-bundle-v0.1.0.zip`의 `index.android.bundle`은 앱의 `src/main/assets`에 복사해요.
+1. `poppang-rn-android-maven-v1.0.0.zip`은 앱 저장소의 `Vendor/PopPangRN`에 압축을 풀어요.
+2. `poppang-rn-android-bundle-v1.0.0.zip`의 `index.android.bundle`은 앱의 `src/main/assets`에 복사해요.
 3. `settings.gradle`에는 로컬 Maven 저장소를 등록해요.
 
 ```gradle
@@ -267,7 +267,7 @@ dependencyResolutionManagement {
 
 ```gradle
 dependencies {
-    implementation("com.poppang:poppang-rn-android:0.1.0")
+    implementation("com.poppang:poppang-rn-android:1.0.0")
 }
 ```
 
@@ -353,7 +353,7 @@ popupRequestManagementLauncher.launch(
 #!/bin/bash
 set -euo pipefail
 
-VERSION="${1:-v0.1.0}"
+VERSION="${1:-v1.0.0}"
 
 REPO="team-PopPang/PopPang-RN"
 
@@ -423,8 +423,8 @@ echo "프레임워크 위치: $FRAMEWORK_OUTPUT_DIR"
 # 실행 권한 추가
 chmod +x scripts/download-rn-release.sh
 
-# v0.1.0 릴리즈 다운로드 및 적용
-./scripts/download-rn-release.sh v0.1.0
+# v1.0.0 릴리즈 다운로드 및 적용
+./scripts/download-rn-release.sh v1.0.0
 ```
 
 </details>

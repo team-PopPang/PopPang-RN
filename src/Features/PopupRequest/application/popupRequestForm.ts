@@ -62,14 +62,10 @@ export function validatePopupRequest(form: PopupRequestForm, userUuid: string) {
   return null;
 }
 
-export function mapPopupRequest(
-  form: PopupRequestForm,
-  userUuid: string,
-): PopupRequestSubmission {
+export function mapPopupRequest(form: PopupRequestForm): PopupRequestSubmission {
   const instagramUrl = trimmed(form.instagramUrl);
 
   return {
-    userUuid,
     name: trimmed(form.name),
     startDate: form.startDate,
     endDate: form.endDate,

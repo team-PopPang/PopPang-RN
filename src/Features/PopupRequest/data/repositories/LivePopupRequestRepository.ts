@@ -5,22 +5,17 @@ import type {
 } from '../../domain/entities/PopupRequestForm';
 import type {Recommend} from '../../domain/entities/Recommend';
 import type {PopupRequestRepository} from '../../domain/repositories/PopupRequestRepository';
-
-const API_BASE_URL = 'https://poppang.co.kr/api/v1';
+import {
+  apiErrorMessage,
+  authorizedFetch,
+  POPPANG_API_BASE_URL,
+  requestWithAccessToken,
+} from '../../../../api/poppangApi';
 
 type RecommendResponse = {
   id: number;
   recommendName: string;
 };
-
-function errorMessage(status: number, body: string) {
-  try {
-    const response = JSON.parse(body) as {message?: string};
-    return response.message || `요청에 실패했습니다. (${status})`;
-  } catch {
-    return `요청에 실패했습니다. (${status})`;
-  }
-}
 
 function uploadPath(uri: string) {
   return uri.startsWith('file://')
@@ -30,14 +25,16 @@ function uploadPath(uri: string) {
 
 export class LivePopupRequestRepository implements PopupRequestRepository {
   async getRecommendList(): Promise<Recommend[]> {
-    const response = await fetch(`${API_BASE_URL}/recommend`, {
+    // V2: Access Token으로 부른다. 응답 모양은 V1과 같다.
+    const response = await authorizedFetch(`${POPPANG_API_BASE_URL}/recommend`, {
       headers: {Accept: 'application/json'},
     });
-    if (!response.ok) {
-      throw new Error(errorMessage(response.status, await response.text()));
+    const body = await response.text();
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(apiErrorMessage(response.status, body));
     }
 
-    const items = (await response.json()) as RecommendResponse[];
+    const items = JSON.parse(body) as RecommendResponse[];
     return items.map(item => ({id: item.id, name: item.recommendName}));
   }
 
@@ -68,16 +65,23 @@ export class LivePopupRequestRepository implements PopupRequestRepository {
         })),
       ];
 
-      const response = await ReactNativeBlobUtil.fetch(
-        'POST',
-        `${API_BASE_URL}/popup-submissions`,
-        {Accept: 'application/json', 'Content-Type': 'multipart/form-data'},
-        parts,
-      );
+      // V2: 제보한 사용자는 Access Token으로 정해져 본문에 userUuid를 넣지 않는다.
+      const response = await requestWithAccessToken(async authorization => {
+        const result = await ReactNativeBlobUtil.fetch(
+          'POST',
+          `${POPPANG_API_BASE_URL}/popup-submissions`,
+          {
+            Accept: 'application/json',
+            Authorization: authorization,
+            'Content-Type': 'multipart/form-data',
+          },
+          parts,
+        );
+        return {status: result.info().status, text: () => result.text()};
+      });
 
-      const status = response.info().status;
-      if (status < 200 || status >= 300) {
-        throw new Error(errorMessage(status, await response.text()));
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(apiErrorMessage(response.status, await response.text()));
       }
     } finally {
       await ReactNativeBlobUtil.fs.unlink(requestFilePath).catch(() => undefined);

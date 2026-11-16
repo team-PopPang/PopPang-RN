@@ -69,7 +69,7 @@ export function usePopupRequest(
     setIsSubmitting(true);
     try {
       await new SubmitPopupRequest(repository).execute(
-        mapPopupRequest(form, userUuid),
+        mapPopupRequest(form),
         form.images,
       );
       return {error: null, success: true};

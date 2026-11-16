@@ -26,7 +26,6 @@ export type PopupRequestForm = {
 };
 
 export type PopupRequestSubmission = {
-  userUuid: string;
   name: string;
   startDate: string;
   endDate: string;

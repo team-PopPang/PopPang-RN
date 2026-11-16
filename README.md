@@ -641,6 +641,28 @@ struct ContentView: View {
 
 `PopPangHostAction`은 현재 표시 중인 React Native 화면 하나에 이벤트 핸들러를 연결해요. `fullScreenCover`가 사라질 때 `dismantleUIViewController`가 현재 화면의 핸들러만 비우므로, 이전 화면이 새 화면의 핸들러를 해제하지 않아요.
 
+### V2 API 인증 토큰 (`PopPangHostAuth`)
+
+팝업 제보·제보 관리 화면은 V2 API(`https://poppang.co.kr/api/v2`)를 Access Token으로 불러요. RN은 토큰을 저장하지 않고, 요청할 때마다 네이티브 모듈 `PopPangHostAuth`로 호스트 앱에 받아요. 서버가 401을 주면 `forceRefresh = true`로 갱신한 토큰을 받아 한 번만 다시 보내요. 두 번째도 401이면 다시 로그인하라는 오류를 보여 줘요.
+
+호스트 앱은 화면을 열기 전에 토큰 제공자를 한 번 연결해요. 토큰 저장과 갱신은 호스트 앱이 맡아요.
+
+```swift
+// iOS
+PopPangHostAuth.setAccessTokenProvider { forceRefresh, completion in
+    Task { completion(await authentication.accessToken(forceRefresh: forceRefresh)) }
+}
+```
+
+```kotlin
+// Android
+PopPangRnSdk.accessTokenProvider = PopPangRnSdk.AccessTokenProvider { forceRefresh, completion ->
+    completion(tokenRepository.accessToken(forceRefresh))
+}
+```
+
+제공자를 연결하지 않았거나 토큰이 없으면(`nil`·`null`) 요청은 보내지 않고 로그인 안내 오류를 보여 줘요. V2는 사용자를 토큰으로 정하므로 제보 본문의 `userUuid`와 관리자 API의 `uuid` query는 보내지 않아요.
+
 팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. SwiftUI 기본 내비게이션 바는 숨기고, RN 커스텀 헤더의 뒤로가기 이벤트를 받으면 `NavigationStack`을 pop해요.
 
 ```swift

@@ -1,3 +1,4 @@
+import {NativeModules} from 'react-native';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {mapPopupRequest} from '../src/Features/PopupRequest/application/popupRequestForm';
 import {LivePopupRequestRepository} from '../src/Features/PopupRequest/data/repositories/LivePopupRequestRepository';
@@ -40,7 +41,6 @@ const request = mapPopupRequest(
     selectedRecommendIds: [1, 2, 3],
     startDate: '2026-07-12',
   },
-  '43bbbfea-b5c9-40f0-9822-0c8e5cbd0379',
 );
 
 function response(status: number, body = '') {
@@ -56,6 +56,11 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     writeFileMock.mockResolvedValue(undefined);
     unlinkMock.mockResolvedValue(undefined);
     wrapMock.mockImplementation((path: string) => `wrapped:${path}`);
+    NativeModules.PopPangHostAuth = {
+      getAccessToken: jest.fn((forceRefresh: boolean) =>
+        Promise.resolve(forceRefresh ? 'refreshed' : 'access'),
+      ),
+    };
   });
 
   test('request JSON과 모든 이미지를 백엔드 규격의 multipart 파트로 전송한다', async () => {
@@ -75,8 +80,12 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     expect(wrapMock).toHaveBeenCalledWith('/tmp/popup-two.heic');
     expect(fetchMock).toHaveBeenCalledWith(
       'POST',
-      'https://poppang.co.kr/api/v1/popup-submissions',
-      {Accept: 'application/json', 'Content-Type': 'multipart/form-data'},
+      'https://poppang.co.kr/api/v2/popup-submissions',
+      {
+        Accept: 'application/json',
+        Authorization: 'Bearer access',
+        'Content-Type': 'multipart/form-data',
+      },
       [
         expect.objectContaining({
           filename: 'request.json',
@@ -98,6 +107,29 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
       ],
     );
     expect(unlinkMock).toHaveBeenCalledWith(requestFilePath);
+  });
+
+  test('401이면 호스트 앱에 토큰 갱신을 요청하고 한 번만 다시 보낸다', async () => {
+    fetchMock
+      .mockResolvedValueOnce(response(401))
+      .mockResolvedValueOnce(response(200));
+
+    await new LivePopupRequestRepository().submit(request, images);
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(fetchMock.mock.calls[1][2]).toEqual(
+      expect.objectContaining({Authorization: 'Bearer refreshed'}),
+    );
+    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith(true);
+  });
+
+  test('다시 보내도 401이면 다시 로그인하라는 오류를 전달한다', async () => {
+    fetchMock.mockResolvedValue(response(401));
+
+    await expect(
+      new LivePopupRequestRepository().submit(request, images),
+    ).rejects.toThrow('로그인 정보가 만료되었습니다. 다시 로그인해 주세요.');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 
   test('백엔드 4307 응답 메시지를 그대로 오류로 전달한다', async () => {

@@ -11,22 +11,24 @@ internal class PopPangHostActionPackage : BaseReactPackage() {
         name: String,
         reactContext: ReactApplicationContext,
     ): NativeModule? {
-        if (name != PopPangHostActionModule.NAME) return null
-
-        return PopPangHostActionModule(reactContext)
+        return when (name) {
+            PopPangHostActionModule.NAME -> PopPangHostActionModule(reactContext)
+            PopPangHostAuthModule.NAME -> PopPangHostAuthModule(reactContext)
+            else -> null
+        }
     }
 
     override fun getReactModuleInfoProvider(): ReactModuleInfoProvider =
         ReactModuleInfoProvider {
-            mapOf(
-                PopPangHostActionModule.NAME to ReactModuleInfo(
-                    PopPangHostActionModule.NAME,
-                    PopPangHostActionModule.NAME,
+            listOf(PopPangHostActionModule.NAME, PopPangHostAuthModule.NAME).associateWith { name ->
+                ReactModuleInfo(
+                    name,
+                    name,
                     false,
                     false,
                     false,
                     false,
-                ),
-            )
+                )
+            }
         }
 }

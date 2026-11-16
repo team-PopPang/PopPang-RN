@@ -29,10 +29,11 @@ test('필수 입력을 검증한다', () => {
   );
 });
 
-test('유효한 폼을 Swift API 계약과 같은 제출 모델로 변환한다', () => {
-  const request = mapPopupRequest(validForm(), 'user-1');
+test('유효한 폼을 V2 API 계약과 같은 제출 모델로 변환한다', () => {
+  const request = mapPopupRequest(validForm());
 
-  expect(request.userUuid).toBe('user-1');
+  // V2는 제보한 사용자를 Access Token으로 정하므로 본문에 userUuid를 넣지 않는다.
+  expect(request).not.toHaveProperty('userUuid');
   expect(request.name).toBe('성수 팝업');
   expect(request.recommendIdList).toEqual([1, 3]);
   expect(request).not.toHaveProperty('imageList');
@@ -49,7 +50,6 @@ test('HH:mm 형식이 아닌 운영 시간을 거부한다', () => {
 test('운영 시간을 Swagger LocalTime 객체로 변환한다', () => {
   const request = mapPopupRequest(
     {...validForm(), closeTime: '20:30', openTime: '10:05'},
-    'user-1',
   );
 
   expect(request.openTime).toEqual({hour: 10, minute: 5, nano: 0, second: 0});

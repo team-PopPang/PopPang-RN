@@ -1,3 +1,4 @@
+import {NativeModules} from 'react-native';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {
   countByStatus,
@@ -24,12 +25,15 @@ describe('LivePopupRequestManagementRepository', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     globalThis.fetch = jest.fn();
+    NativeModules.PopPangHostAuth = {
+      getAccessToken: jest.fn(() => Promise.resolve('access')),
+    };
   });
 
-  test('관리자 UUID와 한글 상태 필터로 목록을 조회하고 응답을 매핑한다', async () => {
+  test('Access Token과 한글 상태 필터로 목록을 조회하고 응답을 매핑한다', async () => {
     (globalThis.fetch as jest.Mock).mockResolvedValue({
-      json: jest.fn().mockResolvedValue([responseItem]),
-      ok: true,
+      status: 200,
+      text: jest.fn().mockResolvedValue(JSON.stringify([responseItem])),
     });
 
     const items = await new LivePopupRequestManagementRepository().getPopupSubmissions(
@@ -38,8 +42,8 @@ describe('LivePopupRequestManagementRepository', () => {
     );
 
     expect(globalThis.fetch).toHaveBeenCalledWith(
-      'https://poppang.co.kr/api/v1/admin/popup-submissions?status=%EB%8C%80%EA%B8%B0&uuid=admin-uuid',
-      {headers: {Accept: 'application/json'}},
+      'https://poppang.co.kr/api/v2/admin/popup-submissions?status=%EB%8C%80%EA%B8%B0',
+      {headers: {Accept: 'application/json', Authorization: 'Bearer access'}},
     );
     expect(items).toEqual([
       {
@@ -55,10 +59,23 @@ describe('LivePopupRequestManagementRepository', () => {
     ]);
   });
 
+  test('관리자가 아니면(403) 권한 없음 오류를 전달한다', async () => {
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      status: 403,
+      text: jest.fn().mockResolvedValue(''),
+    });
+
+    await expect(
+      new LivePopupRequestManagementRepository().getPopupSubmissions(
+        'member-uuid',
+        '전체',
+      ),
+    ).rejects.toThrow('이 기능을 사용할 권한이 없습니다.');
+  });
+
   test('서버 오류 메시지를 화면에 전달한다', async () => {
     (globalThis.fetch as jest.Mock).mockResolvedValue({
-      ok: false,
-      status: 403,
+      status: 400,
       text: jest.fn().mockResolvedValue(
         JSON.stringify({message: '관리자 권한이 필요합니다.'}),
       ),
@@ -72,9 +89,10 @@ describe('LivePopupRequestManagementRepository', () => {
     ).rejects.toThrow('관리자 권한이 필요합니다.');
   });
 
-  test('제보 ID와 관리자 UUID로 상세를 조회하고 이미지와 추천을 매핑한다', async () => {
+  test('제보 ID와 Access Token으로 상세를 조회하고 이미지와 추천을 매핑한다', async () => {
     (globalThis.fetch as jest.Mock).mockResolvedValue({
-      json: jest.fn().mockResolvedValue({
+      status: 200,
+      text: jest.fn().mockResolvedValue(JSON.stringify({
         address: null,
         closeTime: {hour: 20, minute: 0},
         description: '원본 제보 내용',
@@ -93,8 +111,7 @@ describe('LivePopupRequestManagementRepository', () => {
         roadAddress: '서울 성동구 성수이로 1',
         startDate: '2026-07-12',
         status: 'PENDING',
-      }),
-      ok: true,
+      })),
     });
 
     const detail = await new LivePopupRequestManagementRepository().getPopupSubmissionDetail(
@@ -103,8 +120,8 @@ describe('LivePopupRequestManagementRepository', () => {
     );
 
     expect(globalThis.fetch).toHaveBeenCalledWith(
-      'https://poppang.co.kr/api/v1/admin/popup-submissions/7?uuid=admin-uuid',
-      {headers: {Accept: 'application/json'}},
+      'https://poppang.co.kr/api/v2/admin/popup-submissions/7',
+      {headers: {Accept: 'application/json', Authorization: 'Bearer access'}},
     );
     expect(detail.recommendList).toEqual([{id: 3, name: '패션'}]);
     expect(detail.imageList.map(item => item.sortOrder)).toEqual([0, 1]);
@@ -128,8 +145,12 @@ describe('LivePopupRequestManagementRepository', () => {
     expect(result).toEqual({popupUuid: 'popup-1'});
     expect(blobFetch).toHaveBeenCalledWith(
       'PUT',
-      'https://poppang.co.kr/api/v1/admin/popup-submissions/7?uuid=admin-uuid',
-      {Accept: 'application/json', 'Content-Type': 'multipart/form-data'},
+      'https://poppang.co.kr/api/v2/admin/popup-submissions/7',
+      {
+        Accept: 'application/json',
+        Authorization: 'Bearer access',
+        'Content-Type': 'multipart/form-data',
+      },
       expect.arrayContaining([
         expect.objectContaining({name: 'request', type: 'application/json'}),
         expect.objectContaining({

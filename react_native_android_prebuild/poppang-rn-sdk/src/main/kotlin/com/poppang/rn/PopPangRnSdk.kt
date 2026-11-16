@@ -21,6 +21,18 @@ object PopPangRnSdk {
     internal const val EXTRA_NATIVE_EVENTS = "com.poppang.rn.extra.NATIVE_EVENTS"
     internal const val EXTRA_USER_UUID = "com.poppang.rn.extra.USER_UUID"
 
+    /**
+     * V2 API 인증 토큰을 돌려주는 호스트 앱 구현.
+     * RN은 요청할 때마다 토큰을 받고, 서버가 401을 주면 `forceRefresh = true`로 다시 받는다.
+     */
+    fun interface AccessTokenProvider {
+        fun getAccessToken(forceRefresh: Boolean, completion: (String?) -> Unit)
+    }
+
+    @Volatile
+    @JvmStatic
+    var accessTokenProvider: AccessTokenProvider? = null
+
     @JvmStatic
     val version: String
         get() = BuildConfig.POPPANG_RN_VERSION

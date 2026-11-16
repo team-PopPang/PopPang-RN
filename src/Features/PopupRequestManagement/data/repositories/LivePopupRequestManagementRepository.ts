@@ -14,8 +14,9 @@ import type {
   PopupSubmissionAdminUpdateResult,
 } from '../../domain/entities/PopupSubmissionAdminUpdate';
 
-const ENDPOINT = 'https://poppang.co.kr/api/v1/admin/popup-submissions';
-const RECOMMEND_ENDPOINT = 'https://poppang.co.kr/api/v1/recommend';
+// V2: 관리자 여부는 Access Token의 사용자로 서버가 판단한다. 관리자 uuid를 query로 보내지 않는다.
+const ENDPOINT = `${POPPANG_API_BASE_URL}/admin/popup-submissions`;
+const RECOMMEND_ENDPOINT = `${POPPANG_API_BASE_URL}/recommend`;
 
 type PopupSubmissionListResponse = {
   popupSubmissionId: number;
@@ -46,15 +47,6 @@ type PopupSubmissionDetailResponse = {
   status: PopupSubmissionStatus;
 };
 
-function errorMessage(status: number, body: string) {
-  try {
-    const response = JSON.parse(body) as {message?: string};
-    return response.message || `요청에 실패했습니다. (${status})`;
-  } catch {
-    return `요청에 실패했습니다. (${status})`;
-  }
-}
-
 function uploadPath(uri: string) {
   return uri.startsWith('file://')
     ? decodeURIComponent(uri.slice('file://'.length))
@@ -65,13 +57,14 @@ export class LivePopupRequestManagementRepository
   implements PopupRequestManagementRepository
 {
   async getRecommendList(): Promise<Recommend[]> {
-    const response = await fetch(RECOMMEND_ENDPOINT, {
+    const response = await authorizedFetch(RECOMMEND_ENDPOINT, {
       headers: {Accept: 'application/json'},
     });
-    if (!response.ok) {
-      throw new Error(errorMessage(response.status, await response.text()));
+    const body = await response.text();
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(apiErrorMessage(response.status, body));
     }
-    const items = (await response.json()) as {
+    const items = JSON.parse(body) as {
       id: number;
       recommendName: string;
     }[];
@@ -79,18 +72,18 @@ export class LivePopupRequestManagementRepository
   }
 
   async getPopupSubmissionDetail(
-    adminUuid: string,
+    _adminUuid: string,
     submissionId: number,
   ): Promise<PopupSubmissionDetail> {
-    const query = new URLSearchParams({uuid: adminUuid});
-    const response = await fetch(`${ENDPOINT}/${submissionId}?${query}`, {
+    const response = await authorizedFetch(`${ENDPOINT}/${submissionId}`, {
       headers: {Accept: 'application/json'},
     });
-    if (!response.ok) {
-      throw new Error(errorMessage(response.status, await response.text()));
+    const body = await response.text();
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(apiErrorMessage(response.status, body));
     }
 
-    const item = (await response.json()) as PopupSubmissionDetailResponse;
+    const item = JSON.parse(body) as PopupSubmissionDetailResponse;
     return {
       address: item.address,
       closeTime: item.closeTime,
@@ -114,18 +107,19 @@ export class LivePopupRequestManagementRepository
   }
 
   async getPopupSubmissions(
-    adminUuid: string,
+    _adminUuid: string,
     filter: PopupSubmissionFilter,
   ): Promise<PopupSubmissionListItem[]> {
-    const query = new URLSearchParams({status: filter, uuid: adminUuid});
-    const response = await fetch(`${ENDPOINT}?${query.toString()}`, {
+    const query = new URLSearchParams({status: filter});
+    const response = await authorizedFetch(`${ENDPOINT}?${query.toString()}`, {
       headers: {Accept: 'application/json'},
     });
-    if (!response.ok) {
-      throw new Error(errorMessage(response.status, await response.text()));
+    const body = await response.text();
+    if (response.status < 200 || response.status >= 300) {
+      throw new Error(apiErrorMessage(response.status, body));
     }
 
-    const items = (await response.json()) as PopupSubmissionListResponse[];
+    const items = JSON.parse(body) as PopupSubmissionListResponse[];
     return items.map(item => ({
       id: item.popupSubmissionId,
       name: item.name,
@@ -139,7 +133,7 @@ export class LivePopupRequestManagementRepository
   }
 
   async updatePopupSubmission(
-    adminUuid: string,
+    _adminUuid: string,
     submissionId: number,
     status: 'APPROVED' | 'REJECTED',
     form?: PopupSubmissionAdminForm,
@@ -176,24 +170,34 @@ export class LivePopupRequestManagementRepository
           type: image.mimeType,
         })),
       ];
-      const query = new URLSearchParams({uuid: adminUuid});
-      const response = await ReactNativeBlobUtil.fetch(
-        'PUT',
-        `${ENDPOINT}/${submissionId}?${query}`,
-        {Accept: 'application/json', 'Content-Type': 'multipart/form-data'},
-        parts,
-      );
-      const responseStatus = response.info().status;
-      if (responseStatus < 200 || responseStatus >= 300) {
-        throw new Error(
-          errorMessage(responseStatus, await response.text()),
+      const response = await requestWithAccessToken(async authorization => {
+        const result = await ReactNativeBlobUtil.fetch(
+          'PUT',
+          `${ENDPOINT}/${submissionId}`,
+          {
+            Accept: 'application/json',
+            Authorization: authorization,
+            'Content-Type': 'multipart/form-data',
+          },
+          parts,
         );
+        return {status: result.info().status, text: () => result.text()};
+      });
+      const body = await response.text();
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(apiErrorMessage(response.status, body));
       }
-      return JSON.parse(await response.text()) as PopupSubmissionAdminUpdateResult;
+      return JSON.parse(body) as PopupSubmissionAdminUpdateResult;
     } finally {
       await ReactNativeBlobUtil.fs.unlink(requestFilePath).catch(() => undefined);
     }
   }
 }
 import ReactNativeBlobUtil from 'react-native-blob-util';
+import {
+  apiErrorMessage,
+  authorizedFetch,
+  POPPANG_API_BASE_URL,
+  requestWithAccessToken,
+} from '../../../../api/poppangApi';
 import {mapAdminApprovalRequest} from '../../application/popupRequestManagement';

@@ -57,8 +57,8 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     unlinkMock.mockResolvedValue(undefined);
     wrapMock.mockImplementation((path: string) => `wrapped:${path}`);
     NativeModules.PopPangHostAuth = {
-      getAccessToken: jest.fn((forceRefresh: boolean) =>
-        Promise.resolve(forceRefresh ? 'refreshed' : 'access'),
+      getAccessToken: jest.fn((rejectedAccessToken: string | null) =>
+        Promise.resolve(rejectedAccessToken ? 'refreshed' : 'access'),
       ),
     };
   });
@@ -109,9 +109,9 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     expect(unlinkMock).toHaveBeenCalledWith(requestFilePath);
   });
 
-  test('401이면 호스트 앱에 토큰 갱신을 요청하고 한 번만 다시 보낸다', async () => {
+  test('401 5002면 보낸 토큰을 만료로 넘겨 새 토큰을 받고 한 번만 다시 보낸다', async () => {
     fetchMock
-      .mockResolvedValueOnce(response(401))
+      .mockResolvedValueOnce(response(401, '{"code":5002,"message":"expired"}'))
       .mockResolvedValueOnce(response(200));
 
     await new LivePopupRequestRepository().submit(request, images);
@@ -120,7 +120,31 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     expect(fetchMock.mock.calls[1][2]).toEqual(
       expect.objectContaining({Authorization: 'Bearer refreshed'}),
     );
-    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith(true);
+    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith('access', true);
+  });
+
+  test('5002가 아닌 401이면 만료가 아니라고 넘긴다', async () => {
+    fetchMock
+      .mockResolvedValueOnce(response(401, '{"code":5001,"message":"invalid"}'))
+      .mockResolvedValueOnce(response(200));
+
+    await new LivePopupRequestRepository().submit(request, images);
+
+    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith('access', false);
+  });
+
+  test('호스트 앱이 다시 로그인해야 한다고 거절하면 다시 보내지 않는다', async () => {
+    NativeModules.PopPangHostAuth.getAccessToken = jest.fn((rejectedAccessToken: string | null) =>
+      rejectedAccessToken
+        ? Promise.reject(new Error('로그인 정보가 만료되었습니다. 다시 로그인해 주세요.'))
+        : Promise.resolve('access'),
+    );
+    fetchMock.mockResolvedValueOnce(response(401, '{"code":5001,"message":"invalid"}'));
+
+    await expect(
+      new LivePopupRequestRepository().submit(request, images),
+    ).rejects.toThrow('로그인 정보가 만료되었습니다. 다시 로그인해 주세요.');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 
   test('다시 보내도 401이면 다시 로그인하라는 오류를 전달한다', async () => {

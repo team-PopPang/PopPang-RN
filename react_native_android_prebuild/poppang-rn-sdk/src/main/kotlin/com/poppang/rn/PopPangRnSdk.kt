@@ -21,12 +21,31 @@ object PopPangRnSdk {
     internal const val EXTRA_NATIVE_EVENTS = "com.poppang.rn.extra.NATIVE_EVENTS"
     internal const val EXTRA_USER_UUID = "com.poppang.rn.extra.USER_UUID"
 
+    /** 호스트 앱이 Access Token 요청에 답하는 결과. */
+    sealed interface AccessTokenResult {
+        data class Token(val accessToken: String) : AccessTokenResult
+
+        /** 다시 로그인해야 한다. 호스트 앱은 자기 로그아웃 처리도 함께 한다. */
+        data object LoginRequired : AccessTokenResult
+
+        /** 네트워크·서버 문제로 지금은 토큰을 주지 못했다. 로그인 정보는 그대로다. */
+        data object TemporaryFailure : AccessTokenResult
+    }
+
     /**
      * V2 API 인증 토큰을 돌려주는 호스트 앱 구현.
-     * RN은 요청할 때마다 토큰을 받고, 서버가 401을 주면 `forceRefresh = true`로 다시 받는다.
+     *
+     * RN은 요청할 때마다 `rejectedAccessToken = null`로 토큰을 받는다.
+     * 서버가 401을 주면 그 요청에 담았던 토큰을 `rejectedAccessToken`으로, 서버 코드가 5002(만료)인지를 `expired`로 넘겨 한 번 더 받는다.
+     * `expired`면 그 토큰을 만료된 토큰으로 보고 갱신한다(이미 다른 요청이 갱신했으면 새 토큰을 돌려준다).
+     * 아니면 그 토큰이 아직 저장돼 있을 때 로그아웃하고, 그사이 바뀌었으면 새 토큰을 돌려준다.
      */
     fun interface AccessTokenProvider {
-        fun getAccessToken(forceRefresh: Boolean, completion: (String?) -> Unit)
+        fun getAccessToken(
+            rejectedAccessToken: String?,
+            expired: Boolean,
+            completion: (AccessTokenResult) -> Unit,
+        )
     }
 
     @Volatile

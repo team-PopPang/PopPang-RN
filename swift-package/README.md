@@ -4,7 +4,7 @@
 [Nativepiece](https://github.com/team-PopPang/Nativepiece)로 만든 React Native 모듈의 Swift Package예요. 이 파일들은 `nativepiece publish ios`가 만들어요. 직접 고치지 마세요.
 
 ```swift
-.package(url: "https://github.com/team-PopPang/PopPang-RN", exact: "1.3.0")
+.package(url: "https://github.com/team-PopPang/PopPang-RN", exact: "1.4.0")
 ```
 
 바이너리는 이 레포의 GitHub Release에 있어요. 레포가 비공개라면 Xcode가 바이너리를 받을 수 있게 `~/.netrc`에 읽기 권한 토큰을 넣어 주세요.

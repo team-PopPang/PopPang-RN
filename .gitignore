@@ -108,3 +108,5 @@ android/app/build/
 # Swift Package (nativepiece publish ios)
 .build/
 .swiftpm/
+# 위의 *.jsbundle, node_modules/ 규칙이 패키지의 JS 번들과 assets를 빼지 않게 다시 포함한다 (1.3.0에서 빠졌다).
+!/swift-package/**

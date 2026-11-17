@@ -1,48 +1,53 @@
-import {NativeModules} from 'react-native';
+import {installFakeHost} from '../jest/fakeHost';
 import {
   emitPopPangNativeEvent,
   POPPANG_NATIVE_EVENT,
 } from '../src/native/PopPangHostAction';
 
 describe('PopPangHostAction', () => {
-  const emit = jest.fn();
+  let fake: ReturnType<typeof installFakeHost>;
 
   beforeEach(() => {
-    emit.mockClear();
-    NativeModules.PopPangHostAction = {emit};
+    fake = installFakeHost(jest.fn());
   });
 
-  test('호스트가 허용한 완료 이벤트만 네이티브로 전달한다', () => {
+  afterEach(() => fake.unregister());
+
+  test('제출 완료는 계약의 popupRequestSubmitted 이벤트로 보낸다', () => {
     emitPopPangNativeEvent(POPPANG_NATIVE_EVENT.POPUP_REQUEST_SUBMITTED, [
       POPPANG_NATIVE_EVENT.POPUP_REQUEST_SUBMITTED,
     ]);
 
-    expect(emit).toHaveBeenCalledWith('popupRequestSubmitted');
-  });
-
-  test('호스트가 허용한 팝업 관리 뒤로가기 이벤트를 네이티브로 전달한다', () => {
-    emitPopPangNativeEvent(
-      POPPANG_NATIVE_EVENT.POPUP_REQUEST_MANAGEMENT_BACK,
-      [POPPANG_NATIVE_EVENT.POPUP_REQUEST_MANAGEMENT_BACK],
+    expect(fake.host.emit).toHaveBeenCalledWith(
+      expect.objectContaining({kind: 'event', name: 'popupRequestSubmitted'}),
     );
-
-    expect(emit).toHaveBeenCalledWith('popupRequestManagementBack');
+    expect(fake.host.close).not.toHaveBeenCalled();
   });
 
-  test('호스트가 허용한 팝업 제보 뒤로가기 이벤트를 네이티브로 전달한다', () => {
-    emitPopPangNativeEvent(POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK, [
-      POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK,
-    ]);
+  test.each([
+    POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK,
+    POPPANG_NATIVE_EVENT.POPUP_REQUEST_MANAGEMENT_BACK,
+  ])('%s는 표준 닫기로 보낸다', eventName => {
+    emitPopPangNativeEvent(eventName, [eventName]);
 
-    expect(emit).toHaveBeenCalledWith('popupRequestBack');
+    expect(fake.host.close).toHaveBeenCalledTimes(1);
+    expect(fake.host.emit).not.toHaveBeenCalled();
   });
 
-  test('호스트가 허용하지 않은 이벤트는 전달하지 않는다', () => {
-    emitPopPangNativeEvent(
-      POPPANG_NATIVE_EVENT.POPUP_REQUEST_SUBMITTED,
-      [],
-    );
+  test('허용하지 않은 이벤트는 보내지 않는다', () => {
+    emitPopPangNativeEvent(POPPANG_NATIVE_EVENT.POPUP_REQUEST_SUBMITTED, []);
 
-    expect(emit).not.toHaveBeenCalled();
+    expect(fake.host.emit).not.toHaveBeenCalled();
+    expect(fake.host.close).not.toHaveBeenCalled();
+  });
+
+  test('Nativepiece로 열리지 않은 화면(RN 단독 데모)에서는 아무것도 하지 않는다', () => {
+    fake.unregister();
+
+    expect(() =>
+      emitPopPangNativeEvent(POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK, [
+        POPPANG_NATIVE_EVENT.POPUP_REQUEST_BACK,
+      ]),
+    ).not.toThrow();
   });
 });

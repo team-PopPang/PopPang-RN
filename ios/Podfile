@@ -33,5 +33,18 @@ target 'PopPangRN' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # react-native-blob-util(iOS 11)과 react-native-image-picker(iOS 9)의 PrivacyInfo 리소스 번들 타깃은
+    # podspec의 낮은 deployment target을 그대로 써서, 15.0 미만을 지원하지 않는 Xcode 27에서 빌드가 실패한다.
+    # 앱 최소 버전보다 낮은 Pod 타깃은 앱 최소 버전으로 올린다.
+    minimum_ios_version = Gem::Version.new(min_ios_version_supported)
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |build_configuration|
+        deployment_target = build_configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+        next if deployment_target.nil? || Gem::Version.new(deployment_target) >= minimum_ios_version
+
+        build_configuration.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = min_ios_version_supported
+      end
+    end
   end
 end

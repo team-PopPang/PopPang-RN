@@ -81,9 +81,6 @@ yarn-error.log
 # Metro cache
 .metro-cache/
 
-# Bundle output directory
-dist/
-
 # Android bundle artifact
 *.bundle
 
@@ -105,27 +102,5 @@ ios/build/
 android/build/
 android/app/build/
 
-# Generated local SPM package
-PrebuiltReactNativeFrameworks/
-
-# Generated outputs from react_native_prebuild
-react_native_prebuild/Frameworks/
-react_native_prebuild/Sources/
-react_native_prebuild/Package.swift
-react_native_prebuild/.build/
-react_native_prebuild/.swiftpm/
-react_native_prebuild/*.xcarchive
-
-# Generated outputs from react_native_android_prebuild
-react_native_android_prebuild/output/
-
-# Generated outputs from legacy prebuild
-react_native_prebuild_legacy/Frameworks/
-react_native_prebuild_legacy/Sources/
-react_native_prebuild_legacy/Package.swift
-react_native_prebuild_legacy/.build/
-react_native_prebuild_legacy/.swiftpm/
-react_native_prebuild_legacy/*.xcarchive
-
-# Release artifacts
-release/
+# Nativepiece 작업 공간과 빌드 결과물. 배포 때 생기는 루트 Package.swift와 swift-package/는 커밋한다.
+.nativepiece/

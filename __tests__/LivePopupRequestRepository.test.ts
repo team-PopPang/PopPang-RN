@@ -1,4 +1,5 @@
-import {NativeModules} from 'react-native';
+import {NativepieceCallError} from '@team-poppang/nativepiece-runtime';
+import {installFakeHost} from '../jest/fakeHost';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {mapPopupRequest} from '../src/Features/PopupRequest/application/popupRequestForm';
 import {LivePopupRequestRepository} from '../src/Features/PopupRequest/data/repositories/LivePopupRequestRepository';
@@ -51,17 +52,21 @@ function response(status: number, body = '') {
 }
 
 describe('LivePopupRequestRepository multipart 업로드', () => {
+  let getAccessToken: jest.Mock<Promise<string>, [string | null, boolean]>;
+  let unregisterHost: () => void;
+
   beforeEach(() => {
     jest.clearAllMocks();
     writeFileMock.mockResolvedValue(undefined);
     unlinkMock.mockResolvedValue(undefined);
     wrapMock.mockImplementation((path: string) => `wrapped:${path}`);
-    NativeModules.PopPangHostAuth = {
-      getAccessToken: jest.fn((rejectedAccessToken: string | null) =>
-        Promise.resolve(rejectedAccessToken ? 'refreshed' : 'access'),
-      ),
-    };
+    getAccessToken = jest.fn((rejectedAccessToken: string | null, _expired: boolean) =>
+      Promise.resolve(rejectedAccessToken ? 'refreshed' : 'access'),
+    );
+    unregisterHost = installFakeHost(getAccessToken).unregister;
   });
+
+  afterEach(() => unregisterHost());
 
   test('request JSON과 모든 이미지를 백엔드 규격의 multipart 파트로 전송한다', async () => {
     fetchMock.mockResolvedValue(response(200));
@@ -120,7 +125,7 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     expect(fetchMock.mock.calls[1][2]).toEqual(
       expect.objectContaining({Authorization: 'Bearer refreshed'}),
     );
-    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith('access', true);
+    expect(getAccessToken).toHaveBeenLastCalledWith('access', true);
   });
 
   test('5002가 아닌 401이면 만료가 아니라고 넘긴다', async () => {
@@ -130,13 +135,13 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
 
     await new LivePopupRequestRepository().submit(request, images);
 
-    expect(NativeModules.PopPangHostAuth.getAccessToken).toHaveBeenLastCalledWith('access', false);
+    expect(getAccessToken).toHaveBeenLastCalledWith('access', false);
   });
 
   test('호스트 앱이 다시 로그인해야 한다고 거절하면 다시 보내지 않는다', async () => {
-    NativeModules.PopPangHostAuth.getAccessToken = jest.fn((rejectedAccessToken: string | null) =>
+    getAccessToken.mockImplementation((rejectedAccessToken: string | null) =>
       rejectedAccessToken
-        ? Promise.reject(new Error('로그인 정보가 만료되었습니다. 다시 로그인해 주세요.'))
+        ? Promise.reject(new NativepieceCallError('login_required', 'native'))
         : Promise.resolve('access'),
     );
     fetchMock.mockResolvedValueOnce(response(401, '{"code":5001,"message":"invalid"}'));

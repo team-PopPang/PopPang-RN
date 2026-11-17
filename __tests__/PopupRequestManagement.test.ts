@@ -1,4 +1,4 @@
-import {NativeModules} from 'react-native';
+import {installFakeHost} from '../jest/fakeHost';
 import ReactNativeBlobUtil from 'react-native-blob-util';
 import {
   countByStatus,
@@ -22,13 +22,15 @@ const responseItem = {
 } as const;
 
 describe('LivePopupRequestManagementRepository', () => {
+  let unregisterHost: () => void;
+
   beforeEach(() => {
     jest.clearAllMocks();
     globalThis.fetch = jest.fn();
-    NativeModules.PopPangHostAuth = {
-      getAccessToken: jest.fn(() => Promise.resolve('access')),
-    };
+    unregisterHost = installFakeHost(jest.fn(() => Promise.resolve('access'))).unregister;
   });
+
+  afterEach(() => unregisterHost());
 
   test('Access Token과 한글 상태 필터로 목록을 조회하고 응답을 매핑한다', async () => {
     (globalThis.fetch as jest.Mock).mockResolvedValue({

@@ -643,25 +643,36 @@ struct ContentView: View {
 
 ### V2 API 인증 토큰 (`PopPangHostAuth`)
 
-팝업 제보·제보 관리 화면은 V2 API(`https://poppang.co.kr/api/v2`)를 Access Token으로 불러요. RN은 토큰을 저장하지 않고, 요청할 때마다 네이티브 모듈 `PopPangHostAuth`로 호스트 앱에 받아요. 서버가 401을 주면 `forceRefresh = true`로 갱신한 토큰을 받아 한 번만 다시 보내요. 두 번째도 401이면 다시 로그인하라는 오류를 보여 줘요.
+팝업 제보·제보 관리 화면은 V2 API(`https://poppang.co.kr/api/v2`)를 Access Token으로 불러요. RN은 토큰을 저장하지 않고, 요청할 때마다 네이티브 모듈 `PopPangHostAuth`의 `getAccessToken(rejectedAccessToken, expired)`로 호스트 앱에 받아요.
+
+| 언제 | `rejectedAccessToken` | `expired` | 호스트 앱이 할 일 |
+| --- | --- | --- | --- |
+| 요청 전 | `null` | `false` | 저장된 Access Token을 돌려줘요. 없으면 로그아웃 처리 후 다시 로그인해야 한다고 답해요. |
+| 401, 서버 코드 5002(만료) | 그 요청에 담은 토큰 | `true` | 그 토큰을 만료된 토큰으로 갱신해요. 다른 요청이 이미 갱신했으면 새 토큰을 그대로 돌려줘요. |
+| 401, 다른 코드 | 그 요청에 담은 토큰 | `false` | 그 토큰이 아직 저장돼 있으면 로그아웃해요. 그사이 다른 토큰으로 바뀌었으면 새 토큰을 돌려줘요. |
+
+RN은 401 뒤 받은 토큰으로 한 번만 다시 보내요. 두 번째도 401이면 다시 로그인하라는 오류를 보여 줘요. 호스트 앱이 토큰을 주지 못하면 다시 로그인해야 하는지(`login_required`), 네트워크·서버 문제라 잠시 뒤 다시 하면 되는지(`temporary_failure`)를 나눠 알려 주고, RN은 그 안내를 보여 줘요.
 
 호스트 앱은 화면을 열기 전에 토큰 제공자를 한 번 연결해요. 토큰 저장과 갱신은 호스트 앱이 맡아요.
 
 ```swift
 // iOS
-PopPangHostAuth.setAccessTokenProvider { forceRefresh, completion in
-    Task { completion(await authentication.accessToken(forceRefresh: forceRefresh)) }
+PopPangHostAuth.setAccessTokenProvider { rejectedAccessToken, expired, completion in
+    Task {
+        let result = await authentication.hostAccessToken(rejected: rejectedAccessToken, expired: expired)
+        completion(result.accessToken, result.isTemporaryFailure)
+    }
 }
 ```
 
 ```kotlin
 // Android
-PopPangRnSdk.accessTokenProvider = PopPangRnSdk.AccessTokenProvider { forceRefresh, completion ->
-    completion(tokenRepository.accessToken(forceRefresh))
+PopPangRnSdk.accessTokenProvider = PopPangRnSdk.AccessTokenProvider { rejectedAccessToken, expired, completion ->
+    completion(tokenRepository.accessToken(rejectedAccessToken, expired)) // AccessTokenResult
 }
 ```
 
-제공자를 연결하지 않았거나 토큰이 없으면(`nil`·`null`) 요청은 보내지 않고 로그인 안내 오류를 보여 줘요. V2는 사용자를 토큰으로 정하므로 제보 본문의 `userUuid`와 관리자 API의 `uuid` query는 보내지 않아요.
+제공자를 연결하지 않았으면 요청은 보내지 않고 업데이트 안내 오류를 보여 줘요. V2는 사용자를 토큰으로 정하므로 제보 본문의 `userUuid`와 관리자 API의 `uuid` query는 보내지 않아요.
 
 팝업 제보 관리 화면은 관리자 UUID와 함께 아래처럼 열어요. SwiftUI 기본 내비게이션 바는 숨기고, RN 커스텀 헤더의 뒤로가기 이벤트를 받으면 `NavigationStack`을 pop해요.
 

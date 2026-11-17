@@ -14,7 +14,8 @@ RCT_EXPORT_MODULE(PopPangHostAuth)
   }
 }
 
-RCT_EXPORT_METHOD(getAccessToken:(BOOL)forceRefresh
+RCT_EXPORT_METHOD(getAccessToken:(nullable NSString *)rejectedAccessToken
+                  expired:(BOOL)expired
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -29,11 +30,14 @@ RCT_EXPORT_METHOD(getAccessToken:(BOOL)forceRefresh
     return;
   }
 
-  provider(forceRefresh, ^(NSString *_Nullable accessToken) {
+  NSString *rejected = rejectedAccessToken.length > 0 ? rejectedAccessToken : nil;
+  provider(rejected, expired, ^(NSString *_Nullable accessToken, BOOL temporaryFailure) {
     if (accessToken.length > 0) {
       resolve(accessToken);
+    } else if (temporaryFailure) {
+      reject(@"temporary_failure", @"로그인 정보를 잠시 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.", nil);
     } else {
-      reject(@"login_required", @"로그인 정보가 없습니다. 다시 로그인해 주세요.", nil);
+      reject(@"login_required", @"로그인 정보가 만료되었습니다. 다시 로그인해 주세요.", nil);
     }
   });
 }

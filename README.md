@@ -170,6 +170,7 @@ npm run nativepiece:build:android && npm run nativepiece:publish:android
 - 배포 전 확인만 하려면 `npx nativepiece publish ios --dry-run`처럼 `--dry-run`을 붙여요. 아무것도 올리지 않고 `.nativepiece/publish/`에 결과만 만들어요.
 - iOS 배포는 커밋하지 않은 변경이 있거나, main이 아니거나, origin과 다르거나, 이미 있는 버전이면 멈춰요.
 - `v1.2.0`까지는 이전 방식(`release-rn.sh`, zip 다운로드)으로 배포했어요. `1.3.0`부터 Nativepiece로 배포해요. 태그 형식도 `v` 없이 `1.3.0`이에요.
+- `1.3.0` iOS 패키지는 JS 번들과 일부 이미지가 `.gitignore`(`*.jsbundle`, `node_modules/`)에 걸려 빠졌어요. 쓰지 말고 `1.4.0` 이상을 써요. Nativepiece `0.1.3`부터 배포할 때 이런 파일을 강제로 커밋하고 빠졌는지 확인해요.
 
 ## 의존성 추가
 

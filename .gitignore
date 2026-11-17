@@ -104,3 +104,7 @@ android/app/build/
 
 # Nativepiece 작업 공간과 빌드 결과물. 배포 때 생기는 루트 Package.swift와 swift-package/는 커밋한다.
 .nativepiece/
+
+# Swift Package (nativepiece publish ios)
+.build/
+.swiftpm/

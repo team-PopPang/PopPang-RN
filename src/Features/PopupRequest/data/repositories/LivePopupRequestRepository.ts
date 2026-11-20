@@ -26,7 +26,7 @@ function uploadPath(uri: string) {
 export class LivePopupRequestRepository implements PopupRequestRepository {
   async getRecommendList(): Promise<Recommend[]> {
     // V2: Access Token으로 부른다. 응답 모양은 V1과 같다.
-    const response = await authorizedFetch(`${POPPANG_API_BASE_URL}/recommend`, {
+    const response = await authorizedFetch(`${POPPANG_API_BASE_URL}/mobile/recommend`, {
       headers: {Accept: 'application/json'},
     });
     const body = await response.text();
@@ -69,7 +69,7 @@ export class LivePopupRequestRepository implements PopupRequestRepository {
       const response = await requestWithAccessToken(async authorization => {
         const result = await ReactNativeBlobUtil.fetch(
           'POST',
-          `${POPPANG_API_BASE_URL}/popup-submissions`,
+          `${POPPANG_API_BASE_URL}/mobile/popup-submissions`,
           {
             Accept: 'application/json',
             Authorization: authorization,

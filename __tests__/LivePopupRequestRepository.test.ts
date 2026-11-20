@@ -85,7 +85,7 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
     expect(wrapMock).toHaveBeenCalledWith('/tmp/popup-two.heic');
     expect(fetchMock).toHaveBeenCalledWith(
       'POST',
-      'https://poppang.co.kr/api/v2/popup-submissions',
+      'https://poppang.co.kr/api/v2/mobile/popup-submissions',
       {
         Accept: 'application/json',
         Authorization: 'Bearer access',
@@ -186,6 +186,39 @@ describe('LivePopupRequestRepository multipart 업로드', () => {
 
     expect(unlinkMock).toHaveBeenCalledWith(
       expect.stringMatching(/^\/tmp\/popup-request-\d+\.json$/),
+    );
+  });
+});
+
+describe('LivePopupRequestRepository 카테고리 목록', () => {
+  let unregisterHost: () => void;
+  const originalFetch = globalThis.fetch;
+
+  beforeEach(() => {
+    unregisterHost = installFakeHost(jest.fn(() => Promise.resolve('access')))
+      .unregister;
+  });
+
+  afterEach(() => {
+    unregisterHost();
+    globalThis.fetch = originalFetch;
+  });
+
+  test('모바일 경로로 카테고리 목록을 불러온다', async () => {
+    const globalFetch = jest.fn().mockResolvedValue({
+      status: 200,
+      text: () => Promise.resolve('[{"id":1,"recommendName":"패션"}]'),
+    });
+    globalThis.fetch = globalFetch as unknown as typeof fetch;
+
+    await expect(
+      new LivePopupRequestRepository().getRecommendList(),
+    ).resolves.toEqual([{id: 1, name: '패션'}]);
+    expect(globalFetch).toHaveBeenCalledWith(
+      'https://poppang.co.kr/api/v2/mobile/recommend',
+      expect.objectContaining({
+        headers: expect.objectContaining({Authorization: 'Bearer access'}),
+      }),
     );
   });
 });

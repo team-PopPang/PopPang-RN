@@ -16,7 +16,7 @@ import type {
 
 // V2: 관리자 여부는 Access Token의 사용자로 서버가 판단한다. 관리자 uuid를 query로 보내지 않는다.
 const ENDPOINT = `${POPPANG_API_BASE_URL}/admin/popup-submissions`;
-const RECOMMEND_ENDPOINT = `${POPPANG_API_BASE_URL}/recommend`;
+const RECOMMEND_ENDPOINT = `${POPPANG_API_BASE_URL}/mobile/recommend`;
 
 type PopupSubmissionListResponse = {
   popupSubmissionId: number;

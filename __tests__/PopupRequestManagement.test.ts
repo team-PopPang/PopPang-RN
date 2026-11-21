@@ -61,6 +61,21 @@ describe('LivePopupRequestManagementRepository', () => {
     ]);
   });
 
+  test('모바일 경로로 카테고리 목록을 불러온다', async () => {
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      status: 200,
+      text: jest.fn().mockResolvedValue('[{"id":1,"recommendName":"패션"}]'),
+    });
+
+    await expect(
+      new LivePopupRequestManagementRepository().getRecommendList(),
+    ).resolves.toEqual([{id: 1, name: '패션'}]);
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      'https://poppang.co.kr/api/v2/mobile/recommend',
+      {headers: {Accept: 'application/json', Authorization: 'Bearer access'}},
+    );
+  });
+
   test('관리자가 아니면(403) 권한 없음 오류를 전달한다', async () => {
     (globalThis.fetch as jest.Mock).mockResolvedValue({
       status: 403,
